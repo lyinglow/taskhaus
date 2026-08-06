@@ -14,7 +14,7 @@ export default function BrowseServices({ onNavigate }) {
 
   const fetchServices = async () => {
     try {
-      const response = await api.get('/api/services');
+      const response = await api.get('/services');
       setServices(response.data);
     } catch (err) {
       console.error('Failed to fetch services:', err);

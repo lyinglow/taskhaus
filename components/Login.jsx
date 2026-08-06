@@ -15,7 +15,7 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage }) {
     setLoading(true);
 
     try {
-      const endpoint = isAdmin ? '/api/admin/login' : '/api/auth/login';
+      const endpoint = isAdmin ? '/admin/login' : '/auth/login';
       const payload = isAdmin ? { password } : { email, password };
       const response = await api.post(endpoint, payload);
 

@@ -18,7 +18,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       if (formData.timeWindow) updates.timeWindow = formData.timeWindow;
       if (formData.quotedPrice) updates.quotedPrice = parseFloat(formData.quotedPrice);
 
-      await api.patch(`/api/admin/jobs/${jobId}`, updates);
+      await api.patch(`/admin/jobs/${jobId}`, updates);
       setEditingJob(null);
       onJobUpdated();
     } catch (err) {

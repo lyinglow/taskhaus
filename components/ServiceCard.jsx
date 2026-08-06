@@ -13,7 +13,7 @@ export default function ServiceCard({ service, onSelect }) {
 
   const fetchReviews = async () => {
     try {
-      const response = await api.get(`/api/services/${service.id}/reviews`);
+      const response = await api.get(`/services/${service.id}/reviews`);
       setAvgRating(response.data.avgRating || 0);
       setReviewCount(response.data.totalReviews || 0);
     } catch (err) {

@@ -13,7 +13,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await api.post('/api/admin/crew', { name, age: age ? parseInt(age) : null, skills });
+      await api.post('/admin/crew', { name, age: age ? parseInt(age) : null, skills });
       setName('');
       setAge('');
       setSkills('');

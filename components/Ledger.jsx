@@ -13,7 +13,7 @@ export default function Ledger() {
 
   const fetchLedger = async () => {
     try {
-      const response = await api.get('/api/admin/ledger');
+      const response = await api.get('/admin/ledger');
       setLedger(response.data);
     } catch (err) {
       console.error('Failed to fetch ledger:', err);

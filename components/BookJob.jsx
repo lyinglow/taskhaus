@@ -17,7 +17,7 @@ export default function BookJob({ onNavigate }) {
     setLoading(true);
 
     try {
-      await api.post('/api/jobs', {
+      await api.post('/jobs', {
         serviceId: parseInt(selectedServiceId),
         customRequest: notes || null
       });

@@ -13,7 +13,7 @@ export default function JobHistory({ onNavigate }) {
 
   const fetchJobs = async () => {
     try {
-      const response = await api.get('/api/jobs');
+      const response = await api.get('/jobs');
       setJobs(response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
     } catch (err) {
       console.error('Failed to fetch jobs:', err);

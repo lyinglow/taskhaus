@@ -19,8 +19,8 @@ export default function AdminDashboard({ onNavigate }) {
   const loadData = async () => {
     try {
       const [jobsRes, crewRes] = await Promise.all([
-        api.get('/api/admin/jobs'),
-        api.get('/api/admin/crew')
+        api.get('/admin/jobs'),
+        api.get('/admin/crew')
       ]);
       setJobs(jobsRes.data);
       setCrew(crewRes.data);

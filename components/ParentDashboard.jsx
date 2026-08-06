@@ -13,7 +13,7 @@ export default function ParentDashboard({ onNavigate }) {
 
   const fetchJobs = async () => {
     try {
-      const response = await api.get('/api/jobs');
+      const response = await api.get('/jobs');
       setJobs(response.data);
     } catch (err) {
       console.error('Failed to fetch jobs:', err);

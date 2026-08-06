@@ -25,7 +25,7 @@ export default function Register({ onRegister, onSwitchPage }) {
     setLoading(true);
 
     try {
-      const response = await api.post('/api/auth/register', {
+      const response = await api.post('/auth/register', {
         name,
         email,
         password,

@@ -18,7 +18,7 @@ export default function ReviewJob({ jobId, onNavigate }) {
 
   const fetchJob = async () => {
     try {
-      const response = await api.get(`/api/jobs/${jobId}`);
+      const response = await api.get(`/jobs/${jobId}`);
       setJob(response.data);
     } catch (err) {
       setError('Failed to load job');
@@ -32,7 +32,7 @@ export default function ReviewJob({ jobId, onNavigate }) {
     setSubmitting(true);
 
     try {
-      await api.post('/api/reviews', { jobId, rating: parseInt(rating), comment });
+      await api.post('/reviews', { jobId, rating: parseInt(rating), comment });
       setSuccess(true);
       setTimeout(() => onNavigate('job-history'), 2000);
     } catch (err) {
