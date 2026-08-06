@@ -27,13 +27,13 @@ export default function Ledger() {
   return (
     <div className="space-y-8">
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Crew Earnings</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Team Member Earnings</h2>
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Crew Member</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Jobs</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Team Member</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Services</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Earned</th>
               </tr>
             </thead>

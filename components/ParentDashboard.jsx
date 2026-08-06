@@ -36,14 +36,14 @@ export default function ParentDashboard({ onNavigate }) {
             className="bg-blue-600 text-white p-4 rounded-lg text-center hover:bg-blue-700 transition"
           >
             <div className="text-2xl mb-2">📋</div>
-            <div className="font-semibold">Browse Chores</div>
+            <div className="font-semibold">Browse Services</div>
           </button>
           <button
             onClick={() => onNavigate('job-history')}
             className="bg-green-600 text-white p-4 rounded-lg text-center hover:bg-green-700 transition"
           >
             <div className="text-2xl mb-2">📝</div>
-            <div className="font-semibold">My Jobs</div>
+            <div className="font-semibold">My Services</div>
           </button>
         </div>
       </div>
@@ -73,12 +73,12 @@ export default function ParentDashboard({ onNavigate }) {
 
           {confirmedJobs.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Scheduled Jobs</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Scheduled Services</h2>
               <div className="space-y-3">
                 {confirmedJobs.map(job => (
                   <div key={job.id} className="bg-green-50 p-4 rounded-lg border border-green-200">
                     <div className="font-semibold text-gray-900">{job.serviceName}</div>
-                    <div className="text-sm text-gray-600 mt-1">Crew: {job.crewName || 'TBD'}</div>
+                    <div className="text-sm text-gray-600 mt-1">Team Member: {job.crewName || 'TBD'}</div>
                     <div className="text-sm text-gray-600">Time: {job.timeWindow || 'TBD'}</div>
                     {job.finalPrice && (
                       <div className="text-sm font-semibold text-gray-900 mt-2">Price: ${job.finalPrice}</div>
@@ -91,7 +91,7 @@ export default function ParentDashboard({ onNavigate }) {
 
           {completedJobs.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Completed Jobs</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Completed Services</h2>
               <div className="space-y-3">
                 {completedJobs.map(job => (
                   <div key={job.id} className="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -118,12 +118,12 @@ export default function ParentDashboard({ onNavigate }) {
 
           {jobs.length === 0 && (
             <div className="text-center py-12 bg-gray-100 rounded-lg">
-              <p className="text-gray-600 mb-4">No jobs yet. Get started by browsing chores!</p>
+              <p className="text-gray-600 mb-4">No services yet. Get started by browsing available services!</p>
               <button
                 onClick={() => onNavigate('browse-services')}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
               >
-                Browse Chores
+                Browse Services
               </button>
             </div>
           )}

@@ -28,7 +28,8 @@ export default function BrowseServices({ onNavigate }) {
 
   return (
     <div className="container max-w-4xl py-8 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Available Chores</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">Available Services</h1>
+      <p className="text-gray-600 mb-8">Browse and book services from The Garden Unit team</p>
 
       {loading ? (
         <div className="text-center py-8">Loading services...</div>

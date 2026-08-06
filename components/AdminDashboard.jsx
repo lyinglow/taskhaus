@@ -44,7 +44,7 @@ export default function AdminDashboard({ onNavigate }) {
               activeTab === tab ? 'text-blue-600 border-blue-600' : 'text-gray-600 border-transparent'
             }`}
           >
-            {tab === 'jobs' ? `Jobs (${jobs.length})` : tab === 'crew' ? `Crew (${crew.length})` : 'Ledger'}
+            {tab === 'jobs' ? `Services (${jobs.length})` : tab === 'crew' ? `Team Members (${crew.length})` : 'Ledger'}
           </button>
         ))}
       </div>

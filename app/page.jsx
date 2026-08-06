@@ -65,8 +65,8 @@ export default function Home() {
       return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex flex-col items-center justify-center px-4">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Chore Service</h1>
-            <p className="text-xl text-gray-600">Get your neighborhood chores done!</p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">The Garden Unit</h1>
+            <p className="text-xl text-gray-600">Professional service management</p>
           </div>
           <div className="space-y-4">
             <button

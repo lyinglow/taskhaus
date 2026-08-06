@@ -30,7 +30,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
     <div key={job.id} className="bg-white p-4 rounded-lg border border-gray-200 mb-3">
       <div className="flex justify-between items-start mb-2">
         <div>
-          <h3 className="font-bold text-gray-900">Job #{job.id}</h3>
+          <h3 className="font-bold text-gray-900">Service #{job.id}</h3>
           <p className="text-sm text-gray-600">{job.parentName} • {job.parentEmail}</p>
           <p className="text-sm text-gray-600">{job.serviceName || job.customRequest}</p>
         </div>
@@ -38,7 +38,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       {editingJob === job.id ? (
         <div className="space-y-3 bg-gray-50 p-4 rounded mt-4">
           <select value={formData.crewMemberId || ''} onChange={(e) => setFormData({...formData, crewMemberId: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
-            <option value="">Select crew member...</option>
+            <option value="">Select team member...</option>
             {crew.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
           <input type="text" placeholder="Time window" value={formData.timeWindow || ''} onChange={(e) => setFormData({...formData, timeWindow: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
@@ -62,16 +62,16 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   return (
     <div className="space-y-8">
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Pending Jobs</h2>
-        {pendingJobs.length === 0 ? <p className="text-gray-600">No pending jobs</p> : pendingJobs.map(job => <JobRow key={job.id} job={job} />)}
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Pending Services</h2>
+        {pendingJobs.length === 0 ? <p className="text-gray-600">No pending services</p> : pendingJobs.map(job => <JobRow key={job.id} job={job} />)}
       </section>
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Confirmed Jobs</h2>
-        {confirmedJobs.length === 0 ? <p className="text-gray-600">No confirmed jobs</p> : confirmedJobs.map(job => <JobRow key={job.id} job={job} />)}
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Confirmed Services</h2>
+        {confirmedJobs.length === 0 ? <p className="text-gray-600">No confirmed services</p> : confirmedJobs.map(job => <JobRow key={job.id} job={job} />)}
       </section>
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Completed Jobs</h2>
-        {completedJobs.length === 0 ? <p className="text-gray-600">No completed jobs</p> : completedJobs.map(job => <div key={job.id} className="bg-green-50 p-4 rounded-lg border border-green-200 text-sm"><div className="font-semibold">Job #{job.id}</div><div className="text-gray-600">{job.serviceName} • {job.parentName}</div></div>)}
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Completed Services</h2>
+        {completedJobs.length === 0 ? <p className="text-gray-600">No completed services</p> : completedJobs.map(job => <div key={job.id} className="bg-green-50 p-4 rounded-lg border border-green-200 text-sm"><div className="font-semibold">Service #{job.id}</div><div className="text-gray-600">{job.serviceName} • {job.parentName}</div></div>)}
       </section>
     </div>
   );

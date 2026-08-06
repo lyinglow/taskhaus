@@ -45,7 +45,7 @@ export default function Register({ onRegister, onSwitchPage }) {
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100 flex items-center justify-center px-4 py-8">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Create Account</h2>
-        <p className="text-gray-600 mb-6">Join us to book chores</p>
+        <p className="text-gray-600 mb-6">Join us to book professional services</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

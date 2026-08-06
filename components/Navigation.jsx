@@ -5,7 +5,7 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
         <div>
-          <h1 className="text-xl font-bold text-blue-600">Chore Service</h1>
+          <h1 className="text-xl font-bold text-blue-600">The Garden Unit</h1>
           {currentUser && <p className="text-sm text-gray-600">{currentUser.name}</p>}
         </div>
         <div className="flex gap-2">
@@ -30,7 +30,7 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
                 onClick={() => onNavigate('job-history')}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded"
               >
-                My Jobs
+                My Services
               </button>
             </>
           )}
