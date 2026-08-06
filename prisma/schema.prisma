@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Parent {
+  id        Int     @id @default(autoincrement())
+  name      String
+  email     String  @unique
+  phone     String?
+  address   String?
+  passwordHash String
+  createdAt DateTime @default(now())
+
+  jobs     Job[]
+  reviews  Review[]
+  payments Payment[]
+}
+
+model CrewMember {
+  id        Int     @id @default(autoincrement())
+  name      String
+  age       Int?
+  skills    String?
+  isAvailable Boolean @default(true)
+  createdAt DateTime @default(now())
+
+  jobs     Job[]
+  payments Payment[]
+}
+
+model Service {
+  id        Int     @id @default(autoincrement())
+  name      String
+  description String?
+  serviceType String @default("fixed") // "fixed" or "quote"
+  price     Float?
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+
+  jobs     Job[]
+  reviews  Review[]
+}
+
+model Job {
+  id              Int     @id @default(autoincrement())
+  parentId        Int
+  serviceId       Int?
+  crewMemberId    Int?
+  customRequest   String?
+  status          String  @default("pending") // pending, quoted, confirmed, completed
+  quotedPrice     Float?
+  finalPrice      Float?
+  notes           String?
+  timeWindow      String?
+  jobDate         DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime @default(now())
+
+  parent       Parent @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  service      Service? @relation(fields: [serviceId], references: [id])
+  crewMember   CrewMember? @relation(fields: [crewMemberId], references: [id])
+  review       Review?
+  payments     Payment[]
+}
+
+model Review {
+  id        Int     @id @default(autoincrement())
+  jobId     Int     @unique
+  serviceId Int
+  parentId  Int
+  rating    Int // 1-5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  job     Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  parent  Parent @relation(fields: [parentId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id              Int     @id @default(autoincrement())
+  jobId           Int
+  crewMemberId    Int
+  parentId        Int
+  amount          Float
+  status          String  @default("pending") // pending, completed
+  paidDate        DateTime?
+  createdAt       DateTime @default(now())
+
+  job       Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  crewMember CrewMember @relation(fields: [crewMemberId], references: [id])
+  parent    Parent @relation(fields: [parentId], references: [id])
+}
