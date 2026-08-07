@@ -101,7 +101,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="flex-1 bg-accent-600 text-white py-1 rounded-full text-sm font-bold hover:bg-accent-700"
+                      className="flex-1 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
                     >
                       Cancel
                     </button>

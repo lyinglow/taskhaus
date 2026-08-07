@@ -96,7 +96,7 @@ export default function ReviewJob({ jobId, onNavigate }) {
             <button type="submit" disabled={submitting} className="flex-1 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
               {submitting ? 'Submitting...' : 'Submit Review'}
             </button>
-            <button type="button" onClick={() => onNavigate('job-history')} className="flex-1 bg-accent-600 text-white py-2 rounded-full font-bold hover:bg-accent-700">
+            <button type="button" onClick={() => onNavigate('job-history')} className="flex-1 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700">
               Back
             </button>
           </div>

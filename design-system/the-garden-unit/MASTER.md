@@ -89,14 +89,15 @@ Both are free on Google Fonts, self-hostable via `next/font`.
 ## 4. Spacing, Radius, Elevation
 
 - **Spacing scale:** Tailwind default (4/8/12/16/24/32/48/64px) — already what the app uses, keep it.
-- **Radius:** `rounded-lg` (8px) for cards, inputs, and primary buttons; `rounded-full` for pills/badges/avatars **and secondary/cancel buttons** (see below). Don't introduce a third radius value.
+- **Radius:** `rounded-lg` (8px) for cards, inputs, and all buttons (primary, secondary, and destructive alike); `rounded-full` reserved for pills/badges/avatars only, not buttons. One consistent button silhouette across the app.
 - **Elevation:** `shadow-sm` at rest → `shadow-lg` on hover for interactive cards (already implemented on `ServiceCard`); sticky nav stays `shadow-sm`. Two elevation steps is enough for this product — don't add more.
 
 ### Button hierarchy
+Colour is the only signal distinguishing button intent — shape and weight stay identical (`rounded-lg`, `font-semibold`) across all of them:
 - **Primary** (submit, confirm, main CTA): `bg-brand-600 hover:bg-brand-700 text-white rounded-lg font-semibold`
-- **Affirmative/confirm-in-context** (Save/Confirm/Mark Done sitting next to a primary Edit button in the same row — admin panels): `bg-brand-700 hover:bg-brand-800`, same `rounded-lg` shape as primary
-- **Secondary** (Cancel, Back, and other de-emphasized paired actions): pill-shaped dusty rose — `bg-accent-600 hover:bg-accent-700 text-white rounded-full font-bold`. This is a deliberate second silhouette (pill vs. rounded-rectangle) so secondary actions read as visually distinct from primary ones at a glance, not just a different colour.
-- **Destructive** (Remove/Delete): `bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold` — unchanged, standard semantic red.
+- **Affirmative/confirm-in-context** (Save/Confirm/Mark Done sitting next to a primary Edit button in the same row — admin panels): `bg-brand-700 hover:bg-brand-800`
+- **Secondary** (Cancel, Back, and other de-emphasized paired actions): dusty rose — `bg-accent-600 hover:bg-accent-700 text-white`
+- **Destructive** (Remove/Delete): `bg-red-600 hover:bg-red-700 text-white` — unchanged, standard semantic red.
 
 ## 5. Iconography
 
