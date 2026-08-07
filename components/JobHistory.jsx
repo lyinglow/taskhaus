@@ -28,9 +28,9 @@ export default function JobHistory({ onNavigate }) {
   };
 
   const getCost = (job) => {
-    if (job.finalPrice) return { label: 'Price', value: job.finalPrice };
-    if (job.quotedPrice) return { label: 'Quote', value: job.quotedPrice };
-    if (job.service?.price) return { label: 'Cost', value: job.service.price };
+    if (job.finalPrice) return { label: 'Price', value: job.finalPrice, from: false };
+    if (job.quotedPrice) return { label: 'Quote', value: job.quotedPrice, from: false };
+    if (job.service?.price) return { label: 'Cost', value: job.service.price, from: true };
     return null;
   };
 
@@ -64,7 +64,7 @@ export default function JobHistory({ onNavigate }) {
               </div>
               {job.crewName && <div className="text-sm text-gray-600">Team Member: {job.crewName}</div>}
               {job.timeWindow && <div className="text-sm text-gray-600">Time: {job.timeWindow}</div>}
-              {cost && <div className="text-lg font-bold text-gray-900">{cost.label}: £{Number(cost.value).toFixed(2)}</div>}
+              {cost && <div className="text-lg font-bold text-gray-900">{cost.label}: {cost.from ? 'From ' : ''}£{Number(cost.value).toFixed(2)}</div>}
               {job.status === 'completed' && !job.review && (
                 <button onClick={() => onNavigate(`review-${job.id}`)} className="mt-2 w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700">
                   Leave a Review
