@@ -22,28 +22,32 @@ export default function ServiceCard({ service, onSelect }) {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition border border-gray-200">
-      <h3 className="text-lg font-bold text-gray-900 mb-2">{service.name}</h3>
-      <p className="text-gray-600 text-sm mb-4">{service.description}</p>
-
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          {service.price ? (
-            <div className="text-2xl font-bold text-green-600">£{service.price}</div>
-          ) : (
-            <div className="text-lg font-semibold text-blue-600">Custom Quote</div>
-          )}
-        </div>
-        {reviewCount > 0 && (
-          <div className="text-right">
-            <div className="text-yellow-500 font-semibold">★ {avgRating.toFixed(1)}</div>
-            <div className="text-xs text-gray-500">{reviewCount} reviews</div>
-          </div>
+    <div
+      onClick={onSelect}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
+      className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition border border-gray-200 cursor-pointer"
+    >
+      <div className="flex justify-between items-start gap-3 mb-2">
+        <h3 className="text-lg font-bold text-gray-900 break-words">{service.name}</h3>
+        {service.price ? (
+          <div className="text-2xl font-bold text-green-600 whitespace-nowrap">£{service.price}</div>
+        ) : (
+          <div className="text-lg font-semibold text-blue-600 whitespace-nowrap">Custom Quote</div>
         )}
       </div>
+      <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+
+      {reviewCount > 0 && (
+        <div className="mb-4">
+          <span className="text-yellow-500 font-semibold">★ {avgRating.toFixed(1)}</span>
+          <span className="text-xs text-gray-500 ml-1">({reviewCount} reviews)</span>
+        </div>
+      )}
 
       <button
-        onClick={onSelect}
+        onClick={(e) => { e.stopPropagation(); onSelect(); }}
         className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
       >
         Select
