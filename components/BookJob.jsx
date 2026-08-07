@@ -26,7 +26,7 @@ export default function BookJob({ onNavigate }) {
 
       setSuccess(true);
       setTimeout(() => {
-        onNavigate('customer-dashboard');
+        onNavigate('job-history');
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to create job');

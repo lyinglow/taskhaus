@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
-import CustomerDashboard from '@/components/CustomerDashboard';
 import AdminDashboard from '@/components/AdminDashboard';
 import BrowseServices from '@/components/BrowseServices';
 import BookJob from '@/components/BookJob';
@@ -23,11 +22,13 @@ export default function Home() {
     const token = localStorage.getItem('token');
     const isAdminToken = localStorage.getItem('isAdmin');
     if (token) {
+      const adminFlag = isAdminToken === 'true';
       setIsLoggedIn(true);
-      setIsAdmin(isAdminToken === 'true');
+      setIsAdmin(adminFlag);
       const customerId = localStorage.getItem('customerId');
       const userName = localStorage.getItem('userName');
       setUser({ customerId, name: userName });
+      setPage(adminFlag ? 'admin-dashboard' : 'browse-services');
     }
     setLoading(false);
   }, []);
@@ -52,7 +53,7 @@ export default function Home() {
     setIsLoggedIn(true);
     setIsAdmin(adminFlag);
     setUser({ customerId, name });
-    setPage(adminFlag ? 'admin-dashboard' : 'customer-dashboard');
+    setPage(adminFlag ? 'admin-dashboard' : 'browse-services');
   };
 
   if (loading) {
@@ -102,7 +103,6 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <Navigation isAdmin={isAdmin} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
       <div className="pb-20">
-        {page === 'customer-dashboard' && <CustomerDashboard onNavigate={setPage} />}
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}

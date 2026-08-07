@@ -26,10 +26,14 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div>
+        <button
+          type="button"
+          onClick={() => go(isAdmin ? 'admin-dashboard' : 'browse-services')}
+          className="text-left"
+        >
           <h1 className="text-xl font-bold text-blue-600">The Garden Unit</h1>
           {currentUser && <p className="text-sm text-gray-600">{currentUser.name}</p>}
-        </div>
+        </button>
 
         <div className="hidden md:flex gap-2">
           {links.map((link) => (
