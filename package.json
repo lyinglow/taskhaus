@@ -1,6 +1,7 @@
 {
   "name": "chore-service-platform",
   "version": "1.0.0",
+  "type": "module",
   "description": "Mobile-first neighborhood chore service platform",
   "scripts": {
     "dev": "next dev",
