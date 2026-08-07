@@ -1,6 +1,18 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 
+export async function GET(req) {
+  const adminPassword = req.headers.get('x-admin-password');
+  const expected = process.env.ADMIN_PASSWORD;
+  return NextResponse.json({
+    envVarIsSet: typeof expected === 'string' && expected.length > 0,
+    envVarLength: expected ? expected.length : 0,
+    receivedHeader: adminPassword !== null,
+    receivedLength: adminPassword ? adminPassword.length : 0,
+    matches: adminPassword === expected,
+  });
+}
+
 export async function POST(req) {
   try {
     const adminPassword = req.headers.get('x-admin-password');
