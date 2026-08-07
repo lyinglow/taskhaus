@@ -92,6 +92,12 @@ export default function Home() {
         <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
           <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10 grayscale" sizes="100vw" />
           <div className="absolute inset-0 bg-stone-50/60" />
+          <button
+            onClick={() => setPage('admin-login')}
+            className="absolute top-4 right-4 z-10 text-sm font-medium text-stone-600 hover:text-stone-900 bg-white/70 hover:bg-white px-3 py-1.5 rounded-lg transition"
+          >
+            Admin Login
+          </button>
           <div className="relative z-10 text-center mb-10">
             <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
             <p className="text-xl text-stone-700">Professional service management</p>
@@ -108,12 +114,6 @@ export default function Home() {
               className="w-full bg-accent-600 text-white py-3 rounded-lg font-semibold hover:bg-accent-700 transition"
             >
               Customer Sign Up
-            </button>
-            <button
-              onClick={() => setPage('admin-login')}
-              className="w-full bg-stone-800 text-white py-3 rounded-lg font-semibold hover:bg-stone-900 transition"
-            >
-              Admin Login
             </button>
             <button
               onClick={() => setPage('about')}
