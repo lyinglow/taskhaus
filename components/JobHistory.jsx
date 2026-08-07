@@ -52,7 +52,14 @@ export default function JobHistory({ onNavigate }) {
           {jobs.map(job => {
             const cost = getCost(job);
             return (
-            <div key={job.id} className="bg-white p-5 rounded-lg border border-stone-200">
+            <div
+              key={job.id}
+              onClick={() => onNavigate(`job-detail-${job.id}`)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onNavigate(`job-detail-${job.id}`); } }}
+              className="bg-white p-5 rounded-lg border border-stone-200 hover:shadow-lg transition cursor-pointer"
+            >
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="text-lg font-bold text-stone-900">{job.serviceName || job.customRequest}</h3>
@@ -70,7 +77,10 @@ export default function JobHistory({ onNavigate }) {
                 </div>
               )}
               {job.status === 'completed' && !job.review && (
-                <button onClick={() => onNavigate(`review-${job.id}`)} className="mt-3 w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700">
+                <button
+                  onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
+                  className="mt-3 w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
+                >
                   Leave a Review
                 </button>
               )}

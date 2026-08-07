@@ -8,6 +8,7 @@ import AdminDashboard from '@/components/AdminDashboard';
 import BrowseServices from '@/components/BrowseServices';
 import BookJob from '@/components/BookJob';
 import JobHistory from '@/components/JobHistory';
+import JobDetail from '@/components/JobDetail';
 import ReviewJob from '@/components/ReviewJob';
 import Profile from '@/components/Profile';
 import About from '@/components/About';
@@ -118,6 +119,7 @@ export default function Home() {
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}
+        {page.startsWith('job-detail-') && <JobDetail jobId={parseInt(page.split('-')[2])} onNavigate={setPage} />}
         {page === 'profile' && <Profile onProfileUpdated={handleProfileUpdated} />}
         {page === 'about' && <About />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
