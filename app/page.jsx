@@ -63,11 +63,11 @@ export default function Home() {
 
   if (!isLoggedIn) {
     if (page === 'login') {
-      return <Login onLogin={handleLogin} onSwitchPage={() => setPage('register')} />;
+      return <Login onLogin={handleLogin} onSwitchPage={() => setPage('register')} onCancel={() => setPage('home')} />;
     } else if (page === 'register') {
-      return <Register onRegister={handleLogin} onSwitchPage={() => setPage('login')} />;
+      return <Register onRegister={handleLogin} onSwitchPage={() => setPage('login')} onCancel={() => setPage('home')} />;
     } else if (page === 'admin-login') {
-      return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} />;
+      return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} onCancel={() => setPage('home')} />;
     } else if (page === 'about') {
       return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 px-4 py-8">

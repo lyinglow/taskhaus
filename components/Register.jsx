@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import api from '@/lib/api';
 
-export default function Register({ onRegister, onSwitchPage }) {
+export default function Register({ onRegister, onSwitchPage, onCancel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -133,6 +133,16 @@ export default function Register({ onRegister, onSwitchPage }) {
               Login
             </button>
           </p>
+        </div>
+
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="text-gray-500 hover:text-gray-700 text-sm font-medium"
+          >
+            Cancel login
+          </button>
         </div>
       </div>
     </div>
