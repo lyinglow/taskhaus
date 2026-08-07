@@ -12,7 +12,9 @@ import JobDetail from '@/components/JobDetail';
 import ReviewJob from '@/components/ReviewJob';
 import Profile from '@/components/Profile';
 import About from '@/components/About';
+import HowWeWork from '@/components/HowWeWork';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   const [page, setPage] = useState('home');
@@ -72,6 +74,8 @@ export default function Home() {
       return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} onCancel={() => setPage('home')} />;
     } else if (page === 'about') {
       return <About onBack={() => setPage('home')} />;
+    } else if (page === 'how-we-work') {
+      return <HowWeWork onBack={() => setPage('home')} />;
     } else {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
@@ -100,12 +104,20 @@ export default function Home() {
             >
               Customer Sign Up
             </button>
-            <button
-              onClick={() => setPage('about')}
-              className="w-full text-brand-700 hover:text-brand-800 font-medium py-2 transition"
-            >
-              About Us
-            </button>
+            <div className="flex justify-center gap-6 pt-2">
+              <button
+                onClick={() => setPage('about')}
+                className="text-brand-700 hover:text-brand-800 font-medium text-sm"
+              >
+                About Us
+              </button>
+              <button
+                onClick={() => setPage('how-we-work')}
+                className="text-brand-700 hover:text-brand-800 font-medium text-sm"
+              >
+                How We Work
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -113,18 +125,20 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-stone-50 flex flex-col">
       <Navigation isAdmin={isAdmin} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
-      <div className="pb-20">
+      <div className="flex-1">
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}
         {page.startsWith('job-detail-') && <JobDetail jobId={parseInt(page.split('-')[2])} onNavigate={setPage} />}
         {page === 'profile' && <Profile onProfileUpdated={handleProfileUpdated} />}
         {page === 'about' && <About />}
+        {page === 'how-we-work' && <HowWeWork />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
         {page === 'admin-dashboard' && <AdminDashboard onNavigate={setPage} />}
       </div>
+      {!isAdmin && <Footer onNavigate={setPage} />}
     </div>
   );
 }

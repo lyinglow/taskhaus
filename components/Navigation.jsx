@@ -11,7 +11,6 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
         { label: 'Services', page: 'browse-services' },
         { label: 'Current Tasks', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
-        { label: 'About', page: 'about' },
       ];
 
   const go = (page) => {
