@@ -33,7 +33,7 @@ export default function Register({ onRegister, onSwitchPage }) {
         address
       });
 
-      onRegister(response.data.token, response.data.parentId, response.data.name);
+      onRegister(response.data.token, response.data.customerId, response.data.name);
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');
     } finally {

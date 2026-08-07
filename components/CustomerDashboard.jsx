@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 
-export default function ParentDashboard({ onNavigate }) {
+export default function CustomerDashboard({ onNavigate }) {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 

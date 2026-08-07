@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
-import ParentDashboard from '@/components/ParentDashboard';
+import CustomerDashboard from '@/components/CustomerDashboard';
 import AdminDashboard from '@/components/AdminDashboard';
 import BrowseServices from '@/components/BrowseServices';
 import BookJob from '@/components/BookJob';
@@ -24,9 +24,9 @@ export default function Home() {
     if (token) {
       setIsLoggedIn(true);
       setIsAdmin(isAdminToken === 'true');
-      const parentId = localStorage.getItem('parentId');
+      const customerId = localStorage.getItem('customerId');
       const userName = localStorage.getItem('userName');
-      setUser({ parentId, name: userName });
+      setUser({ customerId, name: userName });
     }
     setLoading(false);
   }, []);
@@ -39,15 +39,15 @@ export default function Home() {
     setPage('home');
   };
 
-  const handleLogin = (token, parentId, name, adminFlag = false) => {
+  const handleLogin = (token, customerId, name, adminFlag = false) => {
     localStorage.setItem('token', token);
-    localStorage.setItem('parentId', parentId);
+    localStorage.setItem('customerId', customerId);
     localStorage.setItem('userName', name);
     localStorage.setItem('isAdmin', adminFlag);
     setIsLoggedIn(true);
     setIsAdmin(adminFlag);
-    setUser({ parentId, name });
-    setPage(adminFlag ? 'admin-dashboard' : 'parent-dashboard');
+    setUser({ customerId, name });
+    setPage(adminFlag ? 'admin-dashboard' : 'customer-dashboard');
   };
 
   if (loading) {
@@ -73,13 +73,13 @@ export default function Home() {
               onClick={() => setPage('login')}
               className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
             >
-              Parent Login
+              Customer Login
             </button>
             <button
               onClick={() => setPage('register')}
               className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
             >
-              Parent Sign Up
+              Customer Sign Up
             </button>
             <button
               onClick={() => setPage('admin-login')}
@@ -97,7 +97,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <Navigation isAdmin={isAdmin} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
       <div className="pb-20">
-        {page === 'parent-dashboard' && <ParentDashboard onNavigate={setPage} />}
+        {page === 'customer-dashboard' && <CustomerDashboard onNavigate={setPage} />}
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}

@@ -19,7 +19,7 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage }) {
       const payload = isAdmin ? { password } : { email, password };
       const response = await api.post(endpoint, payload);
 
-      onLogin(response.data.token, isAdmin ? 999 : response.data.parentId, isAdmin ? 'Admin' : response.data.name, isAdmin);
+      onLogin(response.data.token, isAdmin ? 999 : response.data.customerId, isAdmin ? 'Admin' : response.data.name, isAdmin);
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {
@@ -31,7 +31,7 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage }) {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex items-center justify-center px-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          {isAdmin ? 'Admin Login' : 'Parent Login'}
+          {isAdmin ? 'Admin Login' : 'Customer Login'}
         </h2>
         <p className="text-gray-600 mb-6">Sign in to your account</p>
 

@@ -29,7 +29,7 @@ export async function POST(req) {
     const token = generateToken(parent.id, false);
 
     return NextResponse.json(
-      { parentId: parent.id, token, name: parent.name, email: parent.email },
+      { customerId: parent.id, token, name: parent.name, email: parent.email },
       { status: 201 }
     );
   } catch (err) {

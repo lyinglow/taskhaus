@@ -31,7 +31,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       <div className="flex justify-between items-start mb-2">
         <div>
           <h3 className="font-bold text-gray-900">Service #{job.id}</h3>
-          <p className="text-sm text-gray-600">{job.parentName} • {job.parentEmail}</p>
+          <p className="text-sm text-gray-600">{job.customerName} • {job.customerEmail}</p>
           <p className="text-sm text-gray-600">{job.serviceName || job.customRequest}</p>
         </div>
       </div>
@@ -71,7 +71,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       </section>
       <section>
         <h2 className="text-xl font-bold text-gray-900 mb-4">Completed Services</h2>
-        {completedJobs.length === 0 ? <p className="text-gray-600">No completed services</p> : completedJobs.map(job => <div key={job.id} className="bg-green-50 p-4 rounded-lg border border-green-200 text-sm"><div className="font-semibold">Service #{job.id}</div><div className="text-gray-600">{job.serviceName} • {job.parentName}</div></div>)}
+        {completedJobs.length === 0 ? <p className="text-gray-600">No completed services</p> : completedJobs.map(job => <div key={job.id} className="bg-green-50 p-4 rounded-lg border border-green-200 text-sm"><div className="font-semibold">Service #{job.id}</div><div className="text-gray-600">{job.serviceName} • {job.customerName}</div></div>)}
       </section>
     </div>
   );

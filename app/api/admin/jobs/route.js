@@ -29,9 +29,9 @@ export async function GET(req) {
 
     const transformed = jobs.map(job => ({
       ...job,
-      parentName: job.parent.name,
-      parentEmail: job.parent.email,
-      parentPhone: job.parent.phone,
+      customerName: job.parent.name,
+      customerEmail: job.parent.email,
+      customerPhone: job.parent.phone,
       serviceName: job.service?.name,
       crewName: job.crewMember?.name
     }));

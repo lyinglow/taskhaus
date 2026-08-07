@@ -23,7 +23,7 @@ export async function POST(req) {
     const token = generateToken(parent.id, false);
 
     return NextResponse.json({
-      parentId: parent.id,
+      customerId: parent.id,
       token,
       name: parent.name,
       email: parent.email
