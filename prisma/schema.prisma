@@ -39,7 +39,8 @@ model CrewMember {
 model Service {
   id        Int     @id @default(autoincrement())
   name      String
-  description String?
+  description String? // short description, shown on service cards
+  longDescription String? // long description, shown on the service detail/booking page
   serviceType String @default("fixed") // "fixed" or "quote"
   category  String  @default("garden") // "garden" or "other"
   price     Float?

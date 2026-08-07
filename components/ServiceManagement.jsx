@@ -6,6 +6,7 @@ import api from '@/lib/api';
 export default function ServiceManagement({ services, onServicesUpdated }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [longDescription, setLongDescription] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('garden');
   const [loading, setLoading] = useState(false);
@@ -21,12 +22,14 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       await api.post('/services', {
         name,
         description,
+        longDescription,
         serviceType: 'fixed',
         category,
         price: parseFloat(price),
       });
       setName('');
       setDescription('');
+      setLongDescription('');
       setPrice('');
       setCategory('garden');
       onServicesUpdated();
@@ -43,6 +46,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       await api.patch(`/services/${serviceId}`, {
         name: editData.name,
         description: editData.description,
+        longDescription: editData.longDescription,
         price: parseFloat(editData.price),
         category: editData.category,
       });
@@ -85,8 +89,15 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description"
-            rows={3}
+            placeholder="Short description (shown on service cards)"
+            rows={2}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+          <textarea
+            value={longDescription}
+            onChange={(e) => setLongDescription(e.target.value)}
+            placeholder="Long description (shown on the booking/detail page)"
+            rows={4}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
           />
           <input
@@ -135,7 +146,15 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                   <textarea
                     value={editData.description || ''}
                     onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                    placeholder="Short description (shown on service cards)"
                     rows={2}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  />
+                  <textarea
+                    value={editData.longDescription || ''}
+                    onChange={(e) => setEditData({ ...editData, longDescription: e.target.value })}
+                    placeholder="Long description (shown on the booking/detail page)"
+                    rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                   />
                   <input
@@ -186,6 +205,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                         setEditData({
                           name: service.name,
                           description: service.description,
+                          longDescription: service.longDescription,
                           price: service.price,
                           category: service.category || 'garden',
                         });

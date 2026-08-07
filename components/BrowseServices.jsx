@@ -31,6 +31,7 @@ export default function BrowseServices({ onNavigate }) {
     localStorage.setItem('selectedServiceId', service.id);
     localStorage.setItem('selectedServiceName', service.name);
     localStorage.setItem('selectedServiceDescription', service.description || '');
+    localStorage.setItem('selectedServiceLongDescription', service.longDescription || service.description || '');
     localStorage.setItem('selectedServicePrice', service.price ?? '');
     onNavigate('book-job');
   };

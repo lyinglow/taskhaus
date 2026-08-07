@@ -6,7 +6,7 @@ import api from '@/lib/api';
 export default function BookJob({ onNavigate }) {
   const selectedServiceId = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceId') : null;
   const selectedServiceName = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceName') : null;
-  const selectedServiceDescription = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceDescription') : null;
+  const selectedServiceLongDescription = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceLongDescription') : null;
   const selectedServicePrice = typeof window !== 'undefined' ? localStorage.getItem('selectedServicePrice') : null;
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
@@ -60,8 +60,8 @@ export default function BookJob({ onNavigate }) {
 
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{selectedServiceName}</h1>
-        {selectedServiceDescription && (
-          <p className="text-gray-600 mb-2">{selectedServiceDescription}</p>
+        {selectedServiceLongDescription && (
+          <p className="text-gray-600 mb-2">{selectedServiceLongDescription}</p>
         )}
         {selectedServicePrice && (
           <p className="text-xl font-bold text-green-600 mb-4">£{Number(selectedServicePrice).toFixed(2)}</p>
