@@ -9,7 +9,7 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
     ? [{ label: 'Dashboard', page: 'admin-dashboard' }]
     : [
         { label: 'Services', page: 'browse-services' },
-        { label: 'My Services', page: 'job-history' },
+        { label: 'Current Tasks', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
         { label: 'About', page: 'about' },
       ];

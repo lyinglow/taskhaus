@@ -27,9 +27,16 @@ export default function JobHistory({ onNavigate }) {
     return labels[status] || status;
   };
 
+  const getCost = (job) => {
+    if (job.finalPrice) return { label: 'Price', value: job.finalPrice };
+    if (job.quotedPrice) return { label: 'Quote', value: job.quotedPrice };
+    if (job.service?.price) return { label: 'Cost', value: job.service.price };
+    return null;
+  };
+
   return (
     <div className="container max-w-4xl py-8 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">My Services</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Current Tasks</h1>
 
       {loading ? (
         <div className="text-center py-8">Loading jobs...</div>
@@ -42,7 +49,9 @@ export default function JobHistory({ onNavigate }) {
         </div>
       ) : (
         <div className="space-y-4">
-          {jobs.map(job => (
+          {jobs.map(job => {
+            const cost = getCost(job);
+            return (
             <div key={job.id} className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -55,14 +64,15 @@ export default function JobHistory({ onNavigate }) {
               </div>
               {job.crewName && <div className="text-sm text-gray-600">Team Member: {job.crewName}</div>}
               {job.timeWindow && <div className="text-sm text-gray-600">Time: {job.timeWindow}</div>}
-              {job.finalPrice && <div className="text-lg font-bold text-gray-900">£{Number(job.finalPrice).toFixed(2)}</div>}
+              {cost && <div className="text-lg font-bold text-gray-900">{cost.label}: £{Number(cost.value).toFixed(2)}</div>}
               {job.status === 'completed' && !job.review && (
                 <button onClick={() => onNavigate(`review-${job.id}`)} className="mt-2 w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700">
                   Leave a Review
                 </button>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
