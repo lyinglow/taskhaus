@@ -36,7 +36,6 @@ export default function BrowseServices({ onNavigate }) {
       ) : (
         <>
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Fixed Price Services</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {fixedServices.map(service => (
                 <ServiceCard
@@ -54,24 +53,26 @@ export default function BrowseServices({ onNavigate }) {
             </div>
           </section>
 
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Quote-Based Services</h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              {quoteServices.map(service => (
-                <ServiceCard
-                  key={service.id}
-                  service={service}
-                  onSelect={() => {
-                    localStorage.setItem('selectedServiceId', service.id);
-                    localStorage.setItem('selectedServiceName', service.name);
-                    localStorage.setItem('selectedServiceDescription', service.description || '');
-                    localStorage.setItem('selectedServicePrice', service.price ?? '');
-                    onNavigate('book-job');
-                  }}
-                />
-              ))}
-            </div>
-          </section>
+          {quoteServices.length > 0 && (
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Quote-Based Services</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {quoteServices.map(service => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    onSelect={() => {
+                      localStorage.setItem('selectedServiceId', service.id);
+                      localStorage.setItem('selectedServiceName', service.name);
+                      localStorage.setItem('selectedServiceDescription', service.description || '');
+                      localStorage.setItem('selectedServicePrice', service.price ?? '');
+                      onNavigate('book-job');
+                    }}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>
