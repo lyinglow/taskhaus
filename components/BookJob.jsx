@@ -64,7 +64,7 @@ export default function BookJob({ onNavigate }) {
           <p className="text-gray-600 mb-2">{selectedServiceLongDescription}</p>
         )}
         {selectedServicePrice && (
-          <p className="text-xl font-bold text-green-600 mb-4"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
+          <p className="text-lg font-bold text-green-600 mb-4"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
         )}
         <p className="text-gray-600 mb-6">Complete your booking request</p>
 

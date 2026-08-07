@@ -65,7 +65,7 @@ export default function JobHistory({ onNavigate }) {
               {job.crewName && <div className="text-sm text-gray-600">Team Member: {job.crewName}</div>}
               {job.timeWindow && <div className="text-sm text-gray-600">Time: {job.timeWindow}</div>}
               {cost && (
-                <div className="text-lg font-bold text-gray-900">
+                <div className="text-base font-bold text-gray-900">
                   {cost.label}: {cost.from && <span className="text-[13px] font-medium align-baseline">From </span>}£{Number(cost.value).toFixed(2)}
                 </div>
               )}
