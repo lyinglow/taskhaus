@@ -32,7 +32,7 @@ export default function ServiceCard({ service, onSelect }) {
       <div className="flex justify-between items-start gap-3 mb-2">
         <h3 className="text-lg font-bold text-gray-900 break-words">{service.name}</h3>
         {service.price ? (
-          <div className="text-2xl font-bold text-green-600 whitespace-nowrap">From £{Number(service.price).toFixed(2)}</div>
+          <div className="text-2xl font-bold text-green-600 whitespace-nowrap"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
         ) : (
           <div className="text-lg font-semibold text-blue-600 whitespace-nowrap">Custom Quote</div>
         )}
