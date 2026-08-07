@@ -70,12 +70,12 @@ export default function Home() {
       return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} onCancel={() => setPage('home')} />;
     } else if (page === 'about') {
       return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 px-4 py-8">
+        <div className="min-h-screen bg-gradient-to-b from-brand-50 to-brand-100 px-4 py-12">
           <About />
           <div className="text-center">
             <button
               onClick={() => setPage('home')}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-brand-700 hover:text-brand-800 font-medium"
             >
               ← Back
             </button>
@@ -84,33 +84,33 @@ export default function Home() {
       );
     } else {
       return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex flex-col items-center justify-center px-4">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">The Garden Unit</h1>
-            <p className="text-xl text-gray-600">Professional service management</p>
+        <div className="min-h-screen bg-gradient-to-b from-brand-50 to-brand-100 flex flex-col items-center justify-center px-4">
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
+            <p className="text-xl text-stone-600">Professional service management</p>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 w-full max-w-sm">
             <button
               onClick={() => setPage('login')}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition"
             >
               Customer Login
             </button>
             <button
               onClick={() => setPage('register')}
-              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+              className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition"
             >
               Customer Sign Up
             </button>
             <button
               onClick={() => setPage('admin-login')}
-              className="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition"
+              className="w-full bg-stone-800 text-white py-3 rounded-lg font-semibold hover:bg-stone-900 transition"
             >
               Admin Login
             </button>
             <button
               onClick={() => setPage('about')}
-              className="w-full text-blue-600 hover:text-blue-700 font-medium py-2 transition"
+              className="w-full text-brand-700 hover:text-brand-800 font-medium py-2 transition"
             >
               About Us
             </button>
@@ -121,7 +121,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-stone-50">
       <Navigation isAdmin={isAdmin} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
       <div className="pb-20">
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}

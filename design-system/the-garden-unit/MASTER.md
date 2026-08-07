@@ -106,16 +106,18 @@ Current UI uses a couple of raw emoji (📋 📝) as icons. Recommend a real out
 - **Wordmark:** "The Garden Unit" set in Outfit Bold, `brand-700`.
 - **Icon mark** (favicon / app icon): a simple monoline leaf or spade silhouette in a rounded square — `brand-50` mark on `brand-600` fill for the app icon; `brand-600` mark on transparent/white for inline use.
 
-## 8. What Changes vs. Today
+## 8. Applied Status
 
-The live app currently uses default Tailwind `blue-600` for primary buttons/links/nav and `green-600` for confirm actions, with cool `gray-*` neutrals throughout. Adopting this system means:
+**Live as of this revision** — every component has been swept from default Tailwind `blue-*`/`green-*`/`gray-*` to this system:
 
 - `blue-600` → `brand-600` (primary buttons, links, active nav state, focus rings)
-- existing `green-600` (confirm/success buttons) → also `brand-600` (they become the same colour family, which is intentional — currently blue-for-primary and green-for-success sit oddly close together)
+- `green-600` (confirm/success buttons) → `brand-600` for neutral primary actions, `brand-700` for affirmative/confirm actions that sit next to a primary action in the same row (e.g. admin "Edit" vs "Confirm"/"Save"), so the two remain visually distinguishable within one colour family instead of two
 - `gray-*` → `stone-*` (backgrounds, borders, body text)
-- new: `accent-500` dusty rose introduced for badges/highlights (e.g. the "Garden Services" / "Other Services" category pills, star-review counts)
+- `accent-500`/`accent-700` dusty rose applied to the service category badge (Garden/Other Services) and the "Custom Quote" label
+- Fonts wired via `next/font`: Outfit on `h1`–`h3`, Inter on body (see `app/layout.jsx`, `app/globals.css`)
+- Spacing opened up across the board: page containers `py-8` → `py-10`/`py-12`, cards `p-4` → `p-5`/`p-6`, card grids `gap-4` → `gap-6`, form field spacing `space-y-4` → `space-y-5`
 
-**This has not been applied to the live components yet** — this file is the source of truth to build from. Say the word and I'll re-skin the app to match (swap the Tailwind config, then sweep `blue-600`/`gray-*` usages across components).
+Untouched by design: error/destructive red, warning amber, and star-rating yellow — all standard Tailwind, per §2.
 
 ## 9. Anti-Patterns (don't do these)
 

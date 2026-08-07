@@ -2,11 +2,11 @@
 
 export default function About() {
   return (
-    <div className="container max-w-2xl py-8 mx-auto px-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">About The Garden Unit</h1>
+    <div className="container max-w-2xl py-10 mx-auto px-4">
+      <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-stone-900 mb-6">About The Garden Unit</h1>
 
-        <div className="space-y-4 text-gray-700">
+        <div className="space-y-5 text-stone-700">
           <p>
             The Garden Unit is a local neighbourhood service run and managed by a small
             team of young entrepreneurs aged 12 and up. What started as a way to earn

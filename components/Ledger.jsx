@@ -25,24 +25,24 @@ export default function Ledger() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Team Member Earnings</h2>
+        <h2 className="text-xl font-bold text-stone-900 mb-4">Team Member Earnings</h2>
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-stone-50">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Team Member</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Services</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Earned</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Team Member</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Services</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Earned</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-stone-200">
               {ledger?.summary?.map(row => (
                 <tr key={row.id}>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{row.jobs_completed}</td>
-                  <td className="px-6 py-4 text-sm font-semibold text-gray-900">£{(row.earned || 0).toFixed(2)}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-stone-900">{row.name}</td>
+                  <td className="px-6 py-4 text-sm text-stone-600">{row.jobs_completed}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-stone-900">£{(row.earned || 0).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -51,13 +51,13 @@ export default function Ledger() {
       </section>
 
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Transactions</h2>
+        <h2 className="text-xl font-bold text-stone-900 mb-4">Transactions</h2>
         <div className="space-y-3">
           {ledger?.detailed?.map(payment => (
-            <div key={payment.id} className="bg-white p-4 rounded-lg border border-gray-200">
+            <div key={payment.id} className="bg-white p-5 rounded-lg border border-stone-200">
               <div className="flex justify-between">
-                <div><div className="font-semibold text-gray-900">{payment.crewName}</div><div className="text-sm text-gray-600">{payment.serviceName}</div></div>
-                <div className="text-right"><div className="text-lg font-bold text-gray-900">£{payment.amount.toFixed(2)}</div></div>
+                <div><div className="font-semibold text-stone-900">{payment.crewName}</div><div className="text-sm text-stone-600">{payment.serviceName}</div></div>
+                <div className="text-right"><div className="text-lg font-bold text-stone-900">£{payment.amount.toFixed(2)}</div></div>
               </div>
             </div>
           ))}

@@ -36,16 +36,16 @@ export default function AdminDashboard({ onNavigate }) {
   };
 
   return (
-    <div className="container max-w-6xl py-8 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
+    <div className="container max-w-6xl py-10 mx-auto px-4">
+      <h1 className="text-3xl font-bold text-stone-900 mb-8">Admin Dashboard</h1>
 
-      <div className="flex gap-4 mb-8 border-b border-gray-200 overflow-x-auto">
+      <div className="flex gap-4 mb-8 border-b border-stone-200 overflow-x-auto">
         {['jobs', 'services', 'crew', 'ledger'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 font-semibold border-b-2 transition whitespace-nowrap flex-shrink-0 ${
-              activeTab === tab ? 'text-blue-600 border-blue-600' : 'text-gray-600 border-transparent'
+              activeTab === tab ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'
             }`}
           >
             {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'crew' ? `Team Members (${crew.length})` : 'Ledger'}

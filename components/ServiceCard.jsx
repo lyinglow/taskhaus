@@ -27,28 +27,28 @@ export default function ServiceCard({ service, onSelect }) {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
-      className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition border border-gray-200 cursor-pointer"
+      className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition border border-stone-200 cursor-pointer"
     >
-      <div className="flex justify-between items-start gap-3 mb-2">
-        <h3 className="text-xl font-bold text-gray-900 break-words">{service.name}</h3>
+      <div className="flex justify-between items-start gap-3 mb-3">
+        <h3 className="text-xl font-bold text-stone-900 break-words">{service.name}</h3>
         {service.price ? (
-          <div className="text-xl font-bold text-green-600 whitespace-nowrap"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
+          <div className="text-xl font-bold text-brand-700 whitespace-nowrap"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
         ) : (
-          <div className="text-lg font-semibold text-blue-600 whitespace-nowrap">Custom Quote</div>
+          <div className="text-lg font-semibold text-accent-600 whitespace-nowrap">Custom Quote</div>
         )}
       </div>
-      <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+      <p className="text-stone-600 text-sm mb-5">{service.description}</p>
 
       {reviewCount > 0 && (
-        <div className="mb-4">
+        <div className="mb-5">
           <span className="text-yellow-500 font-semibold">★ {avgRating.toFixed(1)}</span>
-          <span className="text-xs text-gray-500 ml-1">({reviewCount} reviews)</span>
+          <span className="text-xs text-stone-500 ml-1">({reviewCount} reviews)</span>
         </div>
       )}
 
       <button
         onClick={(e) => { e.stopPropagation(); onSelect(); }}
-        className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+        className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
       >
         Select
       </button>

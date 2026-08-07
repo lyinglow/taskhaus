@@ -37,17 +37,17 @@ export default function BrowseServices({ onNavigate }) {
   };
 
   return (
-    <div className="container max-w-4xl py-8 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Available Services</h1>
-      <p className="text-gray-600 mb-8">Browse and book services from The Garden Unit team</p>
+    <div className="container max-w-4xl py-10 mx-auto px-4">
+      <h1 className="text-3xl font-bold text-stone-900 mb-2">Available Services</h1>
+      <p className="text-stone-600 mb-10">Browse and book services from The Garden Unit team</p>
 
       {loading ? (
         <div className="text-center py-8">Loading services...</div>
       ) : (
         <>
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Garden Services</h2>
-            <div className="grid gap-4 md:grid-cols-2">
+          <section className="mb-14">
+            <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden Services</h2>
+            <div className="grid gap-6 md:grid-cols-2">
               {gardenServices.map(service => (
                 <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
               ))}
@@ -55,9 +55,9 @@ export default function BrowseServices({ onNavigate }) {
           </section>
 
           {otherServices.length > 0 && (
-            <section className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Other Services</h2>
-              <div className="grid gap-4 md:grid-cols-2">
+            <section className="mb-14">
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Other Services</h2>
+              <div className="grid gap-6 md:grid-cols-2">
                 {otherServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
                 ))}
@@ -66,9 +66,9 @@ export default function BrowseServices({ onNavigate }) {
           )}
 
           {quoteServices.length > 0 && (
-            <section className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Quote-Based Services</h2>
-              <div className="grid gap-4 md:grid-cols-2">
+            <section className="mb-14">
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Quote-Based Services</h2>
+              <div className="grid gap-6 md:grid-cols-2">
                 {quoteServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
                 ))}

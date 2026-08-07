@@ -76,7 +76,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   return (
     <div className="grid gap-8 md:grid-cols-2">
       <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Add Service</h2>
+        <h2 className="text-xl font-bold text-stone-900 mb-4">Add Service</h2>
         <form onSubmit={handleAdd} className="space-y-4 bg-white p-6 rounded-lg shadow">
           <input
             type="text"
@@ -84,21 +84,21 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             onChange={(e) => setName(e.target.value)}
             placeholder="Service name"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Short description (shown on service cards)"
             rows={2}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <textarea
             value={longDescription}
             onChange={(e) => setLongDescription(e.target.value)}
             placeholder="Long description (shown on the booking/detail page)"
             rows={4}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <input
             type="number"
@@ -107,12 +107,12 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             placeholder="Price (£)"
             step="0.01"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           >
             <option value="garden">Garden Services</option>
             <option value="other">Other Services</option>
@@ -120,7 +120,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50"
+            className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50"
           >
             {loading ? 'Adding...' : 'Add Service'}
           </button>
@@ -128,12 +128,12 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       </div>
 
       <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Services ({services.length})</h2>
+        <h2 className="text-xl font-bold text-stone-900 mb-4">Services ({services.length})</h2>
         <div className="space-y-3">
           {services.map((service) => (
             <div
               key={service.id}
-              className="bg-white p-4 rounded-lg border border-gray-200"
+              className="bg-white p-5 rounded-lg border border-stone-200"
             >
               {editingId === service.id ? (
                 <div className="space-y-3">
@@ -141,33 +141,33 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     type="text"
                     value={editData.name || ''}
                     onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
                   <textarea
                     value={editData.description || ''}
                     onChange={(e) => setEditData({ ...editData, description: e.target.value })}
                     placeholder="Short description (shown on service cards)"
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
                   <textarea
                     value={editData.longDescription || ''}
                     onChange={(e) => setEditData({ ...editData, longDescription: e.target.value })}
                     placeholder="Long description (shown on the booking/detail page)"
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
                   <input
                     type="number"
                     value={editData.price || ''}
                     onChange={(e) => setEditData({ ...editData, price: e.target.value })}
                     step="0.01"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
                   <select
                     value={editData.category || 'garden'}
                     onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   >
                     <option value="garden">Garden Services</option>
                     <option value="other">Other Services</option>
@@ -176,13 +176,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     <button
                       onClick={() => handleUpdate(service.id)}
                       disabled={loading}
-                      className="flex-1 bg-green-600 text-white py-1 rounded text-sm font-semibold hover:bg-green-700 disabled:opacity-50"
+                      className="flex-1 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="flex-1 bg-gray-300 text-gray-700 py-1 rounded text-sm font-semibold hover:bg-gray-400"
+                      className="flex-1 bg-stone-300 text-stone-700 py-1 rounded text-sm font-semibold hover:bg-stone-400"
                     >
                       Cancel
                     </button>
@@ -191,13 +191,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
               ) : (
                 <>
                   <div className="flex justify-between items-start gap-2">
-                    <div className="font-semibold text-gray-900">{service.name}</div>
-                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full whitespace-nowrap">
+                    <div className="font-semibold text-stone-900">{service.name}</div>
+                    <span className="text-xs font-medium text-accent-700 bg-accent-50 px-2 py-1 rounded-full whitespace-nowrap">
                       {categoryLabel(service.category)}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">{service.description}</div>
-                  <div className="text-base font-bold text-gray-900 mt-2"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
+                  <div className="text-sm text-stone-600 mt-1">{service.description}</div>
+                  <div className="text-base font-bold text-stone-900 mt-2"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => {
@@ -210,7 +210,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           category: service.category || 'garden',
                         });
                       }}
-                      className="flex-1 bg-blue-600 text-white py-1 rounded text-sm font-semibold hover:bg-blue-700"
+                      className="flex-1 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
                     >
                       Edit
                     </button>

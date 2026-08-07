@@ -38,45 +38,45 @@ export default function BookJob({ onNavigate }) {
   if (success) {
     return (
       <div className="container max-w-2xl py-12 mx-auto px-4 text-center">
-        <div className="bg-green-50 p-8 rounded-lg border border-green-200">
+        <div className="bg-brand-50 p-8 rounded-lg border border-brand-200">
           <div className="text-4xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold text-green-700 mb-2">Request Submitted!</h2>
-          <p className="text-gray-600 mb-4">We'll review your request and send you a confirmation soon.</p>
-          <p className="text-sm text-gray-500">Redirecting to dashboard...</p>
+          <h2 className="text-2xl font-bold text-brand-700 mb-2">Request Submitted!</h2>
+          <p className="text-stone-600 mb-4">We'll review your request and send you a confirmation soon.</p>
+          <p className="text-sm text-stone-500">Redirecting to dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-2xl py-8 mx-auto px-4">
+    <div className="container max-w-2xl py-10 mx-auto px-4">
       <button
         type="button"
         onClick={() => onNavigate('browse-services')}
-        className="flex items-center gap-1 text-gray-600 hover:text-gray-900 font-medium mb-4 transition"
+        className="flex items-center gap-1 text-stone-600 hover:text-stone-900 font-medium mb-5 transition"
       >
         <span className="text-lg">←</span> Back to Services
       </button>
 
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">{selectedServiceName}</h1>
+      <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-stone-900 mb-2">{selectedServiceName}</h1>
         {selectedServiceLongDescription && (
-          <p className="text-gray-600 mb-2">{selectedServiceLongDescription}</p>
+          <p className="text-stone-600 mb-3">{selectedServiceLongDescription}</p>
         )}
         {selectedServicePrice && (
-          <p className="text-lg font-bold text-green-600 mb-4"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
+          <p className="text-lg font-bold text-brand-700 mb-5"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
         )}
-        <p className="text-gray-600 mb-6">Complete your booking request</p>
+        <p className="text-stone-600 mb-7">Complete your booking request</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Additional Details (optional)</label>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Additional Details (optional)</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Tell us any specific details or requirements..."
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
 
@@ -86,14 +86,14 @@ export default function BookJob({ onNavigate }) {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 transition"
+              className="flex-1 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
             >
               {loading ? 'Submitting...' : 'Submit Request'}
             </button>
             <button
               type="button"
               onClick={() => onNavigate('browse-services')}
-              className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+              className="flex-1 bg-stone-200 text-stone-700 py-2 rounded-lg font-semibold hover:bg-stone-300 transition"
             >
               Cancel
             </button>
