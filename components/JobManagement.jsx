@@ -42,7 +42,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
             {crew.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
           <input type="text" placeholder="Time window" value={formData.timeWindow || ''} onChange={(e) => setFormData({...formData, timeWindow: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
-          <input type="number" placeholder="Quote price" value={formData.quotedPrice || ''} onChange={(e) => setFormData({...formData, quotedPrice: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
+          <input type="number" step="0.01" placeholder="Quote price" value={formData.quotedPrice || ''} onChange={(e) => setFormData({...formData, quotedPrice: e.target.value})} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
           <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="w-full bg-green-600 text-white py-2 rounded font-semibold hover:bg-green-700">
             Confirm & Notify
           </button>

@@ -151,7 +151,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                 <>
                   <div className="font-semibold text-gray-900">{service.name}</div>
                   <div className="text-sm text-gray-600 mt-1">{service.description}</div>
-                  <div className="text-lg font-bold text-gray-900 mt-2">£{service.price}</div>
+                  <div className="text-lg font-bold text-gray-900 mt-2">£{Number(service.price).toFixed(2)}</div>
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => {

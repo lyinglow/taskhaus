@@ -8,6 +8,8 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
   const [age, setAge] = useState('');
   const [skills, setSkills] = useState('');
   const [loading, setLoading] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editData, setEditData] = useState({});
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -20,6 +22,29 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
       onCrewUpdated();
     } catch (err) {
       console.error('Failed to add crew:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const startEditing = (member) => {
+    setEditingId(member.id);
+    setEditData({ name: member.name, age: member.age || '', skills: member.skills || '' });
+  };
+
+  const handleUpdate = async (memberId) => {
+    setLoading(true);
+    try {
+      await api.patch(`/admin/crew/${memberId}`, {
+        name: editData.name,
+        age: editData.age ? parseInt(editData.age) : null,
+        skills: editData.skills,
+      });
+      setEditingId(null);
+      setEditData({});
+      onCrewUpdated();
+    } catch (err) {
+      console.error('Failed to update crew member:', err);
     } finally {
       setLoading(false);
     }
@@ -44,9 +69,57 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
         <div className="space-y-3">
           {crew.map(member => (
             <div key={member.id} className="bg-white p-4 rounded-lg border border-gray-200">
-              <div className="font-semibold text-gray-900">{member.name}</div>
-              <div className="text-sm text-gray-600">Age: {member.age || 'N/A'} • Services: {member.completedJobs || 0}</div>
-              {member.skills && <div className="text-sm text-gray-600 mt-1">{member.skills}</div>}
+              {editingId === member.id ? (
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={editData.name}
+                    onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  />
+                  <input
+                    type="number"
+                    value={editData.age}
+                    onChange={(e) => setEditData({ ...editData, age: e.target.value })}
+                    placeholder="Age"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  />
+                  <textarea
+                    value={editData.skills}
+                    onChange={(e) => setEditData({ ...editData, skills: e.target.value })}
+                    placeholder="Skills"
+                    rows={2}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleUpdate(member.id)}
+                      disabled={loading}
+                      className="flex-1 bg-green-600 text-white py-1 rounded text-sm font-semibold hover:bg-green-700 disabled:opacity-50"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="flex-1 bg-gray-300 text-gray-700 py-1 rounded text-sm font-semibold hover:bg-gray-400"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="font-semibold text-gray-900">{member.name}</div>
+                  <div className="text-sm text-gray-600">Age: {member.age || 'N/A'} • Services: {member.completedJobs || 0}</div>
+                  {member.skills && <div className="text-sm text-gray-600 mt-1">{member.skills}</div>}
+                  <button
+                    onClick={() => startEditing(member)}
+                    className="w-full bg-blue-600 text-white py-1 rounded text-sm font-semibold hover:bg-blue-700 mt-3"
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
             </div>
           ))}
         </div>
