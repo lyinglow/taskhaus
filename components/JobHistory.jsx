@@ -55,7 +55,7 @@ export default function JobHistory({ onNavigate }) {
               </div>
               {job.crewName && <div className="text-sm text-gray-600">Team Member: {job.crewName}</div>}
               {job.timeWindow && <div className="text-sm text-gray-600">Time: {job.timeWindow}</div>}
-              {job.finalPrice && <div className="text-lg font-bold text-gray-900">${job.finalPrice}</div>}
+              {job.finalPrice && <div className="text-lg font-bold text-gray-900">£{job.finalPrice}</div>}
               {job.status === 'completed' && !job.review && (
                 <button onClick={() => onNavigate(`review-${job.id}`)} className="mt-2 w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700">
                   Leave a Review

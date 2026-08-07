@@ -42,7 +42,7 @@ export default function Ledger() {
                 <tr key={row.id}>
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.name}</td>
                   <td className="px-6 py-4 text-sm text-gray-600">{row.jobs_completed}</td>
-                  <td className="px-6 py-4 text-sm font-semibold text-gray-900">${(row.earned || 0).toFixed(2)}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-gray-900">£{(row.earned || 0).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -57,7 +57,7 @@ export default function Ledger() {
             <div key={payment.id} className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="flex justify-between">
                 <div><div className="font-semibold text-gray-900">{payment.crewName}</div><div className="text-sm text-gray-600">{payment.serviceName}</div></div>
-                <div className="text-right"><div className="text-lg font-bold text-gray-900">${payment.amount.toFixed(2)}</div></div>
+                <div className="text-right"><div className="text-lg font-bold text-gray-900">£{payment.amount.toFixed(2)}</div></div>
               </div>
             </div>
           ))}

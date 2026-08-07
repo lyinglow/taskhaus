@@ -29,7 +29,7 @@ export default function ServiceCard({ service, onSelect }) {
       <div className="flex justify-between items-center mb-4">
         <div>
           {service.price ? (
-            <div className="text-2xl font-bold text-green-600">${service.price}</div>
+            <div className="text-2xl font-bold text-green-600">£{service.price}</div>
           ) : (
             <div className="text-lg font-semibold text-blue-600">Custom Quote</div>
           )}

@@ -63,7 +63,7 @@ export default function ParentDashboard({ onNavigate }) {
                     </div>
                     <div className="text-sm text-gray-600 mt-1">Status: {job.status}</div>
                     {job.status === 'quoted' && job.quotedPrice && (
-                      <div className="text-lg font-bold text-gray-900 mt-2">Quote: ${job.quotedPrice}</div>
+                      <div className="text-lg font-bold text-gray-900 mt-2">Quote: £{job.quotedPrice}</div>
                     )}
                   </div>
                 ))}
@@ -81,7 +81,7 @@ export default function ParentDashboard({ onNavigate }) {
                     <div className="text-sm text-gray-600 mt-1">Team Member: {job.crewName || 'TBD'}</div>
                     <div className="text-sm text-gray-600">Time: {job.timeWindow || 'TBD'}</div>
                     {job.finalPrice && (
-                      <div className="text-sm font-semibold text-gray-900 mt-2">Price: ${job.finalPrice}</div>
+                      <div className="text-sm font-semibold text-gray-900 mt-2">Price: £{job.finalPrice}</div>
                     )}
                   </div>
                 ))}
