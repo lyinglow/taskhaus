@@ -100,7 +100,7 @@ export default function Home() {
           </button>
           <div className="relative z-10 text-center mb-10">
             <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
-            <p className="text-xl text-stone-700">Local garden and home help, done right</p>
+            <p className="text-xl text-stone-700">Local garden and home help</p>
           </div>
           <div className="relative z-10 space-y-4 w-full max-w-sm">
             <button
