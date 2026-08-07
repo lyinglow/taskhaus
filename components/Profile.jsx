@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import api from '@/lib/api';
 
 export default function Profile({ onProfileUpdated }) {
@@ -62,7 +63,10 @@ export default function Profile({ onProfileUpdated }) {
   if (!profile) return <div className="container py-8">{error || 'Profile not found'}</div>;
 
   return (
-    <div className="container max-w-2xl py-10 mx-auto px-4">
+    <div className="min-h-screen px-4 py-10 relative overflow-hidden">
+      <Image src="/garden-mist-bg.png" alt="" fill className="object-cover -z-10 grayscale" sizes="100vw" />
+      <div className="absolute inset-0 bg-stone-50/70" />
+      <div className="relative z-10 max-w-2xl mx-auto">
       <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-stone-900 mb-6">My Profile</h1>
 
@@ -157,6 +161,7 @@ export default function Profile({ onProfileUpdated }) {
             </button>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

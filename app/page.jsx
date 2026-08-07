@@ -70,23 +70,7 @@ export default function Home() {
     } else if (page === 'admin-login') {
       return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} onCancel={() => setPage('home')} />;
     } else if (page === 'about') {
-      return (
-        <div className="min-h-screen px-4 py-12 relative overflow-hidden">
-          <Image src="/garden-mist-bg.png" alt="" fill className="object-cover -z-10 grayscale" sizes="100vw" />
-          <div className="absolute inset-0 bg-stone-50/70" />
-          <div className="relative z-10">
-            <About />
-            <div className="text-center">
-              <button
-                onClick={() => setPage('home')}
-                className="text-brand-700 hover:text-brand-800 font-medium"
-              >
-                ← Back
-              </button>
-            </div>
-          </div>
-        </div>
-      );
+      return <About onBack={() => setPage('home')} />;
     } else {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
