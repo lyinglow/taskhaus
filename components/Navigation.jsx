@@ -8,7 +8,7 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
   const links = isAdmin
     ? [{ label: 'Dashboard', page: 'admin-dashboard' }]
     : [
-        { label: 'Browse', page: 'browse-services' },
+        { label: 'Services', page: 'browse-services' },
         { label: 'My Services', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
         { label: 'About', page: 'about' },
