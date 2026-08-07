@@ -1,14 +1,22 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 
+function mask(str) {
+  if (!str) return null;
+  if (str.length <= 4) return '*'.repeat(str.length);
+  return str.slice(0, 2) + '*'.repeat(str.length - 4) + str.slice(-2);
+}
+
 export async function GET(req) {
   const adminPassword = req.headers.get('x-admin-password');
   const expected = process.env.ADMIN_PASSWORD;
   return NextResponse.json({
     envVarIsSet: typeof expected === 'string' && expected.length > 0,
     envVarLength: expected ? expected.length : 0,
+    envVarPreview: mask(expected),
     receivedHeader: adminPassword !== null,
     receivedLength: adminPassword ? adminPassword.length : 0,
+    receivedPreview: mask(adminPassword),
     matches: adminPassword === expected,
   });
 }
