@@ -48,7 +48,7 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
       <div className="absolute inset-0 bg-stone-50/50" />
       <div className="relative z-10 bg-white p-8 sm:p-10 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-stone-900 mb-2">Create Account</h2>
-        <p className="text-stone-600 mb-8">Join us to book professional services</p>
+        <p className="text-stone-600 mb-8">Join us to book garden and home help</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>

@@ -10,7 +10,7 @@ export default function About() {
           <p>
             The Garden Unit is a local neighbourhood service run and managed by a small
             team of young entrepreneurs aged 12 and up. What started as a way to earn
-            some extra money has grown into a professional, reliable service trusted by
+            some extra money has grown into a trusted, reliable helping hand for
             local families.
           </p>
           <p>

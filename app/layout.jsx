@@ -17,7 +17,7 @@ const inter = Inter({
 
 export const metadata = {
   title: 'The Garden Unit',
-  description: 'Professional service management platform',
+  description: 'Local garden and home help, booked easily',
 };
 
 export default function RootLayout({ children }) {
