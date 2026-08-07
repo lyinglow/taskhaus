@@ -9,6 +9,7 @@ import BrowseServices from '@/components/BrowseServices';
 import BookJob from '@/components/BookJob';
 import JobHistory from '@/components/JobHistory';
 import ReviewJob from '@/components/ReviewJob';
+import Profile from '@/components/Profile';
 import Navigation from '@/components/Navigation';
 
 export default function Home() {
@@ -30,6 +31,10 @@ export default function Home() {
     }
     setLoading(false);
   }, []);
+
+  const handleProfileUpdated = (newName) => {
+    setUser((prev) => ({ ...prev, name: newName }));
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -101,6 +106,7 @@ export default function Home() {
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}
+        {page === 'profile' && <Profile onProfileUpdated={handleProfileUpdated} />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
         {page === 'admin-dashboard' && <AdminDashboard onNavigate={setPage} />}
       </div>

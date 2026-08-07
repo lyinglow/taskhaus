@@ -10,6 +10,7 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
     : [
         { label: 'Browse', page: 'browse-services' },
         { label: 'My Services', page: 'job-history' },
+        { label: 'Profile', page: 'profile' },
       ];
 
   const go = (page) => {

@@ -1,0 +1,163 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import api from '@/lib/api';
+
+export default function Profile({ onProfileUpdated }) {
+  const [profile, setProfile] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const response = await api.get('/customer/profile');
+      setProfile(response.data);
+    } catch (err) {
+      setError('Failed to load profile');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const startEditing = () => {
+    setFormData({
+      name: profile.name,
+      email: profile.email,
+      phone: profile.phone || '',
+      address: profile.address || ''
+    });
+    setError('');
+    setSuccess(false);
+    setEditing(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSaving(true);
+
+    try {
+      const response = await api.patch('/customer/profile', formData);
+      setProfile(response.data);
+      localStorage.setItem('userName', response.data.name);
+      setEditing(false);
+      setSuccess(true);
+      if (onProfileUpdated) onProfileUpdated(response.data.name);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to update profile');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div className="container py-8">Loading...</div>;
+  if (!profile) return <div className="container py-8">{error || 'Profile not found'}</div>;
+
+  return (
+    <div className="container max-w-2xl py-8 mx-auto px-4">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">My Profile</h1>
+
+        {success && !editing && (
+          <div className="bg-green-50 text-green-700 p-3 rounded-lg text-sm mb-6">Profile updated successfully.</div>
+        )}
+
+        {editing ? (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+              <input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+              <input
+                type="text"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">{error}</div>}
+
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 transition"
+              >
+                {saving ? 'Saving...' : 'Save Changes'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditing(false)}
+                className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="space-y-4">
+            <div>
+              <div className="text-sm font-medium text-gray-500">Full Name</div>
+              <div className="text-gray-900">{profile.name}</div>
+            </div>
+            <div>
+              <div className="text-sm font-medium text-gray-500">Email</div>
+              <div className="text-gray-900">{profile.email}</div>
+            </div>
+            <div>
+              <div className="text-sm font-medium text-gray-500">Phone</div>
+              <div className="text-gray-900">{profile.phone || 'Not provided'}</div>
+            </div>
+            <div>
+              <div className="text-sm font-medium text-gray-500">Address</div>
+              <div className="text-gray-900">{profile.address || 'Not provided'}</div>
+            </div>
+
+            <button
+              onClick={startEditing}
+              className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition mt-2"
+            >
+              Edit Profile
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
