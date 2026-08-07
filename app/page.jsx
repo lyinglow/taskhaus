@@ -9,6 +9,7 @@ import BookJob from '@/components/BookJob';
 import JobHistory from '@/components/JobHistory';
 import ReviewJob from '@/components/ReviewJob';
 import Profile from '@/components/Profile';
+import About from '@/components/About';
 import Navigation from '@/components/Navigation';
 
 export default function Home() {
@@ -67,6 +68,20 @@ export default function Home() {
       return <Register onRegister={handleLogin} onSwitchPage={() => setPage('login')} />;
     } else if (page === 'admin-login') {
       return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} />;
+    } else if (page === 'about') {
+      return (
+        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 px-4 py-8">
+          <About />
+          <div className="text-center">
+            <button
+              onClick={() => setPage('home')}
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              ← Back
+            </button>
+          </div>
+        </div>
+      );
     } else {
       return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex flex-col items-center justify-center px-4">
@@ -93,6 +108,12 @@ export default function Home() {
             >
               Admin Login
             </button>
+            <button
+              onClick={() => setPage('about')}
+              className="w-full text-blue-600 hover:text-blue-700 font-medium py-2 transition"
+            >
+              About Us
+            </button>
           </div>
         </div>
       );
@@ -107,6 +128,7 @@ export default function Home() {
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}
         {page === 'profile' && <Profile onProfileUpdated={handleProfileUpdated} />}
+        {page === 'about' && <About />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
         {page === 'admin-dashboard' && <AdminDashboard onNavigate={setPage} />}
       </div>
