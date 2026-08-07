@@ -124,7 +124,7 @@ export default function Profile({ onProfileUpdated }) {
               <button
                 type="button"
                 onClick={() => setEditing(false)}
-                className="flex-1 bg-stone-200 text-stone-700 py-2 rounded-lg font-semibold hover:bg-stone-300 transition"
+                className="flex-1 bg-accent-600 text-white py-2 rounded-full font-bold hover:bg-accent-700 transition"
               >
                 Cancel
               </button>
