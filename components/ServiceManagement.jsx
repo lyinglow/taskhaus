@@ -7,9 +7,12 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [category, setCategory] = useState('garden');
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+
+  const categoryLabel = (value) => (value === 'other' ? 'Other Services' : 'Garden Services');
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -19,11 +22,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         name,
         description,
         serviceType: 'fixed',
+        category,
         price: parseFloat(price),
       });
       setName('');
       setDescription('');
       setPrice('');
+      setCategory('garden');
       onServicesUpdated();
     } catch (err) {
       console.error('Failed to add service:', err);
@@ -39,6 +44,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         name: editData.name,
         description: editData.description,
         price: parseFloat(editData.price),
+        category: editData.category,
       });
       setEditingId(null);
       setEditData({});
@@ -92,6 +98,14 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
           />
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+          >
+            <option value="garden">Garden Services</option>
+            <option value="other">Other Services</option>
+          </select>
           <button
             type="submit"
             disabled={loading}
@@ -131,6 +145,14 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     step="0.01"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                   />
+                  <select
+                    value={editData.category || 'garden'}
+                    onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                  >
+                    <option value="garden">Garden Services</option>
+                    <option value="other">Other Services</option>
+                  </select>
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(service.id)}
@@ -149,7 +171,12 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                 </div>
               ) : (
                 <>
-                  <div className="font-semibold text-gray-900">{service.name}</div>
+                  <div className="flex justify-between items-start gap-2">
+                    <div className="font-semibold text-gray-900">{service.name}</div>
+                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full whitespace-nowrap">
+                      {categoryLabel(service.category)}
+                    </span>
+                  </div>
                   <div className="text-sm text-gray-600 mt-1">{service.description}</div>
                   <div className="text-lg font-bold text-gray-900 mt-2">£{Number(service.price).toFixed(2)}</div>
                   <div className="flex gap-2 mt-3">
@@ -160,6 +187,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           name: service.name,
                           description: service.description,
                           price: service.price,
+                          category: service.category || 'garden',
                         });
                       }}
                       className="flex-1 bg-blue-600 text-white py-1 rounded text-sm font-semibold hover:bg-blue-700"

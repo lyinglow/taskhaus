@@ -26,6 +26,7 @@ async function main() {
       name: 'Loco shop pickup',
       description: 'Pick up and deliver items from Loco shop',
       serviceType: 'fixed',
+      category: 'other',
       price: 15,
     },
     {
@@ -50,6 +51,7 @@ async function main() {
       name: 'Locker delivery/pickup',
       description: 'Deliver or pickup items from locker location',
       serviceType: 'fixed',
+      category: 'other',
       price: 15,
     },
     {

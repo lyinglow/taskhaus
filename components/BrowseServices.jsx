@@ -23,10 +23,8 @@ export default function BrowseServices({ onNavigate }) {
     }
   };
 
-  const OTHER_SERVICE_NAMES = ['Loco shop pickup', 'Locker delivery/pickup'];
-
-  const fixedServices = services.filter(s => s.serviceType === 'fixed' && !OTHER_SERVICE_NAMES.includes(s.name));
-  const otherServices = services.filter(s => s.serviceType === 'fixed' && OTHER_SERVICE_NAMES.includes(s.name));
+  const gardenServices = services.filter(s => s.serviceType === 'fixed' && s.category !== 'other');
+  const otherServices = services.filter(s => s.serviceType === 'fixed' && s.category === 'other');
   const quoteServices = services.filter(s => s.serviceType === 'quote');
 
   const selectService = (service) => {
@@ -47,8 +45,9 @@ export default function BrowseServices({ onNavigate }) {
       ) : (
         <>
           <section className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Garden Services</h2>
             <div className="grid gap-4 md:grid-cols-2">
-              {fixedServices.map(service => (
+              {gardenServices.map(service => (
                 <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
               ))}
             </div>

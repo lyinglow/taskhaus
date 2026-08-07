@@ -41,6 +41,7 @@ model Service {
   name      String
   description String?
   serviceType String @default("fixed") // "fixed" or "quote"
+  category  String  @default("garden") // "garden" or "other"
   price     Float?
   isActive  Boolean @default(true)
   createdAt DateTime @default(now())
