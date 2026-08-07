@@ -30,7 +30,7 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage, onCancel
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
-      <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10" sizes="100vw" />
+      <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10 grayscale" sizes="100vw" />
       <div className="absolute inset-0 bg-stone-50/50" />
       <div className="relative z-10 bg-white p-8 sm:p-10 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-stone-900 mb-2">

@@ -72,7 +72,7 @@ export default function Home() {
     } else if (page === 'about') {
       return (
         <div className="min-h-screen px-4 py-12 relative overflow-hidden">
-          <Image src="/garden-mist-bg.png" alt="" fill className="object-cover -z-10" sizes="100vw" />
+          <Image src="/garden-mist-bg.png" alt="" fill className="object-cover -z-10 grayscale" sizes="100vw" />
           <div className="absolute inset-0 bg-stone-50/70" />
           <div className="relative z-10">
             <About />
@@ -90,7 +90,7 @@ export default function Home() {
     } else {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
-          <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10" sizes="100vw" />
+          <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10 grayscale" sizes="100vw" />
           <div className="absolute inset-0 bg-stone-50/60" />
           <div className="relative z-10 text-center mb-10">
             <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
