@@ -105,7 +105,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => setPage('register')}
-              className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition"
+              className="w-full bg-accent-600 text-white py-3 rounded-full font-bold hover:bg-accent-700 transition"
             >
               Customer Sign Up
             </button>
