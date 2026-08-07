@@ -106,6 +106,15 @@ Current UI uses a couple of raw emoji (📋 📝) as icons. Recommend a real out
 - **Wordmark:** "The Garden Unit" set in Outfit Bold, `brand-700`.
 - **Icon mark** (favicon / app icon): a simple monoline leaf or spade silhouette in a rounded square — `brand-50` mark on `brand-600` fill for the app icon; `brand-600` mark on transparent/white for inline use.
 
+## 7b. Key-Page Hero Imagery
+
+Full-bleed photographic background on the landing, About, Login, and Register screens — same technique as a reference bike-brand site: a moody, desaturated/misty photo fills the viewport, a sharp full-colour foreground element (the white content card, or the wordmark) sits on top, with a light `stone-50` wash (opacity 50–70%, heavier on About/landing where more body text sits directly on the photo, lighter on Login/Register where a white card carries the contrast) between the two so nothing overlaid on bare photo drops below AA contrast.
+
+- Source image: `public/garden-mist-bg.png` — a misty English garden (hedges, gravel path, stone archway), generated to match the reference's grey-green fog and empty-space-for-a-mark composition.
+- Implementation: `next/image` with `fill` + `object-cover`, not a raw CSS `background-image` — gets automatic resizing/WebP-AVIF/responsive serving from Vercel's image pipeline rather than shipping the full source file to every device.
+- Decorative only: `alt=""`, doesn't compete with the real content for screen-reader attention.
+- Deliberately **not** applied to logged-in dashboard/data screens (Browse Services, Current Tasks, Admin, etc.) — those are utilitarian and dense; a photo background there would fight the content rather than frame it.
+
 ## 8. Applied Status
 
 **Live as of this revision** — every component has been swept from default Tailwind `blue-*`/`green-*`/`gray-*` to this system:

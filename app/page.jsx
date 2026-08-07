@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
 import AdminDashboard from '@/components/AdminDashboard';
@@ -70,26 +71,32 @@ export default function Home() {
       return <Login isAdmin={true} onLogin={handleLogin} onSwitchPage={() => setPage('home')} onCancel={() => setPage('home')} />;
     } else if (page === 'about') {
       return (
-        <div className="min-h-screen bg-gradient-to-b from-brand-50 to-brand-100 px-4 py-12">
-          <About />
-          <div className="text-center">
-            <button
-              onClick={() => setPage('home')}
-              className="text-brand-700 hover:text-brand-800 font-medium"
-            >
-              ← Back
-            </button>
+        <div className="min-h-screen px-4 py-12 relative overflow-hidden">
+          <Image src="/garden-mist-bg.png" alt="" fill className="object-cover -z-10" sizes="100vw" />
+          <div className="absolute inset-0 bg-stone-50/70" />
+          <div className="relative z-10">
+            <About />
+            <div className="text-center">
+              <button
+                onClick={() => setPage('home')}
+                className="text-brand-700 hover:text-brand-800 font-medium"
+              >
+                ← Back
+              </button>
+            </div>
           </div>
         </div>
       );
     } else {
       return (
-        <div className="min-h-screen bg-gradient-to-b from-brand-50 to-brand-100 flex flex-col items-center justify-center px-4">
-          <div className="text-center mb-10">
+        <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
+          <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10" sizes="100vw" />
+          <div className="absolute inset-0 bg-stone-50/60" />
+          <div className="relative z-10 text-center mb-10">
             <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
-            <p className="text-xl text-stone-600">Professional service management</p>
+            <p className="text-xl text-stone-700">Professional service management</p>
           </div>
-          <div className="space-y-4 w-full max-w-sm">
+          <div className="relative z-10 space-y-4 w-full max-w-sm">
             <button
               onClick={() => setPage('login')}
               className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition"

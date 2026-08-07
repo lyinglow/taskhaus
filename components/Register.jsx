@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import api from '@/lib/api';
 
 export default function Register({ onRegister, onSwitchPage, onCancel }) {
@@ -42,8 +43,10 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-brand-50 to-brand-100 flex items-center justify-center px-4 py-10">
-      <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 relative overflow-hidden">
+      <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10" sizes="100vw" />
+      <div className="absolute inset-0 bg-stone-50/50" />
+      <div className="relative z-10 bg-white p-8 sm:p-10 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-stone-900 mb-2">Create Account</h2>
         <p className="text-stone-600 mb-8">Join us to book professional services</p>
 
