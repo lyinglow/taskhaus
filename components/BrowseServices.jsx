@@ -45,6 +45,8 @@ export default function BrowseServices({ onNavigate }) {
                   onSelect={() => {
                     localStorage.setItem('selectedServiceId', service.id);
                     localStorage.setItem('selectedServiceName', service.name);
+                    localStorage.setItem('selectedServiceDescription', service.description || '');
+                    localStorage.setItem('selectedServicePrice', service.price ?? '');
                     onNavigate('book-job');
                   }}
                 />
@@ -62,6 +64,8 @@ export default function BrowseServices({ onNavigate }) {
                   onSelect={() => {
                     localStorage.setItem('selectedServiceId', service.id);
                     localStorage.setItem('selectedServiceName', service.name);
+                    localStorage.setItem('selectedServiceDescription', service.description || '');
+                    localStorage.setItem('selectedServicePrice', service.price ?? '');
                     onNavigate('book-job');
                   }}
                 />

@@ -6,6 +6,8 @@ import api from '@/lib/api';
 export default function BookJob({ onNavigate }) {
   const selectedServiceId = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceId') : null;
   const selectedServiceName = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceName') : null;
+  const selectedServiceDescription = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceDescription') : null;
+  const selectedServicePrice = typeof window !== 'undefined' ? localStorage.getItem('selectedServicePrice') : null;
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -48,8 +50,22 @@ export default function BookJob({ onNavigate }) {
 
   return (
     <div className="container max-w-2xl py-8 mx-auto px-4">
+      <button
+        type="button"
+        onClick={() => onNavigate('browse-services')}
+        className="flex items-center gap-1 text-gray-600 hover:text-gray-900 font-medium mb-4 transition"
+      >
+        <span className="text-lg">←</span> Back to Services
+      </button>
+
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">{selectedServiceName}</h1>
+        {selectedServiceDescription && (
+          <p className="text-gray-600 mb-2">{selectedServiceDescription}</p>
+        )}
+        {selectedServicePrice && (
+          <p className="text-xl font-bold text-green-600 mb-4">£{selectedServicePrice}</p>
+        )}
         <p className="text-gray-600 mb-6">Complete your booking request</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
