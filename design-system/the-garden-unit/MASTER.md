@@ -1,6 +1,6 @@
 # The Garden Unit — Design System (Master)
 
-> Authored directly from design reasoning and the current live app (Next.js + Tailwind, mobile-first booking platform). The `ui-ux-pro-max` skill's search database/scripts were not present in this environment, so this is **not** a database match — it's a considered brand system built for this specific product: a local, youth-run (12+, adult-supervised) garden and property service in the UK.
+> Authored directly from design reasoning and the current live app (Next.js + Tailwind, mobile-first booking platform). The `ui-ux-pro-max` skill's search database/scripts were not present in this environment, so this is **not** a database match — it's a considered brand system built for this specific product: a local, youth-run (12+, adult-supervised) garden and property service in the UK. Two anchor colours were pulled directly from weweed.co.uk's shipped CSS (`--primary-color`, `--logo-name-color`), then built out into full scales — see §2.
 
 ## 1. Brand Positioning
 
@@ -8,42 +8,42 @@
 
 **Statement:** *The Garden Unit is your neighbourhood's trusted garden and property care service — professional results, delivered by a motivated local team, with every job overseen for quality and safety.*
 
-The brand has to do two things at once that pull in different directions: read as **credible enough that a stranger hands over their address and card details**, while staying **warm and local, not corporate**. Resolve this with a confident green (trust, growth, "professional garden company") as the dominant colour, and a small warm accent (soil/terracotta) used sparingly to keep it human rather than sterile-SaaS.
+The brand has to do two things at once that pull in different directions: read as **credible enough that a stranger hands over their address and card details**, while staying **warm and local, not corporate**. Resolve this with a muted sage green (trust, growth, foliage) as the dominant colour, and a dusty rose accent used sparingly — the pairing reads as an actual English garden (roses among sage/lavender foliage) rather than a generic "green = eco" cliché.
 
 ## 2. Colour System
 
-Two custom scales replace the current default-blue `brand` token in `tailwind.config.js`, plus a warm neutral to replace cool Tailwind gray.
+Two custom scales replace the current default-blue `brand` token in `tailwind.config.js`, plus a warm neutral to replace cool Tailwind gray. The `brand-500` and `accent-500` anchors below are pulled directly from **weweed.co.uk**'s production CSS (`--logo-name-color: #7e974a` / `--secondary-hover: #779552` and `--primary-color: #c26994` / `--primary-hover: #a04d7a`), with the rest of each scale built out around them.
 
-### Primary — Garden Green (`brand`)
+### Primary — Garden Sage (`brand`)
 Primary actions, links, nav, focus states — the "trust" colour.
 
 | Token | Hex | Usage |
 |---|---|---|
-| brand-50 | `#F0FAF4` | subtle backgrounds, success banners |
-| brand-100 | `#DAF2E3` | hover backgrounds |
-| brand-200 | `#B3E5C7` | borders on light surfaces |
-| brand-300 | `#82D3A4` | disabled/muted accents |
-| brand-400 | `#4FB87D` | icons, secondary emphasis |
-| brand-500 | `#2E9960` | mid-tone, chart/illustration use |
-| **brand-600** | **`#1F7A4D`** | **primary buttons, links, active nav** (≈4.7:1 white text — passes AA) |
-| brand-700 | `#185F3D` | hover/pressed state on buttons |
-| brand-800 | `#14492F` | headings on light bg where extra weight needed |
-| brand-900 | `#103A26` | rarely used, max-contrast text |
+| brand-50 | `#F6F8F0` | subtle backgrounds, success banners |
+| brand-100 | `#E9EFDC` | hover backgrounds |
+| brand-200 | `#D3E0BA` | borders on light surfaces |
+| brand-300 | `#B7CE90` | disabled/muted accents |
+| brand-400 | `#9BBA68` | icons, secondary emphasis |
+| **brand-500** | **`#7E974A`** | **sourced from weweed.co.uk `--logo-name-color`** — mid-tone, illustration use |
+| **brand-600** | **`#647A3B`** | **primary buttons, links, active nav** (≈4.8:1 white text — passes AA) |
+| brand-700 | `#4F6130` | hover/pressed state on buttons |
+| brand-800 | `#3F4D27` | headings on light bg where extra weight needed |
+| brand-900 | `#333F20` | rarely used, max-contrast text |
 
-### Accent — Terracotta (`accent`)
+### Accent — Dusty Rose (`accent`)
 Used *sparingly*: badges, highlights, secondary CTA, illustration warmth. Never the dominant colour on a screen.
 
 | Token | Hex | Usage |
 |---|---|---|
-| accent-50 | `#FDF4EC` | badge backgrounds |
-| accent-100 | `#FAE3CC` | |
-| accent-300 | `#EBA35A` | |
-| **accent-500** | **`#D9761F`** | **badges, secondary highlight, "Other Services" tag alt** |
-| accent-600 | `#B85F16` | text on accent-50 bg |
-| accent-700 | `#8F4912` | |
+| accent-50 | `#FBF2F6` | badge backgrounds |
+| accent-100 | `#F5DCE7` | |
+| accent-300 | `#DC90B4` | |
+| **accent-500** | **`#C26994`** | **sourced from weweed.co.uk `--primary-color`** — badges, secondary highlight |
+| **accent-600** | **`#A04D7A`** | **sourced from weweed.co.uk `--primary-hover`** — text on accent-50 bg, pressed state |
+| accent-700 | `#833D63` | |
 
 ### Neutral — Warm Stone (`stone`)
-Replaces cool `gray-*` for backgrounds/borders/body text — pairs better with green + terracotta than blue-leaning grays do.
+Replaces cool `gray-*` for backgrounds/borders/body text — pairs better with sage + dusty rose than blue-leaning grays do.
 
 | Token | Hex |
 |---|---|
@@ -61,7 +61,7 @@ Replaces cool `gray-*` for backgrounds/borders/body text — pairs better with g
 - Error: `red-600` `#DC2626`
 - Star ratings: keep `yellow-400` — universal convention, don't rebrand it
 
-**Anti-pattern:** don't let terracotta become the primary CTA colour — it's a highlight, not the trust colour. Don't mix warm `stone` and cool `gray` on the same screen once adopted; pick one.
+**Anti-pattern:** don't let dusty rose become the primary CTA colour — it's a highlight, not the trust colour. Don't mix warm `stone` and cool `gray` on the same screen once adopted; pick one.
 
 ## 3. Typography
 
@@ -71,6 +71,8 @@ Mobile-first, and the app displays a lot of currency (`£12.50`) and short label
 - **Body/UI:** **Inter** (400/500/600) — excellent at 14–16px, well-hinted tabular numerals (good for prices), the de facto standard for product UI so it won't feel like a "designed" font fighting the interface.
 
 Both are free on Google Fonts, self-hostable via `next/font`.
+
+*Note: weweed.co.uk pairs a grotesk sans (Onest) with a bold serif (Recoleta) for headline personality. Recoleta isn't free/open, so it's not adopted here, but if more editorial character is wanted later, a free equivalent like **Fraunces** (warm, slightly organic serif) paired with Inter would land in the same spirit without the licensing cost.*
 
 ### Type scale (base 16px, mobile-first)
 | Token | Size / Line-height | Use |
@@ -111,14 +113,14 @@ The live app currently uses default Tailwind `blue-600` for primary buttons/link
 - `blue-600` → `brand-600` (primary buttons, links, active nav state, focus rings)
 - existing `green-600` (confirm/success buttons) → also `brand-600` (they become the same colour family, which is intentional — currently blue-for-primary and green-for-success sit oddly close together)
 - `gray-*` → `stone-*` (backgrounds, borders, body text)
-- new: `accent-500` terracotta introduced for badges/highlights (e.g. the "Garden Services" / "Other Services" category pills, star-review counts)
+- new: `accent-500` dusty rose introduced for badges/highlights (e.g. the "Garden Services" / "Other Services" category pills, star-review counts)
 
 **This has not been applied to the live components yet** — this file is the source of truth to build from. Say the word and I'll re-skin the app to match (swap the Tailwind config, then sweep `blue-600`/`gray-*` usages across components).
 
 ## 9. Anti-Patterns (don't do these)
 
 - Emoji as primary icons in shipped UI
-- A third brand colour beyond green + terracotta
+- A third brand colour beyond sage + dusty rose
 - Mixing warm `stone` and cool `gray` once this is adopted
 - Decorative animation with no functional purpose
-- Terracotta as a primary button colour (it's a highlight, not the trust colour)
+- Dusty rose as a primary button colour (it's a highlight, not the trust colour)
