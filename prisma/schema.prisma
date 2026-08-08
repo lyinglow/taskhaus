@@ -17,6 +17,8 @@ model Parent {
   phone     String?
   address   String?
   passwordHash String
+  marketingOptIn   Boolean   @default(false)
+  marketingOptInAt DateTime?
   createdAt DateTime @default(now())
 
   jobs     Job[]

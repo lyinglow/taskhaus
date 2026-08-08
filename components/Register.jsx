@@ -11,6 +11,7 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +32,8 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
         email,
         password,
         phone,
-        address
+        address,
+        marketingOptIn
       });
 
       onRegister(response.data.token, response.data.customerId, response.data.name);
@@ -114,6 +116,16 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
               required
             />
           </div>
+
+          <label className="flex items-start gap-2 text-sm text-stone-600">
+            <input
+              type="checkbox"
+              checked={marketingOptIn}
+              onChange={(e) => setMarketingOptIn(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-stone-300 text-brand-600 focus:ring-brand-500"
+            />
+            Yes, I'd like to hear about new services and offers by email
+          </label>
 
           {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">{error}</div>}
 

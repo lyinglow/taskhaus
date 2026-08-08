@@ -33,7 +33,8 @@ export default function Profile({ onProfileUpdated }) {
       name: profile.name,
       email: profile.email,
       phone: profile.phone || '',
-      address: profile.address || ''
+      address: profile.address || '',
+      marketingOptIn: profile.marketingOptIn || false
     });
     setError('');
     setSuccess(false);
@@ -115,6 +116,16 @@ export default function Profile({ onProfileUpdated }) {
               />
             </div>
 
+            <label className="flex items-start gap-2 text-sm text-stone-600">
+              <input
+                type="checkbox"
+                checked={formData.marketingOptIn}
+                onChange={(e) => setFormData({ ...formData, marketingOptIn: e.target.checked })}
+                className="mt-0.5 h-4 w-4 rounded border-stone-300 text-brand-600 focus:ring-brand-500"
+              />
+              Send me emails about new services and offers
+            </label>
+
             {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">{error}</div>}
 
             <div className="flex gap-4">
@@ -151,6 +162,10 @@ export default function Profile({ onProfileUpdated }) {
             <div>
               <div className="text-sm font-medium text-stone-500">Address</div>
               <div className="text-stone-900">{profile.address || 'Not provided'}</div>
+            </div>
+            <div>
+              <div className="text-sm font-medium text-stone-500">Marketing Emails</div>
+              <div className="text-stone-900">{profile.marketingOptIn ? 'Subscribed' : 'Not subscribed'}</div>
             </div>
 
             <button

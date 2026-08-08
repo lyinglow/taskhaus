@@ -19,7 +19,7 @@ export async function GET(req) {
 
     const customer = await prisma.parent.findUnique({
       where: { id: customerId },
-      select: { id: true, name: true, email: true, phone: true, address: true }
+      select: { id: true, name: true, email: true, phone: true, address: true, marketingOptIn: true }
     });
 
     if (!customer) {
@@ -40,7 +40,7 @@ export async function PATCH(req) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { name, email, phone, address } = await req.json();
+    const { name, email, phone, address, marketingOptIn } = await req.json();
 
     if (!name || !email) {
       return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
@@ -51,15 +51,22 @@ export async function PATCH(req) {
       return NextResponse.json({ error: 'Email already in use' }, { status: 409 });
     }
 
+    const current = await prisma.parent.findUnique({ where: { id: customerId }, select: { marketingOptIn: true } });
+    const optInChanged = marketingOptIn !== undefined && marketingOptIn !== current.marketingOptIn;
+
     const updated = await prisma.parent.update({
       where: { id: customerId },
       data: {
         name,
         email,
         phone: phone || null,
-        address: address || null
+        address: address || null,
+        ...(marketingOptIn !== undefined && {
+          marketingOptIn: !!marketingOptIn,
+          ...(optInChanged && { marketingOptInAt: marketingOptIn ? new Date() : null })
+        })
       },
-      select: { id: true, name: true, email: true, phone: true, address: true }
+      select: { id: true, name: true, email: true, phone: true, address: true, marketingOptIn: true }
     });
 
     return NextResponse.json(updated);
