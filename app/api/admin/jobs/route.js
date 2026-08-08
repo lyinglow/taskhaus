@@ -32,6 +32,7 @@ export async function GET(req) {
       customerName: job.parent.name,
       customerEmail: job.parent.email,
       customerPhone: job.parent.phone,
+      customerAddress: job.parent.address,
       serviceName: job.service?.name,
       crewName: job.crewMember?.name
     }));

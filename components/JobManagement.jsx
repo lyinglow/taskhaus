@@ -6,10 +6,12 @@ import api from '@/lib/api';
 export default function JobManagement({ jobs, crew, onJobUpdated }) {
   const [editingJob, setEditingJob] = useState(null);
   const [formData, setFormData] = useState({});
+  const [expandedCustomer, setExpandedCustomer] = useState(null);
 
-  const pendingJobs = jobs.filter(j => j.status === 'pending' || j.status === 'quoted');
-  const confirmedJobs = jobs.filter(j => j.status === 'confirmed');
-  const completedJobs = jobs.filter(j => j.status === 'completed');
+  const getStatusLabel = (status) => {
+    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', completed: 'Completed' };
+    return labels[status] || status;
+  };
 
   const handleStatusChange = async (jobId, newStatus) => {
     try {
@@ -26,17 +28,40 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
     }
   };
 
+  const customers = Object.values(
+    jobs.reduce((acc, job) => {
+      if (!acc[job.parentId]) {
+        acc[job.parentId] = {
+          parentId: job.parentId,
+          customerName: job.customerName,
+          customerEmail: job.customerEmail,
+          customerAddress: job.customerAddress,
+          jobs: [],
+        };
+      }
+      acc[job.parentId].jobs.push(job);
+      return acc;
+    }, {})
+  ).sort((a, b) => {
+    const aPending = a.jobs.some(j => j.status === 'pending' || j.status === 'quoted');
+    const bPending = b.jobs.some(j => j.status === 'pending' || j.status === 'quoted');
+    if (aPending !== bPending) return aPending ? -1 : 1;
+    return a.customerName.localeCompare(b.customerName);
+  });
+
   const JobRow = ({ job }) => (
-    <div key={job.id} className="bg-white p-5 rounded-lg border border-stone-200 mb-3">
+    <div className="bg-stone-50 p-4 rounded-lg border border-stone-200 mb-3">
       <div className="flex justify-between items-start mb-2">
         <div>
           <h3 className="font-bold text-stone-900">Service #{job.id}</h3>
-          <p className="text-sm text-stone-600">{job.customerName} • {job.customerEmail}</p>
           <p className="text-sm text-stone-600">{job.serviceName || job.customRequest}</p>
         </div>
+        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800 whitespace-nowrap">
+          {getStatusLabel(job.status)}
+        </span>
       </div>
       {editingJob === job.id ? (
-        <div className="space-y-3 bg-stone-50 p-4 rounded mt-4">
+        <div className="space-y-3 bg-white p-4 rounded mt-4">
           <select value={formData.crewMemberId || ''} onChange={(e) => setFormData({...formData, crewMemberId: e.target.value})} className="w-full px-3 py-2 border border-stone-300 rounded-lg">
             <option value="">Select team member...</option>
             {crew.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -60,19 +85,44 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   );
 
   return (
-    <div className="space-y-10">
-      <section>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Pending Services</h2>
-        {pendingJobs.length === 0 ? <p className="text-stone-600">No pending services</p> : pendingJobs.map(job => <JobRow key={job.id} job={job} />)}
-      </section>
-      <section>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Confirmed Services</h2>
-        {confirmedJobs.length === 0 ? <p className="text-stone-600">No confirmed services</p> : confirmedJobs.map(job => <JobRow key={job.id} job={job} />)}
-      </section>
-      <section>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Completed Services</h2>
-        {completedJobs.length === 0 ? <p className="text-stone-600">No completed services</p> : completedJobs.map(job => <div key={job.id} className="bg-brand-50 p-4 rounded-lg border border-brand-200 text-sm"><div className="font-semibold">Service #{job.id}</div><div className="text-stone-600">{job.serviceName} • {job.customerName}</div></div>)}
-      </section>
+    <div className="space-y-3">
+      {customers.length === 0 ? (
+        <p className="text-stone-600">No requests yet</p>
+      ) : (
+        customers.map(customer => {
+          const pendingCount = customer.jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
+          const isExpanded = expandedCustomer === customer.parentId;
+
+          return (
+            <div key={customer.parentId} className="bg-white rounded-lg border border-stone-200 overflow-hidden">
+              <button
+                onClick={() => setExpandedCustomer(isExpanded ? null : customer.parentId)}
+                className="w-full flex justify-between items-center gap-3 p-5 text-left hover:bg-stone-50 transition"
+              >
+                <div>
+                  <div className="font-bold text-stone-900">{customer.customerName}</div>
+                  <div className="text-sm text-stone-600">{customer.customerAddress || 'No address on file'}</div>
+                </div>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  {pendingCount > 0 && (
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent-50 text-accent-700 whitespace-nowrap">
+                      {pendingCount} pending
+                    </span>
+                  )}
+                  <span className="text-sm text-stone-500">{customer.jobs.length} service{customer.jobs.length === 1 ? '' : 's'}</span>
+                  <span className="text-stone-400">{isExpanded ? '▲' : '▼'}</span>
+                </div>
+              </button>
+
+              {isExpanded && (
+                <div className="px-5 pb-5">
+                  {customer.jobs.map(job => <JobRow key={job.id} job={job} />)}
+                </div>
+              )}
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }
