@@ -14,9 +14,9 @@ export default function About({ onBack }) {
           <div className="space-y-5 text-stone-700">
             <p>
               The Garden Unit is a local neighbourhood service run and managed by a small
-              team of young entrepreneurs aged 12 and up. What started as a way to earn
-              some extra money has grown into a trusted, reliable helping hand for
-              local families.
+              team of young entrepreneurs aged 12 and up, offering a trusted, reliable
+              helping hand for local families and a chance to earn some extra money
+              along the way.
             </p>
             <p>
               Every booking is reviewed and coordinated by an adult, so you can book with
