@@ -53,18 +53,21 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
-    const { serviceId, customRequest } = await req.json();
+    const { serviceId, customRequest, recurrence } = await req.json();
 
     if (!serviceId && !customRequest) {
       return NextResponse.json({ error: 'Either serviceId or customRequest required' }, { status: 400 });
     }
+
+    const validRecurrence = ['weekly', 'biweekly', 'monthly'].includes(recurrence) ? recurrence : null;
 
     const job = await prisma.job.create({
       data: {
         parentId: decoded.userId,
         serviceId: serviceId ? parseInt(serviceId) : null,
         customRequest: customRequest || null,
-        status: 'pending'
+        status: 'pending',
+        recurrence: validRecurrence
       }
     });
 

@@ -20,6 +20,11 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
     return null;
   };
 
+  const recurrenceLabel = (recurrence) => {
+    const labels = { weekly: 'Weekly', biweekly: 'Every 2 weeks', monthly: 'Monthly' };
+    return labels[recurrence];
+  };
+
   const handleStatusChange = async (jobId, newStatus) => {
     try {
       const updates = { status: newStatus };
@@ -72,11 +77,28 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
               <span className="text-stone-400"> · {cost.label}</span>
             </p>
           )}
+          {job.recurrence && (
+            <p className="text-sm text-accent-700 mt-0.5">🔁 Repeats {recurrenceLabel(job.recurrence)}</p>
+          )}
         </div>
         <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800 whitespace-nowrap">
           {getStatusLabel(job.status)}
         </span>
       </div>
+      {(job.photoBeforeUrl || job.photoAfterUrl) && (
+        <div className="flex gap-2 mb-2">
+          {job.photoBeforeUrl && (
+            <a href={job.photoBeforeUrl} target="_blank" rel="noopener noreferrer" className="block">
+              <img src={job.photoBeforeUrl} alt="Before" className="w-16 h-16 object-cover rounded-lg border border-stone-200" />
+            </a>
+          )}
+          {job.photoAfterUrl && (
+            <a href={job.photoAfterUrl} target="_blank" rel="noopener noreferrer" className="block">
+              <img src={job.photoAfterUrl} alt="After" className="w-16 h-16 object-cover rounded-lg border border-stone-200" />
+            </a>
+          )}
+        </div>
+      )}
       {editingJob === job.id ? (
         <div className="space-y-3 bg-white p-4 rounded mt-4">
           <select value={formData.crewMemberId || ''} onChange={(e) => setFormData({...formData, crewMemberId: e.target.value})} className="w-full px-3 py-2 border border-stone-300 rounded-lg">

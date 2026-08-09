@@ -36,6 +36,11 @@ export default function JobDetail({ jobId, onNavigate }) {
     return null;
   };
 
+  const recurrenceLabel = (recurrence) => {
+    const labels = { weekly: 'Weekly', biweekly: 'Every 2 weeks', monthly: 'Monthly' };
+    return labels[recurrence];
+  };
+
   if (loading) return <div className="container py-8">Loading...</div>;
   if (error || !job) return <div className="container py-8">{error || 'Task not found'}</div>;
 
@@ -61,9 +66,30 @@ export default function JobDetail({ jobId, onNavigate }) {
               {getStatusLabel(job.status)}
             </span>
           </div>
+          {job.recurrence && (
+            <div className="text-sm text-accent-700 mb-4">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
+          )}
+
           {job.service?.longDescription || job.service?.description ? (
             <p className="text-stone-600 mb-6">{job.service.longDescription || job.service.description}</p>
           ) : null}
+
+          {(job.photoBeforeUrl || job.photoAfterUrl) && (
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              {job.photoBeforeUrl && (
+                <div>
+                  <div className="text-sm font-medium text-stone-500 mb-1">Before</div>
+                  <img src={job.photoBeforeUrl} alt="Before" className="w-full aspect-square object-cover rounded-lg border border-stone-200" />
+                </div>
+              )}
+              {job.photoAfterUrl && (
+                <div>
+                  <div className="text-sm font-medium text-stone-500 mb-1">After</div>
+                  <img src={job.photoAfterUrl} alt="After" className="w-full aspect-square object-cover rounded-lg border border-stone-200" />
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="space-y-4 mb-6">
             {job.crewName && (

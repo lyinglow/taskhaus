@@ -9,6 +9,7 @@ export default function BookJob({ onNavigate }) {
   const selectedServiceLongDescription = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceLongDescription') : null;
   const selectedServicePrice = typeof window !== 'undefined' ? localStorage.getItem('selectedServicePrice') : null;
   const [notes, setNotes] = useState('');
+  const [recurrence, setRecurrence] = useState('none');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -21,7 +22,8 @@ export default function BookJob({ onNavigate }) {
     try {
       await api.post('/jobs', {
         serviceId: parseInt(selectedServiceId),
-        customRequest: notes || null
+        customRequest: notes || null,
+        recurrence: recurrence !== 'none' ? recurrence : null
       });
 
       setSuccess(true);
@@ -78,6 +80,23 @@ export default function BookJob({ onNavigate }) {
               rows={4}
               className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Repeat this booking?</label>
+            <select
+              value={recurrence}
+              onChange={(e) => setRecurrence(e.target.value)}
+              className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+            >
+              <option value="none">One-off (just this once)</option>
+              <option value="weekly">Weekly</option>
+              <option value="biweekly">Every 2 weeks</option>
+              <option value="monthly">Monthly</option>
+            </select>
+            {recurrence !== 'none' && (
+              <p className="text-xs text-stone-500 mt-1">Once this booking is completed, we'll automatically schedule the next one for you.</p>
+            )}
           </div>
 
           {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">{error}</div>}

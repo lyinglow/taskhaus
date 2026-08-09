@@ -34,6 +34,22 @@ export default function JobHistory({ onNavigate }) {
     return null;
   };
 
+  const recurrenceLabel = (recurrence) => {
+    const labels = { weekly: 'Weekly', biweekly: 'Every 2 weeks', monthly: 'Monthly' };
+    return labels[recurrence];
+  };
+
+  const bookAgain = (e, job) => {
+    e.stopPropagation();
+    if (!job.service) return;
+    localStorage.setItem('selectedServiceId', job.service.id);
+    localStorage.setItem('selectedServiceName', job.service.name);
+    localStorage.setItem('selectedServiceDescription', job.service.description || '');
+    localStorage.setItem('selectedServiceLongDescription', job.service.longDescription || job.service.description || '');
+    localStorage.setItem('selectedServicePrice', job.service.price ?? '');
+    onNavigate('book-job');
+  };
+
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
       <h1 className="text-3xl font-bold text-stone-900 mb-8">Current Tasks</h1>
@@ -63,7 +79,9 @@ export default function JobHistory({ onNavigate }) {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="text-lg font-bold text-stone-900">{job.serviceName || job.customRequest}</h3>
-                  <div className="text-sm text-stone-600">Service #{job.id}</div>
+                  {job.recurrence && (
+                    <div className="text-sm text-accent-700">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
+                  )}
                 </div>
                 <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800">
                   {getStatusLabel(job.status)}
@@ -82,6 +100,14 @@ export default function JobHistory({ onNavigate }) {
                   className="mt-3 w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
                 >
                   Leave a Review
+                </button>
+              )}
+              {job.status === 'completed' && job.service && (
+                <button
+                  onClick={(e) => bookAgain(e, job)}
+                  className="mt-2 w-full bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
+                >
+                  Book Again
                 </button>
               )}
             </div>

@@ -92,7 +92,28 @@ export async function PATCH(req) {
       );
     }
 
-    return NextResponse.json({ jobId: job.id, updated: true });
+    let nextJobId = null;
+    if (status === 'completed' && job.recurrence) {
+      const nextDate = new Date();
+      if (job.recurrence === 'weekly') nextDate.setDate(nextDate.getDate() + 7);
+      else if (job.recurrence === 'biweekly') nextDate.setDate(nextDate.getDate() + 14);
+      else if (job.recurrence === 'monthly') nextDate.setMonth(nextDate.getMonth() + 1);
+
+      const nextJob = await prisma.job.create({
+        data: {
+          parentId: job.parentId,
+          serviceId: job.serviceId,
+          crewMemberId: job.crewMemberId,
+          status: 'confirmed',
+          timeWindow: job.timeWindow,
+          recurrence: job.recurrence,
+          jobDate: nextDate
+        }
+      });
+      nextJobId = nextJob.id;
+    }
+
+    return NextResponse.json({ jobId: job.id, updated: true, nextJobId });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: 'Failed to update job' }, { status: 500 });

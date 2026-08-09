@@ -25,7 +25,13 @@ export async function GET(req) {
       serviceDescription: job.service?.longDescription || job.service?.description,
       toolsNeeded: job.service?.toolsNeeded,
       customerName: job.parent.name,
-      customerAddress: job.parent.address
+      customerAddress: job.parent.address,
+      completedAt: job.completedAt,
+      quotedPrice: job.quotedPrice,
+      finalPrice: job.finalPrice,
+      servicePrice: job.service?.price,
+      photoBeforeUrl: job.photoBeforeUrl,
+      photoAfterUrl: job.photoAfterUrl
     }));
 
     return NextResponse.json(transformed);
