@@ -17,6 +17,7 @@ import CrewLogin from '@/components/CrewLogin';
 import CrewPortal from '@/components/CrewPortal';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import Spinner from '@/components/Spinner';
 
 export default function Home() {
   const [page, setPage] = useState('home');
@@ -84,7 +85,7 @@ export default function Home() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center"><Spinner size="lg" /></div>;
   }
 
   if (!isLoggedIn) {

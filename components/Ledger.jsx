@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
+import Spinner from './Spinner';
 
 export default function Ledger() {
   const [ledger, setLedger] = useState(null);
@@ -22,7 +23,7 @@ export default function Ledger() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="flex justify-center py-8"><Spinner /></div>;
 
   return (
     <div className="space-y-10">

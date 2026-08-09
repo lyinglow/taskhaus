@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
+import Spinner from './Spinner';
 
 export default function JobHistory({ onNavigate }) {
   const [jobs, setJobs] = useState([]);
@@ -76,7 +77,7 @@ export default function JobHistory({ onNavigate }) {
       )}
 
       {loading ? (
-        <div className="text-center py-8">Loading jobs...</div>
+        <div className="flex justify-center py-8"><Spinner /></div>
       ) : jobs.length === 0 ? (
         <div className="bg-stone-100 p-10 rounded-lg text-center">
           <p className="text-stone-600 mb-4">You haven't booked any services yet.</p>

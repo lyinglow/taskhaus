@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
+import Spinner from './Spinner';
 
 const compressImage = (file, maxDim = 1000, quality = 0.7) => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -175,7 +176,7 @@ export default function CrewPortal() {
       )}
 
       {loading ? (
-        <div className="text-center py-8">Loading...</div>
+        <div className="flex justify-center py-8"><Spinner /></div>
       ) : jobs.length === 0 ? (
         <div className="bg-stone-100 p-10 rounded-lg text-center">
           <p className="text-stone-600">No jobs assigned to you yet.</p>

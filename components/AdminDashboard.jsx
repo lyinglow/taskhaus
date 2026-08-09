@@ -6,6 +6,7 @@ import JobManagement from './JobManagement';
 import CrewManagement from './CrewManagement';
 import ServiceManagement from './ServiceManagement';
 import Ledger from './Ledger';
+import Spinner from './Spinner';
 
 export default function AdminDashboard({ onNavigate }) {
   const [activeTab, setActiveTab] = useState('jobs');
@@ -87,7 +88,7 @@ export default function AdminDashboard({ onNavigate }) {
         ))}
       </div>
 
-      {loading ? <div className="text-center py-8">Loading...</div> : (
+      {loading ? <div className="flex justify-center py-8"><Spinner /></div> : (
         <>
           {activeTab === 'jobs' && <JobManagement jobs={jobs} crew={crew} onJobUpdated={loadData} />}
           {activeTab === 'services' && <ServiceManagement services={services} onServicesUpdated={loadData} />}

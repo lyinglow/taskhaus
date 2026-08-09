@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import api from '@/lib/api';
+import Spinner from './Spinner';
 
 export default function Profile({ onProfileUpdated }) {
   const [profile, setProfile] = useState(null);
@@ -60,7 +61,7 @@ export default function Profile({ onProfileUpdated }) {
     }
   };
 
-  if (loading) return <div className="container py-8">Loading...</div>;
+  if (loading) return <div className="container py-8 flex justify-center"><Spinner /></div>;
   if (!profile) return <div className="container py-8">{error || 'Profile not found'}</div>;
 
   return (

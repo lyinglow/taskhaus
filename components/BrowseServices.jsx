@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import ServiceCard from './ServiceCard';
+import Spinner from './Spinner';
 
 export default function BrowseServices({ onNavigate }) {
   const [services, setServices] = useState([]);
@@ -77,7 +78,7 @@ export default function BrowseServices({ onNavigate }) {
       )}
 
       {loading ? (
-        <div className="text-center py-8">Loading services...</div>
+        <div className="flex justify-center py-8"><Spinner /></div>
       ) : (
         <>
           <section className="mb-14">

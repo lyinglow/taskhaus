@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import api from '@/lib/api';
+import Spinner from './Spinner';
 
 export default function JobDetail({ jobId, onNavigate }) {
   const [job, setJob] = useState(null);
@@ -41,7 +42,7 @@ export default function JobDetail({ jobId, onNavigate }) {
     return labels[recurrence];
   };
 
-  if (loading) return <div className="container py-8">Loading...</div>;
+  if (loading) return <div className="container py-8 flex justify-center"><Spinner /></div>;
   if (error || !job) return <div className="container py-8">{error || 'Task not found'}</div>;
 
   const cost = getCost(job);
