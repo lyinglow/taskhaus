@@ -39,7 +39,7 @@ const updates = [
     longDescription: "We spread a fresh layer of mulch across your garden beds, helping to lock in moisture, suppress weeds and give your borders a neat, finished look. Suitable for small to medium areas.",
   },
   {
-    name: 'Locker delivery/pickup',
+    name: 'Locker delivery/pickup (Esso)',
     description: 'We collect or deliver items to your locker',
     longDescription: "Whether you need something picked up from a locker or dropped off, we'll handle the trip for you - one less errand on your list.",
   },
