@@ -50,9 +50,30 @@ export default function JobHistory({ onNavigate }) {
     onNavigate('book-job');
   };
 
+  const pendingCount = jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
+  const confirmedCount = jobs.filter(j => j.status === 'confirmed').length;
+  const completedCount = jobs.filter(j => j.status === 'completed').length;
+
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-8">Current Tasks</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-6">Current Tasks</h1>
+
+      {!loading && jobs.length > 0 && (
+        <div className="grid grid-cols-3 gap-3 mb-8">
+          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center">
+            <div className="text-2xl font-bold text-stone-900">{pendingCount}</div>
+            <div className="text-sm text-stone-600">Pending</div>
+          </div>
+          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center">
+            <div className="text-2xl font-bold text-stone-900">{confirmedCount}</div>
+            <div className="text-sm text-stone-600">Confirmed</div>
+          </div>
+          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center">
+            <div className="text-2xl font-bold text-stone-900">{completedCount}</div>
+            <div className="text-sm text-stone-600">Completed</div>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-8">Loading jobs...</div>
