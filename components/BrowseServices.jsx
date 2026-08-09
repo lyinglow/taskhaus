@@ -35,7 +35,7 @@ export default function BrowseServices({ onNavigate }) {
   };
 
   const pendingCount = jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
-  const confirmedCount = jobs.filter(j => j.status === 'confirmed').length;
+  const confirmedCount = jobs.filter(j => j.status === 'confirmed' || j.status === 'review').length;
   const completedCount = jobs.filter(j => j.status === 'completed').length;
 
   const gardenServices = services.filter(s => s.serviceType === 'fixed' && s.category !== 'other');

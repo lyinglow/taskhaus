@@ -9,7 +9,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   const [expandedCustomer, setExpandedCustomer] = useState(null);
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', completed: 'Completed' };
+    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Ready for Review', completed: 'Completed' };
     return labels[status] || status;
   };
 
@@ -55,8 +55,8 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       return acc;
     }, {})
   ).sort((a, b) => {
-    const aPending = a.jobs.some(j => j.status === 'pending' || j.status === 'quoted');
-    const bPending = b.jobs.some(j => j.status === 'pending' || j.status === 'quoted');
+    const aPending = a.jobs.some(j => j.status === 'pending' || j.status === 'quoted' || j.status === 'review');
+    const bPending = b.jobs.some(j => j.status === 'pending' || j.status === 'quoted' || j.status === 'review');
     if (aPending !== bPending) return aPending ? -1 : 1;
     return a.customerName.localeCompare(b.customerName);
   });
@@ -81,7 +81,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
             <p className="text-sm text-accent-700 mt-0.5">🔁 Repeats {recurrenceLabel(job.recurrence)}</p>
           )}
         </div>
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800 whitespace-nowrap">
+        <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
           {getStatusLabel(job.status)}
         </span>
       </div>
@@ -118,6 +118,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
           </button>
           {job.status === 'pending' && <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="flex-1 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Confirm</button>}
           {job.status === 'confirmed' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Mark Done</button>}
+          {job.status === 'review' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 bg-accent-600 text-white py-2 rounded font-semibold hover:bg-accent-700">Approve & Complete</button>}
         </div>
       )}
     </div>
@@ -131,6 +132,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       ) : (
         customers.map(customer => {
           const pendingCount = customer.jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
+          const reviewCount = customer.jobs.filter(j => j.status === 'review').length;
           const isExpanded = expandedCustomer === customer.parentId;
 
           return (
@@ -144,6 +146,11 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
                   <div className="text-sm text-stone-600">{customer.customerAddress || 'No address on file'}</div>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
+                  {reviewCount > 0 && (
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent-100 text-accent-800 whitespace-nowrap">
+                      {reviewCount} ready for review
+                    </span>
+                  )}
                   {pendingCount > 0 && (
                     <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent-50 text-accent-700 whitespace-nowrap">
                       {pendingCount} pending

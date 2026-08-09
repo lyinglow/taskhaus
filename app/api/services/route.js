@@ -15,7 +15,7 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const { name, description, longDescription, toolsNeeded, serviceType, category, price } = await req.json();
+    const { name, description, longDescription, toolsNeeded, serviceType, category, price, requiresPhotoReview } = await req.json();
 
     const service = await prisma.service.create({
       data: {
@@ -26,7 +26,8 @@ export async function POST(req) {
         serviceType,
         category: category || 'garden',
         price,
-        isActive: true
+        isActive: true,
+        requiresPhotoReview: requiresPhotoReview !== undefined ? requiresPhotoReview : true
       }
     });
 

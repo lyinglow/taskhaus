@@ -31,7 +31,8 @@ export async function GET(req) {
       finalPrice: job.finalPrice,
       servicePrice: job.service?.price,
       photoBeforeUrl: job.photoBeforeUrl,
-      photoAfterUrl: job.photoAfterUrl
+      photoAfterUrl: job.photoAfterUrl,
+      requiresPhotoReview: job.service ? job.service.requiresPhotoReview : true
     }));
 
     return NextResponse.json(transformed);

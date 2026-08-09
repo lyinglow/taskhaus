@@ -10,6 +10,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [toolsNeeded, setToolsNeeded] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('garden');
+  const [requiresPhotoReview, setRequiresPhotoReview] = useState(true);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
@@ -29,6 +30,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         serviceType: 'fixed',
         category,
         price: parseFloat(price),
+        requiresPhotoReview,
       });
       setName('');
       setDescription('');
@@ -36,6 +38,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setToolsNeeded('');
       setPrice('');
       setCategory('garden');
+      setRequiresPhotoReview(true);
       setShowAddForm(false);
       onServicesUpdated();
     } catch (err) {
@@ -55,6 +58,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         toolsNeeded: editData.toolsNeeded,
         price: parseFloat(editData.price),
         category: editData.category,
+        requiresPhotoReview: editData.requiresPhotoReview,
       });
       setEditingId(null);
       setEditData({});
@@ -139,6 +143,15 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             <option value="garden">Garden Services</option>
             <option value="other">Other Services</option>
           </select>
+          <label className="flex items-start gap-2 text-sm text-stone-700">
+            <input
+              type="checkbox"
+              checked={requiresPhotoReview}
+              onChange={(e) => setRequiresPhotoReview(e.target.checked)}
+              className="mt-0.5"
+            />
+            <span>Team members must mark the job "ready for review" with an after photo before it can be completed</span>
+          </label>
           <button
             type="submit"
             disabled={loading}
@@ -199,6 +212,15 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     <option value="garden">Garden Services</option>
                     <option value="other">Other Services</option>
                   </select>
+                  <label className="flex items-start gap-2 text-sm text-stone-700">
+                    <input
+                      type="checkbox"
+                      checked={editData.requiresPhotoReview ?? true}
+                      onChange={(e) => setEditData({ ...editData, requiresPhotoReview: e.target.checked })}
+                      className="mt-0.5"
+                    />
+                    <span>Team members must mark the job "ready for review" with an after photo before it can be completed</span>
+                  </label>
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(service.id)}
@@ -225,6 +247,9 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                   </div>
                   <div className="text-sm text-stone-600 mt-1">{service.description}</div>
                   <div className="text-base font-bold text-stone-900 mt-2"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
+                  <div className="text-xs text-stone-500 mt-1">
+                    {service.requiresPhotoReview === false ? 'No photo review required' : 'Requires photo review before completion'}
+                  </div>
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => {
@@ -236,6 +261,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           toolsNeeded: service.toolsNeeded,
                           price: service.price,
                           category: service.category || 'garden',
+                          requiresPhotoReview: service.requiresPhotoReview !== false,
                         });
                       }}
                       className="flex-1 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"

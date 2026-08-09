@@ -4,7 +4,7 @@ import prisma from '@/lib/db';
 export async function PATCH(req, { params }) {
   try {
     const { id } = params;
-    const { name, description, longDescription, toolsNeeded, price, category, isActive } = await req.json();
+    const { name, description, longDescription, toolsNeeded, price, category, isActive, requiresPhotoReview } = await req.json();
 
     const service = await prisma.service.update({
       where: { id: parseInt(id) },
@@ -16,6 +16,7 @@ export async function PATCH(req, { params }) {
         ...(price !== undefined && { price }),
         ...(category !== undefined && { category }),
         ...(isActive !== undefined && { isActive }),
+        ...(requiresPhotoReview !== undefined && { requiresPhotoReview }),
       },
     });
 

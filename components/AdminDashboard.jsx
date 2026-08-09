@@ -13,6 +13,17 @@ export default function AdminDashboard({ onNavigate }) {
   const [crew, setCrew] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [migrateStatus, setMigrateStatus] = useState('');
+
+  const runReviewColumnMigration = async () => {
+    setMigrateStatus('Running...');
+    try {
+      const res = await api.post('/admin/migrate-service-review-column');
+      setMigrateStatus(res.data.message || 'Done.');
+    } catch (err) {
+      setMigrateStatus(err.response?.data?.error || 'Migration failed');
+    }
+  };
 
   useEffect(() => {
     loadData();
@@ -39,6 +50,7 @@ export default function AdminDashboard({ onNavigate }) {
   const weekAgo = new Date();
   weekAgo.setDate(weekAgo.getDate() - 7);
   const pendingCount = jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
+  const reviewCount = jobs.filter(j => j.status === 'review').length;
   const activeCount = jobs.filter(j => j.status === 'confirmed').length;
   const completedThisWeek = jobs.filter(j => j.status === 'completed' && j.completedAt && new Date(j.completedAt) >= weekAgo);
   const revenueThisWeek = completedThisWeek.reduce((sum, j) => sum + cost(j), 0);
@@ -47,8 +59,19 @@ export default function AdminDashboard({ onNavigate }) {
     <div className="container max-w-6xl py-10 mx-auto px-4">
       <h1 className="text-3xl font-bold text-stone-900 mb-8">Admin Dashboard</h1>
 
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+        <p className="text-sm text-stone-700 mb-2">One-time setup: adds the "requires photo review" column to services.</p>
+        <button
+          onClick={runReviewColumnMigration}
+          className="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-700"
+        >
+          Run Migration
+        </button>
+        {migrateStatus && <p className="text-sm text-stone-700 mt-2">{migrateStatus}</p>}
+      </div>
+
       {!loading && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
           <div className="bg-white p-4 rounded-lg border border-stone-200">
             <div className="text-2xl font-bold text-stone-900">{pendingCount}</div>
             <div className="text-sm text-stone-600">Pending requests</div>
@@ -56,6 +79,10 @@ export default function AdminDashboard({ onNavigate }) {
           <div className="bg-white p-4 rounded-lg border border-stone-200">
             <div className="text-2xl font-bold text-stone-900">{activeCount}</div>
             <div className="text-sm text-stone-600">Confirmed jobs</div>
+          </div>
+          <div className="bg-white p-4 rounded-lg border border-accent-200">
+            <div className="text-2xl font-bold text-accent-700">{reviewCount}</div>
+            <div className="text-sm text-stone-600">Ready for review</div>
           </div>
           <div className="bg-white p-4 rounded-lg border border-stone-200">
             <div className="text-2xl font-bold text-stone-900">{completedThisWeek.length}</div>

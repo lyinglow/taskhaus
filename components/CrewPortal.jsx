@@ -33,6 +33,7 @@ export default function CrewPortal() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState({});
+  const [markingReady, setMarkingReady] = useState({});
 
   useEffect(() => {
     loadJobs();
@@ -46,7 +47,7 @@ export default function CrewPortal() {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', completed: 'Completed' };
+    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Awaiting Admin Review', completed: 'Completed' };
     return labels[status] || status;
   };
 
@@ -73,6 +74,18 @@ export default function CrewPortal() {
       console.error('Failed to upload photo:', err);
     } finally {
       setUploading(prev => ({ ...prev, [key]: false }));
+    }
+  };
+
+  const markReadyForReview = async (jobId) => {
+    setMarkingReady(prev => ({ ...prev, [jobId]: true }));
+    try {
+      await api.patch(`/crew/jobs/${jobId}`, { status: 'review' });
+      setJobs(prev => prev.map(j => j.id === jobId ? { ...j, status: 'review' } : j));
+    } catch (err) {
+      console.error('Failed to mark job ready for review:', err);
+    } finally {
+      setMarkingReady(prev => ({ ...prev, [jobId]: false }));
     }
   };
 
@@ -107,7 +120,7 @@ export default function CrewPortal() {
     <div className="bg-white p-5 rounded-lg border border-stone-200 mb-3">
       <div className="flex justify-between items-start mb-2">
         <h3 className="font-bold text-stone-900">{job.serviceName || job.customRequest}</h3>
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800 whitespace-nowrap">
+        <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
           {getStatusLabel(job.status)}
         </span>
       </div>
@@ -126,6 +139,21 @@ export default function CrewPortal() {
         <PhotoSlot job={job} type="before" label="Before" />
         <PhotoSlot job={job} type="after" label="After" />
       </div>
+      {job.status === 'confirmed' && job.requiresPhotoReview !== false && (
+        <button
+          onClick={() => markReadyForReview(job.id)}
+          disabled={!job.photoAfterUrl || markingReady[job.id]}
+          className="w-full mt-3 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {markingReady[job.id] ? 'Marking...' : 'Job Ready for Review'}
+        </button>
+      )}
+      {job.status === 'confirmed' && job.requiresPhotoReview !== false && !job.photoAfterUrl && (
+        <p className="text-xs text-stone-500 mt-1 text-center">Add an "after" photo before marking ready for review</p>
+      )}
+      {job.status === 'review' && (
+        <p className="text-sm text-accent-700 mt-3 text-center">✓ Waiting on admin to do the final check</p>
+      )}
     </div>
   );
 

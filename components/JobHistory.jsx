@@ -23,7 +23,7 @@ export default function JobHistory({ onNavigate }) {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', completed: 'Completed' };
+    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed' };
     return labels[status] || status;
   };
 
@@ -51,7 +51,7 @@ export default function JobHistory({ onNavigate }) {
   };
 
   const pendingCount = jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
-  const confirmedCount = jobs.filter(j => j.status === 'confirmed').length;
+  const confirmedCount = jobs.filter(j => j.status === 'confirmed' || j.status === 'review').length;
   const completedCount = jobs.filter(j => j.status === 'completed').length;
 
   return (
@@ -104,7 +104,7 @@ export default function JobHistory({ onNavigate }) {
                     <div className="text-sm text-accent-700">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
                   )}
                 </div>
-                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800">
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
                   {getStatusLabel(job.status)}
                 </span>
               </div>

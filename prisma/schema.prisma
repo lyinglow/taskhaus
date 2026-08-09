@@ -49,6 +49,7 @@ model Service {
   category  String  @default("garden") // "garden" or "other"
   price     Float?
   isActive  Boolean @default(true)
+  requiresPhotoReview Boolean @default(true) // whether crew must mark job "ready for review" with an after photo before admin can complete it
   createdAt DateTime @default(now())
 
   jobs     Job[]

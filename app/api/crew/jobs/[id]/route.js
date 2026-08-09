@@ -16,10 +16,20 @@ export async function PATCH(req, { params }) {
       return NextResponse.json({ error: 'Job not found' }, { status: 404 });
     }
 
-    const { photoBeforeUrl, photoAfterUrl } = await req.json();
+    const { photoBeforeUrl, photoAfterUrl, status } = await req.json();
     const data = {};
     if (photoBeforeUrl !== undefined) data.photoBeforeUrl = photoBeforeUrl;
     if (photoAfterUrl !== undefined) data.photoAfterUrl = photoAfterUrl;
+
+    if (status !== undefined) {
+      if (status !== 'review') {
+        return NextResponse.json({ error: 'Team members can only mark a job ready for review' }, { status: 400 });
+      }
+      if (job.status !== 'confirmed') {
+        return NextResponse.json({ error: 'Job must be confirmed before it can be marked ready for review' }, { status: 400 });
+      }
+      data.status = 'review';
+    }
 
     await prisma.job.update({ where: { id: jobId }, data });
 

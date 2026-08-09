@@ -25,7 +25,7 @@ export default function JobDetail({ jobId, onNavigate }) {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', completed: 'Completed' };
+    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed' };
     return labels[status] || status;
   };
 
@@ -62,7 +62,7 @@ export default function JobDetail({ jobId, onNavigate }) {
         <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
           <div className="flex justify-between items-start gap-3 mb-2">
             <h1 className="text-2xl font-bold text-stone-900">{job.serviceName || 'Custom Request'}</h1>
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800 whitespace-nowrap">
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
               {getStatusLabel(job.status)}
             </span>
           </div>
