@@ -61,8 +61,6 @@ export default function JobDetail({ jobId, onNavigate }) {
               {getStatusLabel(job.status)}
             </span>
           </div>
-          <div className="text-sm text-stone-500 mb-6">Service #{job.id}</div>
-
           {job.service?.longDescription || job.service?.description ? (
             <p className="text-stone-600 mb-6">{job.service.longDescription || job.service.description}</p>
           ) : null}

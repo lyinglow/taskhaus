@@ -13,6 +13,13 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
     return labels[status] || status;
   };
 
+  const getCost = (job) => {
+    if (job.finalPrice) return { label: 'Final price', value: job.finalPrice, from: false };
+    if (job.quotedPrice) return { label: 'Quoted price', value: job.quotedPrice, from: false };
+    if (job.service?.price) return { label: 'Base price', value: job.service.price, from: true };
+    return null;
+  };
+
   const handleStatusChange = async (jobId, newStatus) => {
     try {
       const updates = { status: newStatus };
@@ -49,12 +56,22 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
     return a.customerName.localeCompare(b.customerName);
   });
 
-  const JobRow = ({ job }) => (
+  const JobRow = ({ job }) => {
+    const cost = getCost(job);
+    return (
     <div className="bg-stone-50 p-4 rounded-lg border border-stone-200 mb-3">
       <div className="flex justify-between items-start mb-2">
         <div>
-          <h3 className="font-bold text-stone-900">Service #{job.id}</h3>
-          <p className="text-sm text-stone-600">{job.serviceName || job.customRequest}</p>
+          <h3 className="font-bold text-stone-900">{job.serviceName || 'Custom Request'}</h3>
+          {job.serviceName && job.customRequest && (
+            <p className="text-sm text-stone-600 mt-0.5">{job.customRequest}</p>
+          )}
+          {cost && (
+            <p className="text-sm text-stone-600 mt-0.5">
+              {cost.from && <span className="text-xs">From </span>}£{Number(cost.value).toFixed(2)}
+              <span className="text-stone-400"> · {cost.label}</span>
+            </p>
+          )}
         </div>
         <span className="px-3 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800 whitespace-nowrap">
           {getStatusLabel(job.status)}
@@ -82,7 +99,8 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
         </div>
       )}
     </div>
-  );
+    );
+  };
 
   return (
     <div className="space-y-3">
