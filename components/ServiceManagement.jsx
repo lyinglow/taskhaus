@@ -7,6 +7,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [longDescription, setLongDescription] = useState('');
+  const [toolsNeeded, setToolsNeeded] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('garden');
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         name,
         description,
         longDescription,
+        toolsNeeded,
         serviceType: 'fixed',
         category,
         price: parseFloat(price),
@@ -30,6 +32,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setName('');
       setDescription('');
       setLongDescription('');
+      setToolsNeeded('');
       setPrice('');
       setCategory('garden');
       onServicesUpdated();
@@ -47,6 +50,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         name: editData.name,
         description: editData.description,
         longDescription: editData.longDescription,
+        toolsNeeded: editData.toolsNeeded,
         price: parseFloat(editData.price),
         category: editData.category,
       });
@@ -98,6 +102,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             onChange={(e) => setLongDescription(e.target.value)}
             placeholder="Long description (shown on the booking/detail page)"
             rows={4}
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <textarea
+            value={toolsNeeded}
+            onChange={(e) => setToolsNeeded(e.target.value)}
+            placeholder="Tools needed (shown to team members on their job list)"
+            rows={2}
             className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <input
@@ -157,6 +168,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     rows={4}
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
+                  <textarea
+                    value={editData.toolsNeeded || ''}
+                    onChange={(e) => setEditData({ ...editData, toolsNeeded: e.target.value })}
+                    placeholder="Tools needed (shown to team members on their job list)"
+                    rows={2}
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                  />
                   <input
                     type="number"
                     value={editData.price || ''}
@@ -206,6 +224,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           name: service.name,
                           description: service.description,
                           longDescription: service.longDescription,
+                          toolsNeeded: service.toolsNeeded,
                           price: service.price,
                           category: service.category || 'garden',
                         });

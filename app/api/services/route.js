@@ -15,13 +15,14 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const { name, description, longDescription, serviceType, category, price } = await req.json();
+    const { name, description, longDescription, toolsNeeded, serviceType, category, price } = await req.json();
 
     const service = await prisma.service.create({
       data: {
         name,
         description,
         longDescription,
+        toolsNeeded,
         serviceType,
         category: category || 'garden',
         price,

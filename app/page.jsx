@@ -13,12 +13,15 @@ import ReviewJob from '@/components/ReviewJob';
 import Profile from '@/components/Profile';
 import About from '@/components/About';
 import HowWeWork from '@/components/HowWeWork';
+import CrewLogin from '@/components/CrewLogin';
+import CrewPortal from '@/components/CrewPortal';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export default function Home() {
   const [page, setPage] = useState('home');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isCrew, setIsCrew] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,14 +29,17 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const isAdminToken = localStorage.getItem('isAdmin');
+    const isCrewToken = localStorage.getItem('isCrew');
     if (token) {
       const adminFlag = isAdminToken === 'true';
+      const crewFlag = isCrewToken === 'true';
       setIsLoggedIn(true);
       setIsAdmin(adminFlag);
+      setIsCrew(crewFlag);
       const customerId = localStorage.getItem('customerId');
       const userName = localStorage.getItem('userName');
       setUser({ customerId, name: userName });
-      setPage(adminFlag ? 'admin-dashboard' : 'browse-services');
+      setPage(adminFlag ? 'admin-dashboard' : crewFlag ? 'crew-portal' : 'browse-services');
     }
     setLoading(false);
   }, []);
@@ -46,6 +52,7 @@ export default function Home() {
     localStorage.clear();
     setIsLoggedIn(false);
     setIsAdmin(false);
+    setIsCrew(false);
     setUser(null);
     setPage('home');
   };
@@ -55,10 +62,25 @@ export default function Home() {
     localStorage.setItem('customerId', customerId);
     localStorage.setItem('userName', name);
     localStorage.setItem('isAdmin', adminFlag);
+    localStorage.setItem('isCrew', false);
     setIsLoggedIn(true);
     setIsAdmin(adminFlag);
+    setIsCrew(false);
     setUser({ customerId, name });
     setPage(adminFlag ? 'admin-dashboard' : 'browse-services');
+  };
+
+  const handleCrewLogin = (token, crewMemberId, name) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('customerId', crewMemberId);
+    localStorage.setItem('userName', name);
+    localStorage.setItem('isAdmin', false);
+    localStorage.setItem('isCrew', true);
+    setIsLoggedIn(true);
+    setIsAdmin(false);
+    setIsCrew(true);
+    setUser({ name });
+    setPage('crew-portal');
   };
 
   if (loading) {
@@ -76,17 +98,27 @@ export default function Home() {
       return <About onBack={() => setPage('home')} />;
     } else if (page === 'how-we-work') {
       return <HowWeWork onBack={() => setPage('home')} />;
+    } else if (page === 'crew-login') {
+      return <CrewLogin onLogin={handleCrewLogin} onCancel={() => setPage('home')} />;
     } else {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
           <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10 grayscale" sizes="100vw" />
           <div className="absolute inset-0 bg-stone-50/60" />
-          <button
-            onClick={() => setPage('admin-login')}
-            className="absolute top-4 right-4 z-10 text-sm font-medium text-stone-600 hover:text-stone-900 bg-white/70 hover:bg-white px-3 py-1.5 rounded-lg transition"
-          >
-            Admin Login
-          </button>
+          <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-2">
+            <button
+              onClick={() => setPage('admin-login')}
+              className="text-sm font-medium text-stone-600 hover:text-stone-900 bg-white/70 hover:bg-white px-3 py-1.5 rounded-lg transition"
+            >
+              Admin Login
+            </button>
+            <button
+              onClick={() => setPage('crew-login')}
+              className="text-sm font-medium text-stone-600 hover:text-stone-900 bg-white/70 hover:bg-white px-3 py-1.5 rounded-lg transition"
+            >
+              Team Login
+            </button>
+          </div>
           <div className="relative z-10 text-center mb-10">
             <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
             <p className="text-xl text-stone-700">Local garden and home help</p>
@@ -126,7 +158,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-stone-50 flex flex-col">
-      <Navigation isAdmin={isAdmin} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
+      <Navigation isAdmin={isAdmin} isCrew={isCrew} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
       <div className="flex-1">
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
@@ -137,8 +169,9 @@ export default function Home() {
         {page === 'how-we-work' && <HowWeWork />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
         {page === 'admin-dashboard' && <AdminDashboard onNavigate={setPage} />}
+        {page === 'crew-portal' && <CrewPortal />}
       </div>
-      {!isAdmin && <Footer onNavigate={setPage} />}
+      {!isAdmin && !isCrew && <Footer onNavigate={setPage} />}
     </div>
   );
 }

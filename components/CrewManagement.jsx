@@ -7,6 +7,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [skills, setSkills] = useState('');
+  const [pin, setPin] = useState('');
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
@@ -15,10 +16,11 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await api.post('/admin/crew', { name, age: age ? parseInt(age) : null, skills });
+      await api.post('/admin/crew', { name, age: age ? parseInt(age) : null, skills, pin });
       setName('');
       setAge('');
       setSkills('');
+      setPin('');
       onCrewUpdated();
     } catch (err) {
       console.error('Failed to add crew:', err);
@@ -29,7 +31,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
 
   const startEditing = (member) => {
     setEditingId(member.id);
-    setEditData({ name: member.name, age: member.age || '', skills: member.skills || '' });
+    setEditData({ name: member.name, age: member.age || '', skills: member.skills || '', pin: '' });
   };
 
   const handleUpdate = async (memberId) => {
@@ -39,6 +41,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
         name: editData.name,
         age: editData.age ? parseInt(editData.age) : null,
         skills: editData.skills,
+        pin: editData.pin || undefined,
       });
       setEditingId(null);
       setEditData({});
@@ -58,6 +61,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <textarea value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="Skills" rows={3} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
+          <input type="text" inputMode="numeric" value={pin} onChange={(e) => setPin(e.target.value)} placeholder="4-digit PIN (for team login)" maxLength={4} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <button type="submit" disabled={loading} className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
             {loading ? 'Adding...' : 'Add Team Member'}
           </button>
@@ -91,6 +95,15 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                     rows={2}
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={editData.pin}
+                    onChange={(e) => setEditData({ ...editData, pin: e.target.value })}
+                    placeholder="New 4-digit PIN (leave blank to keep current)"
+                    maxLength={4}
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(member.id)}
@@ -109,7 +122,12 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                 </div>
               ) : (
                 <>
-                  <div className="font-semibold text-stone-900">{member.name}</div>
+                  <div className="flex justify-between items-start gap-2">
+                    <div className="font-semibold text-stone-900">{member.name}</div>
+                    <span className={`text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap ${member.hasPin ? 'bg-brand-50 text-brand-700' : 'bg-stone-100 text-stone-500'}`}>
+                      {member.hasPin ? 'Login enabled' : 'No login'}
+                    </span>
+                  </div>
                   <div className="text-sm text-stone-600">Age: {member.age || 'N/A'} • Services: {member.completedJobs || 0}</div>
                   {member.skills && <div className="text-sm text-stone-600 mt-1">{member.skills}</div>}
                   <button

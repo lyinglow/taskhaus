@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
-import { verifyToken, getTokenFromHeader } from '@/lib/auth';
+import { verifyToken, getTokenFromHeader, hashPassword } from '@/lib/auth';
 
 async function verifyAdmin(req) {
   const token = getTokenFromHeader(req.headers.get('authorization'));
@@ -18,7 +18,7 @@ export async function PATCH(req, { params }) {
     }
 
     const { id } = params;
-    const { name, age, skills, isAvailable } = await req.json();
+    const { name, age, skills, isAvailable, pin } = await req.json();
 
     const member = await prisma.crewMember.update({
       where: { id: parseInt(id) },
@@ -27,6 +27,7 @@ export async function PATCH(req, { params }) {
         ...(age !== undefined && { age: age ? parseInt(age) : null }),
         ...(skills !== undefined && { skills: skills || null }),
         ...(isAvailable !== undefined && { isAvailable }),
+        ...(pin && { pinHash: await hashPassword(pin) }),
       },
     });
 

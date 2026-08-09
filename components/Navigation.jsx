@@ -2,16 +2,20 @@
 
 import { useState } from 'react';
 
-export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate }) {
+export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onNavigate }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const links = isAdmin
     ? [{ label: 'Dashboard', page: 'admin-dashboard' }]
+    : isCrew
+    ? [{ label: 'My Jobs', page: 'crew-portal' }]
     : [
         { label: 'Services', page: 'browse-services' },
         { label: 'Current Tasks', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
       ];
+
+  const homePage = isAdmin ? 'admin-dashboard' : isCrew ? 'crew-portal' : 'browse-services';
 
   const go = (page) => {
     setMenuOpen(false);
@@ -28,7 +32,7 @@ export default function Navigation({ isAdmin, currentUser, onLogout, onNavigate 
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-5 flex justify-between items-center">
         <button
           type="button"
-          onClick={() => go(isAdmin ? 'admin-dashboard' : 'browse-services')}
+          onClick={() => go(homePage)}
           className="text-left"
         >
           <h1 className="text-xl font-bold text-brand-700">The Garden Unit</h1>

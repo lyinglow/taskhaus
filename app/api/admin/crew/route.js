@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
-import { verifyToken, getTokenFromHeader } from '@/lib/auth';
+import { verifyToken, getTokenFromHeader, hashPassword } from '@/lib/auth';
 
 async function verifyAdmin(req) {
   const token = getTokenFromHeader(req.headers.get('authorization'));
@@ -27,7 +27,8 @@ export async function GET(req) {
             status: 'completed'
           }
         });
-        return { ...member, completedJobs: stats };
+        const { pinHash, ...rest } = member;
+        return { ...rest, hasPin: !!pinHash, completedJobs: stats };
       })
     );
 
@@ -44,7 +45,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
-    const { name, age, skills } = await req.json();
+    const { name, age, skills, pin } = await req.json();
 
     if (!name) {
       return NextResponse.json({ error: 'Name required' }, { status: 400 });
@@ -54,7 +55,8 @@ export async function POST(req) {
       data: {
         name,
         age: age ? parseInt(age) : null,
-        skills: skills || null
+        skills: skills || null,
+        pinHash: pin ? await hashPassword(pin) : null
       }
     });
 
