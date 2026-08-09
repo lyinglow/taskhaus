@@ -13,6 +13,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+  const [showAddForm, setShowAddForm] = useState(false);
 
   const categoryLabel = (value) => (value === 'other' ? 'Other Services' : 'Garden Services');
 
@@ -35,6 +36,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setToolsNeeded('');
       setPrice('');
       setCategory('garden');
+      setShowAddForm(false);
       onServicesUpdated();
     } catch (err) {
       console.error('Failed to add service:', err);
@@ -78,10 +80,19 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   };
 
   return (
-    <div className="grid gap-8 md:grid-cols-2">
-      <div>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Add Service</h2>
-        <form onSubmit={handleAdd} className="space-y-4 bg-white p-6 rounded-lg shadow">
+    <div>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-stone-900">Services ({services.length})</h2>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700"
+        >
+          {showAddForm ? 'Cancel' : '+ Add Service'}
+        </button>
+      </div>
+
+      {showAddForm && (
+        <form onSubmit={handleAdd} className="space-y-4 bg-white p-6 rounded-lg shadow mb-6">
           <input
             type="text"
             value={name}
@@ -136,12 +147,10 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             {loading ? 'Adding...' : 'Add Service'}
           </button>
         </form>
-      </div>
+      )}
 
-      <div>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Services ({services.length})</h2>
-        <div className="space-y-3">
-          {services.map((service) => (
+      <div className="space-y-3">
+        {services.map((service) => (
             <div
               key={service.id}
               className="bg-white p-5 rounded-lg border border-stone-200"
@@ -243,8 +252,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                 </>
               )}
             </div>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
+  const [showAddForm, setShowAddForm] = useState(false);
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -21,6 +22,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
       setAge('');
       setSkills('');
       setPin('');
+      setShowAddForm(false);
       onCrewUpdated();
     } catch (err) {
       console.error('Failed to add crew:', err);
@@ -54,10 +56,19 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
   };
 
   return (
-    <div className="grid gap-8 md:grid-cols-2">
-      <div>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Add Team Member</h2>
-        <form onSubmit={handleAdd} className="space-y-4 bg-white p-6 rounded-lg shadow">
+    <div>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-stone-900">Team Members ({crew.length})</h2>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700"
+        >
+          {showAddForm ? 'Cancel' : '+ Add Team Member'}
+        </button>
+      </div>
+
+      {showAddForm && (
+        <form onSubmit={handleAdd} className="space-y-4 bg-white p-6 rounded-lg shadow mb-6">
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <textarea value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="Skills" rows={3} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
@@ -66,12 +77,10 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
             {loading ? 'Adding...' : 'Add Team Member'}
           </button>
         </form>
-      </div>
+      )}
 
-      <div>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Team Members ({crew.length})</h2>
-        <div className="space-y-3">
-          {crew.map(member => (
+      <div className="space-y-3">
+        {crew.map(member => (
             <div key={member.id} className="bg-white p-4 rounded-lg border border-stone-200">
               {editingId === member.id ? (
                 <div className="space-y-3">
@@ -139,8 +148,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                 </>
               )}
             </div>
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -13,6 +13,18 @@ export default function AdminDashboard({ onNavigate }) {
   const [crew, setCrew] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updateStatus, setUpdateStatus] = useState('');
+
+  const runDescriptionUpdate = async () => {
+    setUpdateStatus('Running...');
+    try {
+      const res = await api.post('/admin/update-service-descriptions');
+      setUpdateStatus(res.data.message || 'Done.');
+      loadData();
+    } catch (err) {
+      setUpdateStatus(err.response?.data?.error || 'Update failed');
+    }
+  };
 
   useEffect(() => {
     loadData();
@@ -38,6 +50,17 @@ export default function AdminDashboard({ onNavigate }) {
   return (
     <div className="container max-w-6xl py-10 mx-auto px-4">
       <h1 className="text-3xl font-bold text-stone-900 mb-8">Admin Dashboard</h1>
+
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+        <p className="text-sm text-stone-700 mb-2">One-time setup: writes richer descriptions to all 11 existing services.</p>
+        <button
+          onClick={runDescriptionUpdate}
+          className="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-700"
+        >
+          Update Descriptions
+        </button>
+        {updateStatus && <p className="text-sm text-stone-700 mt-2">{updateStatus}</p>}
+      </div>
 
       <div className="flex gap-4 mb-8 border-b border-stone-200 overflow-x-auto">
         {['jobs', 'services', 'crew', 'ledger'].map(tab => (
