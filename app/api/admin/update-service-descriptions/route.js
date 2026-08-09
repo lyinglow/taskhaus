@@ -69,7 +69,7 @@ export async function POST(req) {
     }
 
     let updated = 0;
-    let skipped = 0;
+    const notFound = [];
 
     for (const entry of updates) {
       const result = await prisma.service.updateMany({
@@ -80,12 +80,16 @@ export async function POST(req) {
         },
       });
       if (result.count > 0) updated += result.count;
-      else skipped++;
+      else notFound.push(entry.name);
     }
+
+    const allServices = await prisma.service.findMany({ select: { name: true } });
 
     return NextResponse.json({
       success: true,
-      message: `Updated ${updated} services. ${skipped > 0 ? `${skipped} name(s) not found.` : ''}`,
+      message: `Updated ${updated} services.${notFound.length > 0 ? ` Not found: ${notFound.join(', ')}.` : ''}`,
+      notFound,
+      actualNames: allServices.map(s => s.name),
     });
   } catch (err) {
     console.error('Update error:', err);

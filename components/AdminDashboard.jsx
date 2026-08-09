@@ -19,7 +19,11 @@ export default function AdminDashboard({ onNavigate }) {
     setUpdateStatus('Running...');
     try {
       const res = await api.post('/admin/update-service-descriptions');
-      setUpdateStatus(res.data.message || 'Done.');
+      let msg = res.data.message || 'Done.';
+      if (res.data.actualNames?.length) {
+        msg += `\n\nCurrent service names in database:\n${res.data.actualNames.join(', ')}`;
+      }
+      setUpdateStatus(msg);
       loadData();
     } catch (err) {
       setUpdateStatus(err.response?.data?.error || 'Update failed');
@@ -59,7 +63,7 @@ export default function AdminDashboard({ onNavigate }) {
         >
           Update Descriptions
         </button>
-        {updateStatus && <p className="text-sm text-stone-700 mt-2">{updateStatus}</p>}
+        {updateStatus && <p className="text-sm text-stone-700 mt-2 whitespace-pre-line">{updateStatus}</p>}
       </div>
 
       <div className="flex gap-4 mb-8 border-b border-stone-200 overflow-x-auto">
