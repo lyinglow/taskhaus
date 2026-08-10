@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import Spinner from './Spinner';
 
-export default function Ledger() {
+export default function Ledger({ jobs = [] }) {
   const [ledger, setLedger] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -23,10 +23,60 @@ export default function Ledger() {
     }
   };
 
+  const csvEscape = (value) => {
+    const s = value === null || value === undefined ? '' : String(value);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+
+  const exportSalesCSV = () => {
+    const cost = (job) => job.finalPrice || job.quotedPrice || job.service?.price || '';
+    const headers = ['Job ID', 'Date Booked', 'Date Completed', 'Customer', 'Service', 'Status', 'Team Member', 'Recurrence', 'Price (GBP)'];
+    const rows = [...jobs]
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      .map(job => [
+        job.id,
+        job.createdAt ? new Date(job.createdAt).toLocaleDateString('en-GB') : '',
+        job.completedAt ? new Date(job.completedAt).toLocaleDateString('en-GB') : '',
+        job.customerName || '',
+        job.serviceName || job.customRequest || '',
+        job.status,
+        job.crewName || '',
+        job.recurrence || '',
+        cost(job),
+      ]);
+
+    const csv = [headers, ...rows].map(row => row.map(csvEscape).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `garden-unit-sales-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   if (loading) return <div className="flex justify-center py-8"><Spinner /></div>;
 
   return (
     <div className="space-y-10">
+      <section>
+        <div className="bg-white p-5 rounded-lg border border-stone-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 className="font-bold text-stone-900">Sales Data</h2>
+            <p className="text-sm text-stone-600">Download every booking as a CSV, then import it into Google Sheets.</p>
+          </div>
+          <button
+            onClick={exportSalesCSV}
+            disabled={jobs.length === 0}
+            className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 disabled:opacity-50 whitespace-nowrap"
+          >
+            Export Sales CSV
+          </button>
+        </div>
+      </section>
+
       <section>
         <h2 className="text-xl font-bold text-stone-900 mb-4">Team Member Earnings</h2>
         <div className="bg-white rounded-lg shadow overflow-hidden">

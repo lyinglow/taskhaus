@@ -93,7 +93,7 @@ export default function AdminDashboard({ onNavigate }) {
           {activeTab === 'jobs' && <JobManagement jobs={jobs} crew={crew} onJobUpdated={loadData} />}
           {activeTab === 'services' && <ServiceManagement services={services} onServicesUpdated={loadData} />}
           {activeTab === 'crew' && <CrewManagement crew={crew} onCrewUpdated={loadData} />}
-          {activeTab === 'ledger' && <Ledger />}
+          {activeTab === 'ledger' && <Ledger jobs={jobs} />}
         </>
       )}
     </div>
