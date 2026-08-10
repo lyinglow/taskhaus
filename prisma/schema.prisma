@@ -19,6 +19,8 @@ model Parent {
   passwordHash String
   marketingOptIn   Boolean   @default(false)
   marketingOptInAt DateTime?
+  failedLoginAttempts Int @default(0)
+  loginLockedUntil   DateTime?
   createdAt DateTime @default(now())
 
   jobs     Job[]
@@ -33,6 +35,8 @@ model CrewMember {
   skills    String?
   isAvailable Boolean @default(true)
   pinHash   String?
+  failedPinAttempts Int @default(0)
+  pinLockedUntil   DateTime?
   createdAt DateTime @default(now())
 
   jobs     Job[]
@@ -93,6 +97,12 @@ model Review {
   job     Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
   service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
   parent  Parent @relation(fields: [parentId], references: [id], onDelete: Cascade)
+}
+
+model AdminLoginAttempt {
+  id             Int       @id @default(autoincrement())
+  failedAttempts Int       @default(0)
+  lockedUntil    DateTime?
 }
 
 model Payment {
