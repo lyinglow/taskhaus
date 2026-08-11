@@ -141,7 +141,7 @@ export default function Home() {
               onClick={() => setPage('register')}
               className="w-full bg-accent-600 text-white py-3 rounded-lg font-semibold hover:bg-accent-700 transition"
             >
-              Customer Sign Up
+              Sign up for free
             </button>
             <div className="flex justify-center gap-6 pt-2">
               <button
