@@ -1,19 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '@/lib/api';
 import ServiceCard from './ServiceCard';
 import Spinner from './Spinner';
 
-export default function BrowseServices({ onNavigate }) {
+export default function BrowseServices({ onNavigate, searchFocusToken }) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
+  const [search, setSearch] = useState('');
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     fetchServices();
     fetchJobs();
   }, []);
+
+  useEffect(() => {
+    if (searchFocusToken) searchInputRef.current?.focus();
+  }, [searchFocusToken]);
 
   const fetchServices = async () => {
     try {
@@ -39,9 +45,21 @@ export default function BrowseServices({ onNavigate }) {
   const confirmedCount = jobs.filter(j => j.status === 'confirmed' || j.status === 'review').length;
   const completedCount = jobs.filter(j => j.status === 'completed').length;
 
-  const gardenServices = services.filter(s => s.serviceType === 'fixed' && s.category !== 'other');
-  const otherServices = services.filter(s => s.serviceType === 'fixed' && s.category === 'other');
-  const quoteServices = services.filter(s => s.serviceType === 'quote');
+  const matchesSearch = (service) => {
+    const query = search.trim().toLowerCase();
+    if (!query) return true;
+    return (
+      service.name?.toLowerCase().includes(query) ||
+      service.description?.toLowerCase().includes(query) ||
+      service.longDescription?.toLowerCase().includes(query)
+    );
+  };
+
+  const filteredServices = services.filter(matchesSearch);
+  const gardenServices = filteredServices.filter(s => s.serviceType === 'fixed' && s.category !== 'other');
+  const otherServices = filteredServices.filter(s => s.serviceType === 'fixed' && s.category === 'other');
+  const quoteServices = filteredServices.filter(s => s.serviceType === 'quote');
+  const noResults = search.trim() && filteredServices.length === 0;
 
   const selectService = (service) => {
     localStorage.setItem('selectedServiceId', service.id);
@@ -56,6 +74,31 @@ export default function BrowseServices({ onNavigate }) {
     <div className="container max-w-4xl py-10 mx-auto px-4">
       <h1 className="text-3xl font-bold text-stone-900 mb-2">Available Services</h1>
       <p className="text-stone-600 mb-6">Browse and book services from The Garden Unit team</p>
+
+      <div className="relative mb-8">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          ref={searchInputRef}
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search services..."
+          className="w-full pl-10 pr-10 py-2.5 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+        />
+        {search && (
+          <button
+            type="button"
+            onClick={() => setSearch('')}
+            aria-label="Clear search"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 text-lg leading-none"
+          >
+            ×
+          </button>
+        )}
+      </div>
 
       {jobs.length > 0 && (
         <button
@@ -79,16 +122,22 @@ export default function BrowseServices({ onNavigate }) {
 
       {loading ? (
         <div className="flex justify-center py-8"><Spinner /></div>
+      ) : noResults ? (
+        <div className="bg-stone-100 p-10 rounded-lg text-center">
+          <p className="text-stone-600">No services match "{search}".</p>
+        </div>
       ) : (
         <>
-          <section className="mb-14">
-            <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden Services</h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              {gardenServices.map(service => (
-                <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
-              ))}
-            </div>
-          </section>
+          {gardenServices.length > 0 && (
+            <section className="mb-14">
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden Services</h2>
+              <div className="grid gap-6 md:grid-cols-2">
+                {gardenServices.map(service => (
+                  <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
+                ))}
+              </div>
+            </section>
+          )}
 
           {otherServices.length > 0 && (
             <section className="mb-14">

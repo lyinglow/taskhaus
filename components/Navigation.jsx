@@ -2,8 +2,16 @@
 
 import { useState } from 'react';
 
-export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onNavigate }) {
+export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onNavigate, onSearch }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const showSearch = !isAdmin && !isCrew && onSearch;
+
+  const SearchIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-5 h-5">
+      <circle cx="11" cy="11" r="7" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
 
   const links = isAdmin
     ? [{ label: 'Dashboard', page: 'admin-dashboard' }]
@@ -39,7 +47,17 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
           {currentUser && <p className="text-sm text-stone-600">{currentUser.name}</p>}
         </button>
 
-        <div className="hidden md:flex gap-2">
+        <div className="hidden md:flex gap-2 items-center">
+          {showSearch && (
+            <button
+              type="button"
+              onClick={onSearch}
+              aria-label="Search services"
+              className="p-2 text-stone-600 hover:bg-stone-100 rounded"
+            >
+              <SearchIcon />
+            </button>
+          )}
           {links.map((link) => (
             <button
               key={link.page}
@@ -57,17 +75,29 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-        >
-          <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <span className={`block w-6 h-0.5 bg-stone-700 transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-        </button>
+        <div className="md:hidden flex items-center gap-1">
+          {showSearch && (
+            <button
+              type="button"
+              onClick={onSearch}
+              aria-label="Search services"
+              className="flex items-center justify-center w-10 h-10 text-stone-600"
+            >
+              <SearchIcon />
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            className="flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+          >
+            <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-stone-700 transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          </button>
+        </div>
       </div>
 
       {menuOpen && (

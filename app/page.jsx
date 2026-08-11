@@ -26,6 +26,12 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchFocusToken, setSearchFocusToken] = useState(0);
+
+  const handleSearch = () => {
+    setPage('browse-services');
+    setSearchFocusToken((t) => t + 1);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -159,9 +165,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-stone-50 flex flex-col">
-      <Navigation isAdmin={isAdmin} isCrew={isCrew} currentUser={user} onLogout={handleLogout} onNavigate={setPage} />
+      <Navigation isAdmin={isAdmin} isCrew={isCrew} currentUser={user} onLogout={handleLogout} onNavigate={setPage} onSearch={handleSearch} />
       <div className="flex-1">
-        {page === 'browse-services' && <BrowseServices onNavigate={setPage} />}
+        {page === 'browse-services' && <BrowseServices onNavigate={setPage} searchFocusToken={searchFocusToken} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page === 'job-history' && <JobHistory onNavigate={setPage} />}
         {page.startsWith('job-detail-') && <JobDetail jobId={parseInt(page.split('-')[2])} onNavigate={setPage} />}
