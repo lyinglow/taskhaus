@@ -129,7 +129,7 @@ export default function Home() {
           <div className="relative z-10 text-center mb-10 max-w-sm">
             <h1 className="text-4xl font-bold text-stone-900 mb-3">The Garden Unit</h1>
             <p className="text-xl text-stone-700 mb-3">Local garden and home help</p>
-            <p className="text-stone-600">Grass cutting, hedge trimming and garden tidy-ups, plus everyday help like bin duties and local errands — booked in a couple of taps, done by our supervised local team.</p>
+            <p className="text-stone-600">Grass cutting, hedge trimming and garden tidy-ups, plus everyday help like bin duties and local errands. Booked in a couple of taps, done by our supervised local team.</p>
           </div>
           <div className="relative z-10 space-y-4 w-full max-w-sm">
             <button
