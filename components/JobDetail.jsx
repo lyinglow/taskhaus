@@ -9,6 +9,7 @@ export default function JobDetail({ jobId, onNavigate }) {
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
     fetchJob();
@@ -26,8 +27,21 @@ export default function JobDetail({ jobId, onNavigate }) {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed' };
+    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed', cancelled: 'Cancelled' };
     return labels[status] || status;
+  };
+
+  const handleCancel = async () => {
+    if (!confirm('Cancel this request?')) return;
+    setCancelling(true);
+    try {
+      await api.patch(`/jobs/${job.id}`, { status: 'cancelled' });
+      setJob((prev) => ({ ...prev, status: 'cancelled' }));
+    } catch (err) {
+      alert(err.response?.data?.error || 'Failed to cancel request');
+    } finally {
+      setCancelling(false);
+    }
   };
 
   const getCost = (job) => {
@@ -63,7 +77,7 @@ export default function JobDetail({ jobId, onNavigate }) {
         <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
           <div className="flex justify-between items-start gap-3 mb-2">
             <h1 className="text-2xl font-bold text-stone-900">{job.serviceName || 'Custom Request'}</h1>
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : job.status === 'cancelled' ? 'bg-stone-200 text-stone-600' : 'bg-brand-100 text-brand-800'}`}>
               {getStatusLabel(job.status)}
             </span>
           </div>
@@ -120,6 +134,16 @@ export default function JobDetail({ jobId, onNavigate }) {
               </div>
             )}
           </div>
+
+          {(job.status === 'pending' || job.status === 'quoted') && (
+            <button
+              onClick={handleCancel}
+              disabled={cancelling}
+              className="w-full bg-white border border-accent-600 text-accent-700 py-2 rounded-lg font-semibold hover:bg-accent-50 disabled:opacity-50 transition"
+            >
+              {cancelling ? 'Cancelling...' : 'Cancel Request'}
+            </button>
+          )}
 
           {job.status === 'completed' && !job.review && (
             <button

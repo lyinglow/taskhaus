@@ -21,6 +21,8 @@ model Parent {
   marketingOptInAt DateTime?
   failedLoginAttempts Int @default(0)
   loginLockedUntil   DateTime?
+  resetTokenHash      String?
+  resetTokenExpiresAt DateTime?
   createdAt DateTime @default(now())
 
   jobs     Job[]

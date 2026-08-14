@@ -24,7 +24,7 @@ export default function JobHistory({ onNavigate }) {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed' };
+    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed', cancelled: 'Cancelled' };
     return labels[status] || status;
   };
 
@@ -105,7 +105,7 @@ export default function JobHistory({ onNavigate }) {
                     <div className="text-sm text-accent-700">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
                   )}
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : job.status === 'cancelled' ? 'bg-stone-200 text-stone-600' : 'bg-brand-100 text-brand-800'}`}>
                   {getStatusLabel(job.status)}
                 </span>
               </div>

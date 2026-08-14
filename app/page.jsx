@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Login from '@/components/Login';
 import Register from '@/components/Register';
+import ForgotPassword from '@/components/ForgotPassword';
+import ResetPassword from '@/components/ResetPassword';
 import AdminDashboard from '@/components/AdminDashboard';
 import BrowseServices from '@/components/BrowseServices';
 import BookJob from '@/components/BookJob';
@@ -27,6 +29,7 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchFocusToken, setSearchFocusToken] = useState(0);
+  const [resetToken, setResetToken] = useState(null);
 
   const handleSearch = () => {
     setPage('browse-services');
@@ -34,6 +37,13 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get('resetToken');
+    if (tokenFromUrl) {
+      setResetToken(tokenFromUrl);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
     const token = localStorage.getItem('token');
     const isAdminToken = localStorage.getItem('isAdmin');
     const isCrewToken = localStorage.getItem('isCrew');
@@ -94,9 +104,15 @@ export default function Home() {
     return <div className="min-h-screen flex items-center justify-center"><Spinner size="lg" /></div>;
   }
 
+  if (resetToken) {
+    return <ResetPassword token={resetToken} onDone={() => { setResetToken(null); setPage('login'); }} />;
+  }
+
   if (!isLoggedIn) {
     if (page === 'login') {
-      return <Login onLogin={handleLogin} onSwitchPage={() => setPage('register')} onCancel={() => setPage('home')} />;
+      return <Login onLogin={handleLogin} onSwitchPage={() => setPage('register')} onCancel={() => setPage('home')} onForgotPassword={() => setPage('forgot-password')} />;
+    } else if (page === 'forgot-password') {
+      return <ForgotPassword onCancel={() => setPage('login')} />;
     } else if (page === 'register') {
       return <Register onRegister={handleLogin} onSwitchPage={() => setPage('login')} onCancel={() => setPage('home')} />;
     } else if (page === 'admin-login') {

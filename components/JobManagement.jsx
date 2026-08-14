@@ -9,7 +9,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   const [expandedCustomer, setExpandedCustomer] = useState(null);
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Ready for Review', completed: 'Completed' };
+    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Ready for Review', completed: 'Completed', cancelled: 'Cancelled' };
     return labels[status] || status;
   };
 
@@ -81,7 +81,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
             <p className="text-sm text-accent-700 mt-0.5">🔁 Repeats {recurrenceLabel(job.recurrence)}</p>
           )}
         </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : 'bg-brand-100 text-brand-800'}`}>
+        <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : job.status === 'cancelled' ? 'bg-stone-200 text-stone-600' : 'bg-brand-100 text-brand-800'}`}>
           {getStatusLabel(job.status)}
         </span>
       </div>

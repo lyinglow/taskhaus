@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import api from '@/lib/api';
 
-export default function Login({ isAdmin = false, onLogin, onSwitchPage, onCancel }) {
+export default function Login({ isAdmin = false, onLogin, onSwitchPage, onCancel, onForgotPassword }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -65,6 +65,18 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage, onCancel
           </div>
 
           {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">{error}</div>}
+
+          {!isAdmin && (
+            <div className="text-right -mt-2">
+              <button
+                type="button"
+                onClick={onForgotPassword}
+                className="text-brand-700 hover:text-brand-800 text-sm font-medium"
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
 
           <button
             type="submit"
