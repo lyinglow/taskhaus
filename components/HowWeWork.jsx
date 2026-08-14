@@ -52,9 +52,11 @@ export default function HowWeWork({ onBack }) {
             <div>
               <h2 className="font-semibold text-stone-900 mb-1">Not Happy With Something?</h2>
               <p>
-                If you're not happy with the service you received, please call us on{' '}
-                <span className="font-semibold">[phone number]</span> and we'll rectify the
-                issue as soon as possible.
+                If you're not happy with the service you received, please email us at{' '}
+                <a href="mailto:services@thegardenunit.co.uk" className="font-semibold text-brand-700 hover:text-brand-800">
+                  services@thegardenunit.co.uk
+                </a>{' '}
+                and we'll rectify the issue as soon as possible.
               </p>
             </div>
 
