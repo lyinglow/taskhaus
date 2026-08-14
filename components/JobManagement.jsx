@@ -163,7 +163,13 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
 
               {isExpanded && (
                 <div className="px-5 pb-5">
-                  {customer.jobs.map(job => <JobRow key={job.id} job={job} />)}
+                  {customer.jobs.filter(j => j.status !== 'cancelled').map(job => <JobRow key={job.id} job={job} />)}
+                  {customer.jobs.some(j => j.status === 'cancelled') && (
+                    <>
+                      <h4 className="text-sm font-semibold text-stone-500 mt-2 mb-3">Cancelled</h4>
+                      {customer.jobs.filter(j => j.status === 'cancelled').map(job => <JobRow key={job.id} job={job} />)}
+                    </>
+                  )}
                 </div>
               )}
             </div>

@@ -54,6 +54,56 @@ export default function JobHistory({ onNavigate }) {
   const pendingCount = jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
   const confirmedCount = jobs.filter(j => j.status === 'confirmed' || j.status === 'review').length;
   const completedCount = jobs.filter(j => j.status === 'completed').length;
+  const activeJobs = jobs.filter(j => j.status !== 'cancelled');
+  const cancelledJobs = jobs.filter(j => j.status === 'cancelled');
+
+  const JobCard = ({ job }) => {
+    const cost = getCost(job);
+    return (
+      <div
+        onClick={() => onNavigate(`job-detail-${job.id}`)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onNavigate(`job-detail-${job.id}`); } }}
+        className="bg-white p-5 rounded-lg border border-stone-200 hover:shadow-lg transition cursor-pointer"
+      >
+        <div className="flex justify-between items-start mb-3">
+          <div>
+            <h3 className="text-lg font-bold text-stone-900">{job.serviceName || job.customRequest}</h3>
+            {job.recurrence && (
+              <div className="text-sm text-accent-700">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
+            )}
+          </div>
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : job.status === 'cancelled' ? 'bg-stone-200 text-stone-600' : 'bg-brand-100 text-brand-800'}`}>
+            {getStatusLabel(job.status)}
+          </span>
+        </div>
+        {job.crewName && <div className="text-sm text-stone-600">Team Member: {job.crewName}</div>}
+        {job.timeWindow && <div className="text-sm text-stone-600">Time: {job.timeWindow}</div>}
+        {cost && (
+          <div className="text-base font-bold text-stone-900 mt-1">
+            {cost.label}: {cost.from && <span className="text-[13px] font-medium align-baseline">From </span>}£{Number(cost.value).toFixed(2)}
+          </div>
+        )}
+        {job.status === 'completed' && !job.review && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
+            className="mt-3 w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
+          >
+            Leave a Review
+          </button>
+        )}
+        {job.status === 'completed' && job.service && (
+          <button
+            onClick={(e) => bookAgain(e, job)}
+            className="mt-2 w-full bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
+          >
+            Book Again
+          </button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
@@ -86,55 +136,19 @@ export default function JobHistory({ onNavigate }) {
           </button>
         </div>
       ) : (
-        <div className="space-y-5">
-          {jobs.map(job => {
-            const cost = getCost(job);
-            return (
-            <div
-              key={job.id}
-              onClick={() => onNavigate(`job-detail-${job.id}`)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onNavigate(`job-detail-${job.id}`); } }}
-              className="bg-white p-5 rounded-lg border border-stone-200 hover:shadow-lg transition cursor-pointer"
-            >
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h3 className="text-lg font-bold text-stone-900">{job.serviceName || job.customRequest}</h3>
-                  {job.recurrence && (
-                    <div className="text-sm text-accent-700">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
-                  )}
-                </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : job.status === 'cancelled' ? 'bg-stone-200 text-stone-600' : 'bg-brand-100 text-brand-800'}`}>
-                  {getStatusLabel(job.status)}
-                </span>
+        <div className="space-y-8">
+          <div className="space-y-5">
+            {activeJobs.map(job => <JobCard key={job.id} job={job} />)}
+          </div>
+
+          {cancelledJobs.length > 0 && (
+            <div>
+              <h2 className="text-lg font-bold text-stone-500 mb-4">Cancelled</h2>
+              <div className="space-y-5">
+                {cancelledJobs.map(job => <JobCard key={job.id} job={job} />)}
               </div>
-              {job.crewName && <div className="text-sm text-stone-600">Team Member: {job.crewName}</div>}
-              {job.timeWindow && <div className="text-sm text-stone-600">Time: {job.timeWindow}</div>}
-              {cost && (
-                <div className="text-base font-bold text-stone-900 mt-1">
-                  {cost.label}: {cost.from && <span className="text-[13px] font-medium align-baseline">From </span>}£{Number(cost.value).toFixed(2)}
-                </div>
-              )}
-              {job.status === 'completed' && !job.review && (
-                <button
-                  onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
-                  className="mt-3 w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
-                >
-                  Leave a Review
-                </button>
-              )}
-              {job.status === 'completed' && job.service && (
-                <button
-                  onClick={(e) => bookAgain(e, job)}
-                  className="mt-2 w-full bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
-                >
-                  Book Again
-                </button>
-              )}
             </div>
-            );
-          })}
+          )}
         </div>
       )}
     </div>
