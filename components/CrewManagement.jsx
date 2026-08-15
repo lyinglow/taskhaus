@@ -73,7 +73,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
           <input type="number" value={age} onChange={(e) => setAge(e.target.value)} placeholder="Age" className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <textarea value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="Skills" rows={3} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <input type="text" inputMode="numeric" value={pin} onChange={(e) => setPin(e.target.value)} placeholder="4-digit PIN (for team login)" maxLength={4} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
-          <button type="submit" disabled={loading} className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
+          <button type="submit" disabled={loading} className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
             {loading ? 'Adding...' : 'Add Team Member'}
           </button>
         </form>
@@ -117,13 +117,13 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                     <button
                       onClick={() => handleUpdate(member.id)}
                       disabled={loading}
-                      className="flex-1 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
+                      className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="flex-1 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
+                      className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
                     >
                       Cancel
                     </button>
@@ -141,7 +141,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                   {member.skills && <div className="text-sm text-stone-600 mt-1">{member.skills}</div>}
                   <button
                     onClick={() => startEditing(member)}
-                    className="w-full bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700 mt-3"
+                    className="w-full sm:w-auto sm:px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700 mt-3"
                   >
                     Edit
                   </button>
