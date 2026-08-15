@@ -17,7 +17,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [editData, setEditData] = useState({});
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const categoryLabel = (value) => (value === 'other' ? 'Other Services' : 'Garden Services');
+  const categoryLabel = (value) => (value === 'other' ? 'Other services' : 'Garden services');
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -95,7 +95,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
           onClick={() => setShowAddForm(!showAddForm)}
           className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700"
         >
-          {showAddForm ? 'Cancel' : '+ Add Service'}
+          {showAddForm ? 'Cancel' : '+ Add service'}
         </button>
       </div>
 
@@ -144,8 +144,8 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             onChange={(e) => setCategory(e.target.value)}
             className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           >
-            <option value="garden">Garden Services</option>
-            <option value="other">Other Services</option>
+            <option value="garden">Garden services</option>
+            <option value="other">Other services</option>
           </select>
           <label className="flex items-start gap-2 text-sm text-stone-700">
             <input
@@ -166,9 +166,9 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50"
+            className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50"
           >
-            {loading ? 'Adding...' : 'Add Service'}
+            {loading ? 'Adding...' : 'Add service'}
           </button>
         </form>
       )}
@@ -220,8 +220,8 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     onChange={(e) => setEditData({ ...editData, category: e.target.value })}
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   >
-                    <option value="garden">Garden Services</option>
-                    <option value="other">Other Services</option>
+                    <option value="garden">Garden services</option>
+                    <option value="other">Other services</option>
                   </select>
                   <label className="flex items-start gap-2 text-sm text-stone-700">
                     <input
@@ -243,13 +243,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     <button
                       onClick={() => handleUpdate(service.id)}
                       disabled={loading}
-                      className="flex-1 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
+                      className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="flex-1 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
+                      className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
                     >
                       Cancel
                     </button>
@@ -286,13 +286,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           partnerCredit: service.partnerCredit || '',
                         });
                       }}
-                      className="flex-1 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
+                      className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(service.id)}
-                      className="flex-1 bg-red-600 text-white py-1 rounded text-sm font-semibold hover:bg-red-700"
+                      className="flex-1 sm:flex-none sm:px-6 bg-red-600 text-white py-1 rounded text-sm font-semibold hover:bg-red-700"
                     >
                       Remove
                     </button>

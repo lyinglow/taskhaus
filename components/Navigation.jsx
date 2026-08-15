@@ -16,10 +16,10 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
   const links = isAdmin
     ? [{ label: 'Dashboard', page: 'admin-dashboard' }]
     : isCrew
-    ? [{ label: 'My Jobs', page: 'crew-portal' }]
+    ? [{ label: 'My jobs', page: 'crew-portal' }]
     : [
         { label: 'Services', page: 'browse-services' },
-        { label: 'Current Tasks', page: 'job-history' },
+        { label: 'Current tasks', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
         { label: 'Feedback', page: 'feedback' },
       ];
@@ -45,7 +45,6 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
           className="text-left"
         >
           <h1 className="text-xl font-bold text-brand-700">The Garden Unit</h1>
-          {currentUser && <p className="text-sm text-stone-600">{currentUser.name}</p>}
         </button>
 
         <div className="hidden md:flex gap-2 items-center">

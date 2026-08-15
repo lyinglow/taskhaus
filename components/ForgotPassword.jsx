@@ -55,7 +55,7 @@ export default function ForgotPassword({ onCancel }) {
               disabled={loading}
               className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
             >
-              {loading ? 'Sending...' : 'Send Reset Link'}
+              {loading ? 'Sending...' : 'Send reset link'}
             </button>
           </form>
         )}

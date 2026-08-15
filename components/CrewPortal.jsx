@@ -48,7 +48,7 @@ export default function CrewPortal() {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Awaiting Admin Review', completed: 'Completed' };
+    const labels = { pending: 'Pending', quoted: 'Quote sent', confirmed: 'Confirmed', review: 'Awaiting admin review', completed: 'Completed' };
     return labels[status] || status;
   };
 
@@ -144,9 +144,9 @@ export default function CrewPortal() {
         <button
           onClick={() => markReadyForReview(job.id)}
           disabled={!job.photoAfterUrl || markingReady[job.id]}
-          className="w-full mt-3 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full sm:w-auto sm:px-8 mt-3 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {markingReady[job.id] ? 'Marking...' : 'Job Ready for Review'}
+          {markingReady[job.id] ? 'Marking...' : 'Job ready for review'}
         </button>
       )}
       {job.status === 'confirmed' && job.requiresPhotoReview !== false && !job.photoAfterUrl && (
@@ -160,7 +160,7 @@ export default function CrewPortal() {
 
   return (
     <div className="container max-w-2xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">My Jobs</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-6">My jobs</h1>
 
       {!loading && jobs.length > 0 && (
         <div className="bg-brand-50 border border-brand-100 rounded-lg p-5 mb-8 flex gap-8">

@@ -27,7 +27,7 @@ export default function JobDetail({ jobId, onNavigate }) {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed', cancelled: 'Cancelled' };
+    const labels = { pending: 'Pending review', quoted: 'Quote received', confirmed: 'Confirmed', review: 'Final checks', completed: 'Completed', cancelled: 'Cancelled' };
     return labels[status] || status;
   };
 
@@ -71,16 +71,19 @@ export default function JobDetail({ jobId, onNavigate }) {
           onClick={() => onNavigate('job-history')}
           className="flex items-center gap-1 text-stone-600 hover:text-stone-900 font-medium mb-5 transition"
         >
-          <span className="text-lg">←</span> Back to Current Tasks
+          <span className="text-lg">←</span> Back to current tasks
         </button>
 
         <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
           <div className="flex justify-between items-start gap-3 mb-2">
-            <h1 className="text-2xl font-bold text-stone-900">{job.serviceName || 'Custom Request'}</h1>
+            <h1 className="text-2xl font-bold text-stone-900">{job.serviceName || 'Custom request'}</h1>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${job.status === 'review' ? 'bg-accent-100 text-accent-800' : job.status === 'cancelled' ? 'bg-stone-200 text-stone-600' : 'bg-brand-100 text-brand-800'}`}>
               {getStatusLabel(job.status)}
             </span>
           </div>
+          {job.createdAt && (
+            <div className="text-xs text-stone-400 mb-2">Requested on {new Date(job.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+          )}
           {job.recurrence && (
             <div className="text-sm text-accent-700 mb-4">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
           )}
@@ -109,7 +112,7 @@ export default function JobDetail({ jobId, onNavigate }) {
           <div className="space-y-4 mb-6">
             {job.crewName && (
               <div>
-                <div className="text-sm font-medium text-stone-500">Team Member</div>
+                <div className="text-sm font-medium text-stone-500">Team member</div>
                 <div className="text-stone-900">{job.crewName}</div>
               </div>
             )}
@@ -121,7 +124,7 @@ export default function JobDetail({ jobId, onNavigate }) {
             )}
             {job.customRequest && (
               <div>
-                <div className="text-sm font-medium text-stone-500">Your Notes</div>
+                <div className="text-sm font-medium text-stone-500">Your notes</div>
                 <div className="text-stone-900">{job.customRequest}</div>
               </div>
             )}
@@ -139,18 +142,18 @@ export default function JobDetail({ jobId, onNavigate }) {
             <button
               onClick={handleCancel}
               disabled={cancelling}
-              className="w-full bg-white border border-accent-600 text-accent-700 py-2 rounded-lg font-semibold hover:bg-accent-50 disabled:opacity-50 transition"
+              className="w-full sm:w-auto sm:px-8 bg-white border border-accent-600 text-accent-700 py-2 rounded-lg font-semibold hover:bg-accent-50 disabled:opacity-50 transition"
             >
-              {cancelling ? 'Cancelling...' : 'Cancel Request'}
+              {cancelling ? 'Cancelling...' : 'Cancel request'}
             </button>
           )}
 
           {job.status === 'completed' && !job.review && (
             <button
               onClick={() => onNavigate(`review-${job.id}`)}
-              className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
+              className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
             >
-              Leave a Review
+              Leave a review
             </button>
           )}
 

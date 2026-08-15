@@ -9,7 +9,7 @@ export default function HowWeWork({ onBack }) {
       <div className="absolute inset-0 bg-stone-50/70" />
       <div className="relative z-10 max-w-2xl mx-auto">
         <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold text-stone-900 mb-6">How We Work</h1>
+          <h1 className="text-2xl font-bold text-stone-900 mb-6">How we work</h1>
 
           <div className="space-y-5 text-stone-700">
             <p>
@@ -27,7 +27,7 @@ export default function HowWeWork({ onBack }) {
             </div>
 
             <div>
-              <h2 className="font-semibold text-stone-900 mb-1">Power &amp; Water</h2>
+              <h2 className="font-semibold text-stone-900 mb-1">Power &amp; water</h2>
               <p>
                 For certain services we may need to use your power or water supply. We'll
                 always be upfront about this when the job is confirmed.
@@ -43,14 +43,14 @@ export default function HowWeWork({ onBack }) {
             </div>
 
             <div>
-              <h2 className="font-semibold text-stone-900 mb-1">Leaving Things Right</h2>
+              <h2 className="font-semibold text-stone-900 mb-1">Leaving things right</h2>
               <p>
                 Every service is left clean and tidy once the job is done.
               </p>
             </div>
 
             <div>
-              <h2 className="font-semibold text-stone-900 mb-1">Not Happy With Something?</h2>
+              <h2 className="font-semibold text-stone-900 mb-1">Not happy with something?</h2>
               <p>
                 If you're not happy with the service you received, please email us at{' '}
                 <a href="mailto:services@thegardenunit.co.uk" className="font-semibold text-brand-700 hover:text-brand-800">

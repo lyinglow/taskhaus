@@ -24,7 +24,7 @@ export default function JobHistory({ onNavigate }) {
   };
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending Review', quoted: 'Quote Received', confirmed: 'Confirmed', review: 'Final Checks', completed: 'Completed', cancelled: 'Cancelled' };
+    const labels = { pending: 'Pending review', quoted: 'Quote received', confirmed: 'Confirmed', review: 'Final checks', completed: 'Completed', cancelled: 'Cancelled' };
     return labels[status] || status;
   };
 
@@ -70,6 +70,9 @@ export default function JobHistory({ onNavigate }) {
         <div className="flex justify-between items-start mb-3">
           <div>
             <h3 className="text-lg font-bold text-stone-900">{job.serviceName || job.customRequest}</h3>
+            {job.createdAt && (
+              <div className="text-xs text-stone-400">Requested on {new Date(job.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+            )}
             {job.recurrence && (
               <div className="text-sm text-accent-700">🔁 Repeats {recurrenceLabel(job.recurrence)}</div>
             )}
@@ -78,7 +81,7 @@ export default function JobHistory({ onNavigate }) {
             {getStatusLabel(job.status)}
           </span>
         </div>
-        {job.crewName && <div className="text-sm text-stone-600">Team Member: {job.crewName}</div>}
+        {job.crewName && <div className="text-sm text-stone-600">Team member: {job.crewName}</div>}
         {job.timeWindow && <div className="text-sm text-stone-600">Time: {job.timeWindow}</div>}
         {cost && (
           <div className="text-base font-bold text-stone-900 mt-1">
@@ -88,17 +91,17 @@ export default function JobHistory({ onNavigate }) {
         {job.status === 'completed' && !job.review && (
           <button
             onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
-            className="mt-3 w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
+            className="mt-3 w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
           >
-            Leave a Review
+            Leave a review
           </button>
         )}
         {job.status === 'completed' && job.service && (
           <button
             onClick={(e) => bookAgain(e, job)}
-            className="mt-2 w-full bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
+            className="mt-2 w-full sm:w-auto sm:px-8 bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
           >
-            Book Again
+            Book again
           </button>
         )}
       </div>
@@ -107,7 +110,7 @@ export default function JobHistory({ onNavigate }) {
 
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">Current Tasks</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-6">Current tasks</h1>
 
       {!loading && jobs.length > 0 && (
         <div className="grid grid-cols-3 gap-3 mb-8">
@@ -132,7 +135,7 @@ export default function JobHistory({ onNavigate }) {
         <div className="bg-stone-100 p-10 rounded-lg text-center">
           <p className="text-stone-600 mb-4">You haven't booked any services yet.</p>
           <button onClick={() => onNavigate('browse-services')} className="bg-brand-600 text-white px-6 py-2 rounded-lg hover:bg-brand-700 transition">
-            Browse Services
+            Browse services
           </button>
         </div>
       ) : (

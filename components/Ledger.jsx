@@ -64,7 +64,7 @@ export default function Ledger({ jobs = [] }) {
       <section>
         <div className="bg-white p-5 rounded-lg border border-stone-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h2 className="font-bold text-stone-900">Sales Data</h2>
+            <h2 className="font-bold text-stone-900">Sales data</h2>
             <p className="text-sm text-stone-600">Download every booking as a CSV, then import it into Google Sheets.</p>
           </div>
           <button
@@ -72,18 +72,18 @@ export default function Ledger({ jobs = [] }) {
             disabled={jobs.length === 0}
             className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 disabled:opacity-50 whitespace-nowrap"
           >
-            Export Sales CSV
+            Export sales CSV
           </button>
         </div>
       </section>
 
       <section>
-        <h2 className="text-xl font-bold text-stone-900 mb-4">Team Member Earnings</h2>
+        <h2 className="text-xl font-bold text-stone-900 mb-4">Team member earnings</h2>
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <table className="w-full">
             <thead className="bg-stone-50">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Team Member</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Team member</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Services</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Earned</th>
               </tr>

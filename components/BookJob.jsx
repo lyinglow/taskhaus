@@ -105,16 +105,16 @@ export default function BookJob({ onNavigate }) {
             <button
               type="button"
               onClick={() => onNavigate('browse-services')}
-              className="flex-1 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700 transition"
+              className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
+              className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
             >
-              {loading ? 'Submitting...' : 'Submit Request'}
+              {loading ? 'Submitting...' : 'Submit request'}
             </button>
           </div>
         </form>

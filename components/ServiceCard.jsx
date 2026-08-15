@@ -34,7 +34,7 @@ export default function ServiceCard({ service, onSelect }) {
         {service.price ? (
           <div className="text-xl font-bold text-brand-700 whitespace-nowrap"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(service.price).toFixed(2)}</div>
         ) : (
-          <div className="text-lg font-semibold text-accent-600 whitespace-nowrap">Custom Quote</div>
+          <div className="text-lg font-semibold text-accent-600 whitespace-nowrap">Custom quote</div>
         )}
       </div>
       <p className="text-stone-600 text-sm mb-5">{service.description}</p>
@@ -52,7 +52,7 @@ export default function ServiceCard({ service, onSelect }) {
 
       <button
         onClick={(e) => { e.stopPropagation(); onSelect(); }}
-        className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
+        className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
       >
         Select
       </button>

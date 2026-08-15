@@ -11,7 +11,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   const [lightboxSrc, setLightboxSrc] = useState(null);
 
   const getStatusLabel = (status) => {
-    const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Ready for Review', completed: 'Completed', cancelled: 'Cancelled' };
+    const labels = { pending: 'Pending', quoted: 'Quote sent', confirmed: 'Confirmed', review: 'Ready for review', completed: 'Completed', cancelled: 'Cancelled' };
     return labels[status] || status;
   };
 
@@ -69,7 +69,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
     <div className="bg-stone-50 p-4 rounded-lg border border-stone-200 mb-3">
       <div className="flex justify-between items-start mb-2">
         <div>
-          <h3 className="font-bold text-stone-900">{job.serviceName || 'Custom Request'}</h3>
+          <h3 className="font-bold text-stone-900">{job.serviceName || 'Custom request'}</h3>
           {job.serviceName && job.customRequest && (
             <p className="text-sm text-stone-600 mt-0.5">{job.customRequest}</p>
           )}
@@ -109,18 +109,18 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
           </select>
           <input type="text" placeholder="Time window" value={formData.timeWindow || ''} onChange={(e) => setFormData({...formData, timeWindow: e.target.value})} className="w-full px-3 py-2 border border-stone-300 rounded-lg" />
           <input type="number" step="0.01" placeholder="Quote price" value={formData.quotedPrice || ''} onChange={(e) => setFormData({...formData, quotedPrice: e.target.value})} className="w-full px-3 py-2 border border-stone-300 rounded-lg" />
-          <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="w-full bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">
-            Confirm & Notify
+          <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="w-full sm:w-auto sm:px-8 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">
+            Confirm & notify
           </button>
         </div>
       ) : (
         <div className="flex gap-2 mt-4">
-          <button onClick={() => { setEditingJob(job.id); setFormData({crewMemberId: job.crewMemberId, timeWindow: job.timeWindow, quotedPrice: job.quotedPrice}); }} className="flex-1 bg-brand-600 text-white py-2 rounded font-semibold hover:bg-brand-700">
+          <button onClick={() => { setEditingJob(job.id); setFormData({crewMemberId: job.crewMemberId, timeWindow: job.timeWindow, quotedPrice: job.quotedPrice}); }} className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-2 rounded font-semibold hover:bg-brand-700">
             Edit
           </button>
-          {job.status === 'pending' && <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="flex-1 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Confirm</button>}
-          {job.status === 'confirmed' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Mark Done</button>}
-          {job.status === 'review' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 bg-accent-600 text-white py-2 rounded font-semibold hover:bg-accent-700">Approve & Complete</button>}
+          {job.status === 'pending' && <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Confirm</button>}
+          {job.status === 'confirmed' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Mark done</button>}
+          {job.status === 'review' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-2 rounded font-semibold hover:bg-accent-700">Approve & complete</button>}
         </div>
       )}
     </div>

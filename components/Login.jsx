@@ -34,7 +34,7 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage, onCancel
       <div className="absolute inset-0 bg-stone-50/50" />
       <div className="relative z-10 bg-white p-8 sm:p-10 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-stone-900 mb-2">
-          {isAdmin ? 'Admin Login' : 'Customer Login'}
+          {isAdmin ? 'Admin login' : 'Customer login'}
         </h2>
         <p className="text-stone-600 mb-8">Sign in to your account</p>
 
@@ -53,7 +53,7 @@ export default function Login({ isAdmin = false, onLogin, onSwitchPage, onCancel
           )}
           <div>
             <label className="block text-sm font-medium text-stone-700 mb-1">
-              {isAdmin ? 'Admin Password' : 'Password'}
+              {isAdmin ? 'Admin password' : 'Password'}
             </label>
             <input
               type="password"

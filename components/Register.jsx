@@ -49,12 +49,12 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
       <Image src="/garden-mist-bg.png" alt="" fill priority className="object-cover -z-10 grayscale" sizes="100vw" />
       <div className="absolute inset-0 bg-stone-50/50" />
       <div className="relative z-10 bg-white p-8 sm:p-10 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-stone-900 mb-2">Create Account</h2>
+        <h2 className="text-2xl font-bold text-stone-900 mb-2">Create account</h2>
         <p className="text-stone-600 mb-8">Join us to book garden and home help</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Full Name</label>
+            <label className="block text-sm font-medium text-stone-700 mb-1">Full name</label>
             <input
               type="text"
               value={name}
@@ -107,7 +107,7 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Confirm Password</label>
+            <label className="block text-sm font-medium text-stone-700 mb-1">Confirm password</label>
             <input
               type="password"
               value={confirmPassword}
@@ -134,7 +134,7 @@ export default function Register({ onRegister, onSwitchPage, onCancel }) {
             disabled={loading}
             className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
           >
-            {loading ? 'Creating account...' : 'Sign Up'}
+            {loading ? 'Creating account...' : 'Sign up'}
           </button>
         </form>
 

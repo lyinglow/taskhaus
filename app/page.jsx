@@ -139,13 +139,13 @@ export default function Home() {
               onClick={() => setPage('admin-login')}
               className="text-sm font-medium text-stone-600 hover:text-stone-900 bg-white/70 hover:bg-white px-3 py-1.5 rounded-lg transition"
             >
-              Admin Login
+              Admin login
             </button>
             <button
               onClick={() => setPage('crew-login')}
               className="text-sm font-medium text-stone-600 hover:text-stone-900 bg-white/70 hover:bg-white px-3 py-1.5 rounded-lg transition"
             >
-              Team Login
+              Team login
             </button>
           </div>
           <div className="relative z-10 text-center mb-10 max-w-sm">
@@ -158,7 +158,7 @@ export default function Home() {
               onClick={() => setPage('login')}
               className="w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition"
             >
-              Customer Login
+              Customer login
             </button>
             <button
               onClick={() => setPage('register')}
@@ -171,19 +171,19 @@ export default function Home() {
                 onClick={() => setPage('about')}
                 className="text-brand-700 hover:text-brand-800 font-medium text-sm"
               >
-                About Us
+                About us
               </button>
               <button
                 onClick={() => setPage('how-we-work')}
                 className="text-brand-700 hover:text-brand-800 font-medium text-sm"
               >
-                How We Work
+                How we work
               </button>
               <button
                 onClick={() => setPage('partners')}
                 className="text-brand-700 hover:text-brand-800 font-medium text-sm"
               >
-                Partner With Us
+                Partner with us
               </button>
             </div>
           </div>

@@ -70,7 +70,7 @@ export default function Profile({ onProfileUpdated }) {
       <div className="absolute inset-0 bg-stone-50/70" />
       <div className="relative z-10 max-w-2xl mx-auto">
       <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-stone-900 mb-6">My Profile</h1>
+        <h1 className="text-2xl font-bold text-stone-900 mb-6">My profile</h1>
 
         {success && !editing && (
           <div className="bg-brand-50 text-brand-700 p-3 rounded-lg text-sm mb-6">Profile updated successfully.</div>
@@ -79,7 +79,7 @@ export default function Profile({ onProfileUpdated }) {
         {editing ? (
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1">Full Name</label>
+              <label className="block text-sm font-medium text-stone-700 mb-1">Full name</label>
               <input
                 type="text"
                 value={formData.name}
@@ -133,14 +133,14 @@ export default function Profile({ onProfileUpdated }) {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
+                className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
               >
-                {saving ? 'Saving...' : 'Save Changes'}
+                {saving ? 'Saving...' : 'Save changes'}
               </button>
               <button
                 type="button"
                 onClick={() => setEditing(false)}
-                className="flex-1 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700 transition"
+                className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700 transition"
               >
                 Cancel
               </button>
@@ -149,7 +149,7 @@ export default function Profile({ onProfileUpdated }) {
         ) : (
           <div className="space-y-5">
             <div>
-              <div className="text-sm font-medium text-stone-500">Full Name</div>
+              <div className="text-sm font-medium text-stone-500">Full name</div>
               <div className="text-stone-900">{profile.name}</div>
             </div>
             <div>
@@ -165,15 +165,15 @@ export default function Profile({ onProfileUpdated }) {
               <div className="text-stone-900">{profile.address || 'Not provided'}</div>
             </div>
             <div>
-              <div className="text-sm font-medium text-stone-500">Marketing Emails</div>
+              <div className="text-sm font-medium text-stone-500">Marketing emails</div>
               <div className="text-stone-900">{profile.marketingOptIn ? 'Subscribed' : 'Not subscribed'}</div>
             </div>
 
             <button
               onClick={startEditing}
-              className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition mt-2"
+              className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition mt-2"
             >
-              Edit Profile
+              Edit profile
             </button>
           </div>
         )}

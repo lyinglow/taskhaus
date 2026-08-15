@@ -51,7 +51,7 @@ export default function ReviewJob({ jobId, onNavigate }) {
       <div className="container max-w-2xl py-12 mx-auto px-4 text-center">
         <div className="bg-brand-50 p-8 rounded-lg">
           <div className="text-4xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold text-brand-700">Thank You!</h2>
+          <h2 className="text-2xl font-bold text-brand-700">Thank you!</h2>
           <p className="text-stone-600">Your review has been submitted.</p>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function ReviewJob({ jobId, onNavigate }) {
   return (
     <div className="container max-w-2xl py-10 mx-auto px-4">
       <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-stone-900 mb-6">Leave a Review</h1>
+        <h1 className="text-2xl font-bold text-stone-900 mb-6">Leave a review</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -94,10 +94,10 @@ export default function ReviewJob({ jobId, onNavigate }) {
           {error && <div className="bg-red-50 text-red-700 p-3 rounded-lg">{error}</div>}
 
           <div className="flex gap-4">
-            <button type="submit" disabled={submitting} className="flex-1 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
-              {submitting ? 'Submitting...' : 'Submit Review'}
+            <button type="submit" disabled={submitting} className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
+              {submitting ? 'Submitting...' : 'Submit review'}
             </button>
-            <button type="button" onClick={() => onNavigate('job-history')} className="flex-1 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700">
+            <button type="button" onClick={() => onNavigate('job-history')} className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-2 rounded-lg font-semibold hover:bg-accent-700">
               Back
             </button>
           </div>

@@ -45,7 +45,7 @@ export default function ResetPassword({ token, onDone }) {
               onClick={onDone}
               className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
             >
-              Continue to Login
+              Continue to login
             </button>
           </>
         ) : (
@@ -53,7 +53,7 @@ export default function ResetPassword({ token, onDone }) {
             <p className="text-stone-600 mb-8">Enter a new password for your account.</p>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1">New Password</label>
+                <label className="block text-sm font-medium text-stone-700 mb-1">New password</label>
                 <input
                   type="password"
                   value={password}
@@ -64,7 +64,7 @@ export default function ResetPassword({ token, onDone }) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1">Confirm Password</label>
+                <label className="block text-sm font-medium text-stone-700 mb-1">Confirm password</label>
                 <input
                   type="password"
                   value={confirmPassword}
@@ -82,7 +82,7 @@ export default function ResetPassword({ token, onDone }) {
                 disabled={loading}
                 className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
               >
-                {loading ? 'Resetting...' : 'Reset Password'}
+                {loading ? 'Resetting...' : 'Reset password'}
               </button>
             </form>
           </>

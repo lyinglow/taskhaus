@@ -43,7 +43,7 @@ export default function Feedback({ onBack }) {
       <div className="absolute inset-0 bg-stone-50/70" />
       <div className="relative z-10 max-w-2xl mx-auto">
         <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold text-stone-900 mb-4">Share Your Feedback</h1>
+          <h1 className="text-2xl font-bold text-stone-900 mb-4">Share your feedback</h1>
           <p className="text-stone-600 mb-8">
             We're always trying to improve, and we'd love to hear what you think. Whether it's
             something about the app itself, the services we offer, the quality of the work, or
@@ -126,9 +126,9 @@ export default function Feedback({ onBack }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
+                className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 transition"
               >
-                {loading ? 'Sending...' : 'Send Feedback'}
+                {loading ? 'Sending...' : 'Send feedback'}
               </button>
             </form>
           )}

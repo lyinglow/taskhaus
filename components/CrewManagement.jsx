@@ -58,12 +58,12 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-stone-900">Team Members ({crew.length})</h2>
+        <h2 className="text-xl font-bold text-stone-900">Team members ({crew.length})</h2>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700"
         >
-          {showAddForm ? 'Cancel' : '+ Add Team Member'}
+          {showAddForm ? 'Cancel' : '+ Add team member'}
         </button>
       </div>
 
@@ -74,7 +74,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
           <textarea value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="Skills" rows={3} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <input type="text" inputMode="numeric" value={pin} onChange={(e) => setPin(e.target.value)} placeholder="4-digit PIN (for team login)" maxLength={4} className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
           <button type="submit" disabled={loading} className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50">
-            {loading ? 'Adding...' : 'Add Team Member'}
+            {loading ? 'Adding...' : 'Add team member'}
           </button>
         </form>
       )}

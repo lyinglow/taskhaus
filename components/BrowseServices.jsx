@@ -72,7 +72,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
 
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-2">Available Services</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-2">Available services</h1>
       <p className="text-stone-600 mb-3">From garden upkeep like grass cutting and hedge trimming to everyday help like bin duties and local errands, our team can lend a hand around your home. Pick a service below and book in a couple of taps.</p>
       <p className="text-sm text-stone-500 mb-6">Prices marked "From" are starting prices: the size of your garden or the scope of the job can affect the final cost, which we'll always confirm with you before any work begins.</p>
 
@@ -131,7 +131,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
         <>
           {gardenServices.length > 0 && (
             <section className="mb-14">
-              <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden Services</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden services</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {gardenServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
@@ -142,7 +142,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
 
           {otherServices.length > 0 && (
             <section className="mb-14">
-              <h2 className="text-2xl font-bold text-stone-900 mb-5">Other Services</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Other services</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {otherServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
@@ -153,7 +153,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
 
           {quoteServices.length > 0 && (
             <section className="mb-14">
-              <h2 className="text-2xl font-bold text-stone-900 mb-5">Quote-Based Services</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Quote-based services</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {quoteServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />

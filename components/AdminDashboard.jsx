@@ -59,7 +59,7 @@ export default function AdminDashboard({ onNavigate }) {
 
   return (
     <div className="container max-w-6xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-8">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-8">Admin dashboard</h1>
 
       {newSinceLastVisit > 0 && (
         <div className="bg-accent-50 border border-accent-200 text-accent-800 rounded-lg p-4 mb-8 flex justify-between items-center gap-3">
@@ -110,7 +110,7 @@ export default function AdminDashboard({ onNavigate }) {
               activeTab === tab ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'
             }`}
           >
-            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'crew' ? `Team Members (${crew.length})` : 'Ledger'}
+            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'crew' ? `Team members (${crew.length})` : 'Ledger'}
           </button>
         ))}
       </div>

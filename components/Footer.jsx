@@ -19,7 +19,7 @@ export default function Footer({ onNavigate }) {
             onClick={() => onNavigate('how-we-work')}
             className="text-sm font-medium text-stone-600 hover:text-brand-700"
           >
-            How We Work
+            How we work
           </button>
           <button
             onClick={() => onNavigate('feedback')}
