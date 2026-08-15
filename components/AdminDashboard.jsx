@@ -24,11 +24,9 @@ export default function AdminDashboard({ onNavigate }) {
   useEffect(() => {
     if (!loading && !hasCheckedNewRef.current) {
       hasCheckedNewRef.current = true;
-      const lastSeen = localStorage.getItem('adminLastSeenRequestsAt');
-      if (lastSeen) {
-        const count = jobs.filter(j => new Date(j.createdAt) > new Date(lastSeen)).length;
-        setNewSinceLastVisit(count);
-      }
+      const lastSeen = localStorage.getItem('adminLastSeenRequestsAt') || new Date(Date.now() - 60 * 60 * 1000).toISOString();
+      const count = jobs.filter(j => new Date(j.createdAt) > new Date(lastSeen)).length;
+      setNewSinceLastVisit(count);
       localStorage.setItem('adminLastSeenRequestsAt', new Date().toISOString());
     }
   }, [loading, jobs]);
