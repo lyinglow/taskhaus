@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import api from '@/lib/api';
+import ImageLightbox from './ImageLightbox';
 
 export default function JobManagement({ jobs, crew, onJobUpdated }) {
   const [editingJob, setEditingJob] = useState(null);
   const [formData, setFormData] = useState({});
   const [expandedCustomer, setExpandedCustomer] = useState(null);
+  const [lightboxSrc, setLightboxSrc] = useState(null);
 
   const getStatusLabel = (status) => {
     const labels = { pending: 'Pending', quoted: 'Quote Sent', confirmed: 'Confirmed', review: 'Ready for Review', completed: 'Completed', cancelled: 'Cancelled' };
@@ -88,14 +90,14 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       {(job.photoBeforeUrl || job.photoAfterUrl) && (
         <div className="flex gap-2 mb-2">
           {job.photoBeforeUrl && (
-            <a href={job.photoBeforeUrl} target="_blank" rel="noopener noreferrer" className="block">
+            <button type="button" onClick={() => setLightboxSrc(job.photoBeforeUrl)} className="block">
               <img src={job.photoBeforeUrl} alt="Before" className="w-16 h-16 object-cover rounded-lg border border-stone-200" />
-            </a>
+            </button>
           )}
           {job.photoAfterUrl && (
-            <a href={job.photoAfterUrl} target="_blank" rel="noopener noreferrer" className="block">
+            <button type="button" onClick={() => setLightboxSrc(job.photoAfterUrl)} className="block">
               <img src={job.photoAfterUrl} alt="After" className="w-16 h-16 object-cover rounded-lg border border-stone-200" />
-            </a>
+            </button>
           )}
         </div>
       )}
@@ -126,6 +128,8 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   };
 
   return (
+    <>
+    <ImageLightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
     <div className="space-y-3">
       {customers.length === 0 ? (
         <p className="text-stone-600">No requests yet</p>
@@ -172,5 +176,6 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
         })
       )}
     </div>
+    </>
   );
 }
