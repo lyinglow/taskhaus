@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { verifyToken, getTokenFromHeader } from '@/lib/auth';
+import { sendNewRequestNotification } from '@/lib/email';
 
 export async function GET(req) {
   try {
@@ -68,8 +69,11 @@ export async function POST(req) {
         customRequest: customRequest || null,
         status: 'pending',
         recurrence: validRecurrence
-      }
+      },
+      include: { parent: true, service: true }
     });
+
+    await sendNewRequestNotification(job.id, job.parent.name, job.service?.name, job.customRequest);
 
     return NextResponse.json({ jobId: job.id, status: 'pending' }, { status: 201 });
   } catch (err) {

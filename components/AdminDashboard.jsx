@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '@/lib/api';
 import JobManagement from './JobManagement';
 import CrewManagement from './CrewManagement';
@@ -14,10 +14,24 @@ export default function AdminDashboard({ onNavigate }) {
   const [crew, setCrew] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [newSinceLastVisit, setNewSinceLastVisit] = useState(0);
+  const hasCheckedNewRef = useRef(false);
 
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (!loading && !hasCheckedNewRef.current) {
+      hasCheckedNewRef.current = true;
+      const lastSeen = localStorage.getItem('adminLastSeenRequestsAt');
+      if (lastSeen) {
+        const count = jobs.filter(j => new Date(j.createdAt) > new Date(lastSeen)).length;
+        setNewSinceLastVisit(count);
+      }
+      localStorage.setItem('adminLastSeenRequestsAt', new Date().toISOString());
+    }
+  }, [loading, jobs]);
 
   const loadData = async () => {
     try {
@@ -48,6 +62,21 @@ export default function AdminDashboard({ onNavigate }) {
   return (
     <div className="container max-w-6xl py-10 mx-auto px-4">
       <h1 className="text-3xl font-bold text-stone-900 mb-8">Admin Dashboard</h1>
+
+      {newSinceLastVisit > 0 && (
+        <div className="bg-accent-50 border border-accent-200 text-accent-800 rounded-lg p-4 mb-8 flex justify-between items-center gap-3">
+          <span className="font-medium">
+            🔔 {newSinceLastVisit} new request{newSinceLastVisit === 1 ? '' : 's'} since your last visit
+          </span>
+          <button
+            onClick={() => setNewSinceLastVisit(0)}
+            aria-label="Dismiss"
+            className="text-accent-600 hover:text-accent-800 text-lg leading-none flex-shrink-0"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
