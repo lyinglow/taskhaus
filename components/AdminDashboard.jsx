@@ -16,21 +16,6 @@ export default function AdminDashboard({ onNavigate }) {
   const [loading, setLoading] = useState(true);
   const [newSinceLastVisit, setNewSinceLastVisit] = useState(0);
   const hasCheckedNewRef = useRef(false);
-  const [emailTestResult, setEmailTestResult] = useState(null);
-  const [testingEmail, setTestingEmail] = useState(false);
-
-  const runEmailTest = async () => {
-    setTestingEmail(true);
-    setEmailTestResult(null);
-    try {
-      const res = await api.post('/admin/test-email', {});
-      setEmailTestResult(res.data);
-    } catch (err) {
-      setEmailTestResult(err.response?.data || { ok: false, error: err.message });
-    } finally {
-      setTestingEmail(false);
-    }
-  };
 
   useEffect(() => {
     loadData();
@@ -90,22 +75,6 @@ export default function AdminDashboard({ onNavigate }) {
           </button>
         </div>
       )}
-
-      <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mb-8">
-        <p className="font-semibold text-yellow-900 mb-2">🔧 Email Diagnostic (temporary)</p>
-        <button
-          onClick={runEmailTest}
-          disabled={testingEmail}
-          className="bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-700 disabled:opacity-50 mb-3"
-        >
-          {testingEmail ? 'Sending test email...' : 'Send Test Email'}
-        </button>
-        {emailTestResult && (
-          <pre className="bg-white p-3 rounded text-xs overflow-x-auto whitespace-pre-wrap">
-            {JSON.stringify(emailTestResult, null, 2)}
-          </pre>
-        )}
-      </div>
 
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
