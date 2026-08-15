@@ -73,7 +73,8 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
       <h1 className="text-3xl font-bold text-stone-900 mb-2">Available Services</h1>
-      <p className="text-stone-600 mb-6">From garden upkeep like grass cutting and hedge trimming to everyday help like bin duties and local errands, our team can lend a hand around your home. Pick a service below and book in a couple of taps.</p>
+      <p className="text-stone-600 mb-3">From garden upkeep like grass cutting and hedge trimming to everyday help like bin duties and local errands, our team can lend a hand around your home. Pick a service below and book in a couple of taps.</p>
+      <p className="text-sm text-stone-500 mb-6">Prices marked "From" are starting prices — the size of your garden or the scope of the job can affect the final cost, which we'll always confirm with you before any work begins.</p>
 
       <div className="relative mb-8">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none">
