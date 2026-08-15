@@ -70,6 +70,9 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
       <div className="flex justify-between items-start mb-2">
         <div>
           <h3 className="font-bold text-stone-900">{job.serviceName || 'Custom request'}</h3>
+          {job.createdAt && (
+            <p className="text-xs text-stone-400">Requested on {new Date(job.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+          )}
           {job.serviceName && job.customRequest && (
             <p className="text-sm text-stone-600 mt-0.5">{job.customRequest}</p>
           )}
