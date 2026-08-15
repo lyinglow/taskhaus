@@ -133,6 +133,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
         customers.map(customer => {
           const pendingCount = customer.jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
           const reviewCount = customer.jobs.filter(j => j.status === 'review').length;
+          const attentionCount = pendingCount + reviewCount;
           const isExpanded = expandedCustomer === customer.parentId;
 
           return (
@@ -141,22 +142,16 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
                 onClick={() => setExpandedCustomer(isExpanded ? null : customer.parentId)}
                 className="w-full flex justify-between items-center gap-3 p-5 text-left hover:bg-stone-50 transition"
               >
-                <div>
-                  <div className="font-bold text-stone-900">{customer.customerName}</div>
-                  <div className="text-sm text-stone-600">{customer.customerAddress || 'No address on file'}</div>
+                <div className="min-w-0">
+                  <div className="font-bold text-stone-900 truncate">{customer.customerName}</div>
+                  <div className="text-sm text-stone-600 truncate">{customer.customerAddress || 'No address on file'}</div>
                 </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  {reviewCount > 0 && (
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {attentionCount > 0 && (
                     <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent-100 text-accent-800 whitespace-nowrap">
-                      {reviewCount} ready for review
+                      {attentionCount} awaiting you
                     </span>
                   )}
-                  {pendingCount > 0 && (
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent-50 text-accent-700 whitespace-nowrap">
-                      {pendingCount} pending
-                    </span>
-                  )}
-                  <span className="text-sm text-stone-500">{customer.jobs.length} service{customer.jobs.length === 1 ? '' : 's'}</span>
                   <span className="text-stone-400">{isExpanded ? '▲' : '▼'}</span>
                 </div>
               </button>
