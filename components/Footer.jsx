@@ -21,6 +21,18 @@ export default function Footer({ onNavigate }) {
           >
             How We Work
           </button>
+          <button
+            onClick={() => onNavigate('feedback')}
+            className="text-sm font-medium text-stone-600 hover:text-brand-700"
+          >
+            Feedback
+          </button>
+          <button
+            onClick={() => onNavigate('partners')}
+            className="text-sm font-medium text-stone-600 hover:text-brand-700"
+          >
+            Partners
+          </button>
         </div>
       </div>
     </footer>

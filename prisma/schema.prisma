@@ -28,6 +28,7 @@ model Parent {
   jobs     Job[]
   reviews  Review[]
   payments Payment[]
+  feedback Feedback[]
 }
 
 model CrewMember {
@@ -56,6 +57,7 @@ model Service {
   price     Float?
   isActive  Boolean @default(true)
   requiresPhotoReview Boolean @default(true) // whether crew must mark job "ready for review" with an after photo before admin can complete it
+  partnerCredit String? // e.g. "Tools provided by Acme Hardware" - shown on the service card
   createdAt DateTime @default(now())
 
   jobs     Job[]
@@ -120,4 +122,29 @@ model Payment {
   job       Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
   crewMember CrewMember @relation(fields: [crewMemberId], references: [id])
   parent    Parent @relation(fields: [parentId], references: [id])
+}
+
+model Feedback {
+  id              Int      @id @default(autoincrement())
+  parentId        Int?
+  name            String?
+  email           String?
+  appFeedback     String?
+  serviceFeedback String?
+  qualityFeedback String?
+  otherFeedback   String?
+  createdAt       DateTime @default(now())
+
+  parent Parent? @relation(fields: [parentId], references: [id], onDelete: SetNull)
+}
+
+model PartnerInquiry {
+  id           Int      @id @default(autoincrement())
+  businessName String
+  contactName  String
+  email        String
+  phone        String?
+  offerTypes   String? // comma-separated: tools, materials, discounts, other
+  message      String?
+  createdAt    DateTime @default(now())
 }

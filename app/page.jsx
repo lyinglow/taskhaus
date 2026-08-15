@@ -15,6 +15,8 @@ import ReviewJob from '@/components/ReviewJob';
 import Profile from '@/components/Profile';
 import About from '@/components/About';
 import HowWeWork from '@/components/HowWeWork';
+import Feedback from '@/components/Feedback';
+import Partners from '@/components/Partners';
 import CrewLogin from '@/components/CrewLogin';
 import CrewPortal from '@/components/CrewPortal';
 import Navigation from '@/components/Navigation';
@@ -121,6 +123,10 @@ export default function Home() {
       return <About onBack={() => setPage('home')} />;
     } else if (page === 'how-we-work') {
       return <HowWeWork onBack={() => setPage('home')} />;
+    } else if (page === 'feedback') {
+      return <Feedback onBack={() => setPage('home')} />;
+    } else if (page === 'partners') {
+      return <Partners onBack={() => setPage('home')} />;
     } else if (page === 'crew-login') {
       return <CrewLogin onLogin={handleCrewLogin} onCancel={() => setPage('home')} />;
     } else {
@@ -173,6 +179,12 @@ export default function Home() {
               >
                 How We Work
               </button>
+              <button
+                onClick={() => setPage('partners')}
+                className="text-brand-700 hover:text-brand-800 font-medium text-sm"
+              >
+                Partner With Us
+              </button>
             </div>
           </div>
         </div>
@@ -191,6 +203,8 @@ export default function Home() {
         {page === 'profile' && <Profile onProfileUpdated={handleProfileUpdated} />}
         {page === 'about' && <About />}
         {page === 'how-we-work' && <HowWeWork />}
+        {page === 'feedback' && <Feedback />}
+        {page === 'partners' && <Partners />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
         {page === 'admin-dashboard' && <AdminDashboard onNavigate={setPage} />}
         {page === 'crew-portal' && <CrewPortal />}

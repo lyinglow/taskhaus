@@ -39,6 +39,10 @@ export default function ServiceCard({ service, onSelect }) {
       </div>
       <p className="text-stone-600 text-sm mb-5">{service.description}</p>
 
+      {service.partnerCredit && (
+        <p className="text-xs text-accent-700 mb-4">🤝 {service.partnerCredit}</p>
+      )}
+
       {reviewCount > 0 && (
         <div className="mb-5">
           <span className="text-yellow-500 font-semibold">★ {avgRating.toFixed(1)}</span>

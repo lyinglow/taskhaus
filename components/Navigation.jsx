@@ -21,6 +21,7 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
         { label: 'Services', page: 'browse-services' },
         { label: 'Current Tasks', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
+        { label: 'Feedback', page: 'feedback' },
       ];
 
   const homePage = isAdmin ? 'admin-dashboard' : isCrew ? 'crew-portal' : 'browse-services';

@@ -11,6 +11,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('garden');
   const [requiresPhotoReview, setRequiresPhotoReview] = useState(true);
+  const [partnerCredit, setPartnerCredit] = useState('');
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
@@ -31,6 +32,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         category,
         price: parseFloat(price),
         requiresPhotoReview,
+        partnerCredit: partnerCredit || null,
       });
       setName('');
       setDescription('');
@@ -39,6 +41,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setPrice('');
       setCategory('garden');
       setRequiresPhotoReview(true);
+      setPartnerCredit('');
       setShowAddForm(false);
       onServicesUpdated();
     } catch (err) {
@@ -59,6 +62,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         price: parseFloat(editData.price),
         category: editData.category,
         requiresPhotoReview: editData.requiresPhotoReview,
+        partnerCredit: editData.partnerCredit || null,
       });
       setEditingId(null);
       setEditData({});
@@ -152,6 +156,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             />
             <span>Team members must mark the job "ready for review" with an after photo before it can be completed</span>
           </label>
+          <input
+            type="text"
+            value={partnerCredit}
+            onChange={(e) => setPartnerCredit(e.target.value)}
+            placeholder='Partner credit (optional), e.g. "Tools provided by Acme Hardware"'
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
           <button
             type="submit"
             disabled={loading}
@@ -221,6 +232,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     />
                     <span>Team members must mark the job "ready for review" with an after photo before it can be completed</span>
                   </label>
+                  <input
+                    type="text"
+                    value={editData.partnerCredit || ''}
+                    onChange={(e) => setEditData({ ...editData, partnerCredit: e.target.value })}
+                    placeholder='Partner credit (optional), e.g. "Tools provided by Acme Hardware"'
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                  />
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(service.id)}
@@ -250,6 +268,9 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                   <div className="text-xs text-stone-500 mt-1">
                     {service.requiresPhotoReview === false ? 'No photo review required' : 'Requires photo review before completion'}
                   </div>
+                  {service.partnerCredit && (
+                    <div className="text-xs text-accent-700 mt-1">🤝 {service.partnerCredit}</div>
+                  )}
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => {
@@ -262,6 +283,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           price: service.price,
                           category: service.category || 'garden',
                           requiresPhotoReview: service.requiresPhotoReview !== false,
+                          partnerCredit: service.partnerCredit || '',
                         });
                       }}
                       className="flex-1 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
