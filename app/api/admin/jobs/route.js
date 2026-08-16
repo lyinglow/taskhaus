@@ -93,6 +93,24 @@ export async function PATCH(req) {
       );
     }
 
+    if (status === 'completed' && job.crewMemberId) {
+      const existingPayment = await prisma.payment.findFirst({ where: { jobId: job.id } });
+      if (!existingPayment) {
+        const amount = job.finalPrice || job.quotedPrice || job.service?.price || 0;
+        if (amount > 0) {
+          await prisma.payment.create({
+            data: {
+              jobId: job.id,
+              crewMemberId: job.crewMemberId,
+              parentId: job.parentId,
+              amount,
+              status: 'pending'
+            }
+          });
+        }
+      }
+    }
+
     let nextJobId = null;
     if (status === 'completed' && job.recurrence) {
       const nextDate = new Date();

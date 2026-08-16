@@ -37,6 +37,9 @@ export async function GET(req) {
               where: { status: 'completed' }
             }
           }
+        },
+        payments: {
+          select: { amount: true }
         }
       }
     });
@@ -46,7 +49,7 @@ export async function GET(req) {
         id: s.id,
         name: s.name,
         jobs_completed: s._count.jobs,
-        earned: 0 // Aggregate from payments as needed
+        earned: s.payments.reduce((sum, p) => sum + p.amount, 0)
       })),
       detailed: detailed.map(p => ({
         ...p,
