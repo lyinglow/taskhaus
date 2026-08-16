@@ -20,6 +20,7 @@ export async function GET(req) {
     const detailed = await prisma.payment.findMany({
       include: {
         crewMember: true,
+        parent: true,
         job: {
           include: { service: true }
         }
@@ -54,7 +55,9 @@ export async function GET(req) {
       detailed: detailed.map(p => ({
         ...p,
         crewName: p.crewMember.name,
-        serviceName: p.job.service?.name
+        serviceName: p.job.service?.name,
+        customerName: p.parent.name,
+        customerAddress: p.parent.address
       }))
     });
   } catch (err) {

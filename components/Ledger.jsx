@@ -1,16 +1,31 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '@/lib/api';
 import Spinner from './Spinner';
 
 export default function Ledger({ jobs = [] }) {
   const [ledger, setLedger] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [filterTeamMember, setFilterTeamMember] = useState('');
+  const [filterCustomer, setFilterCustomer] = useState('');
+  const [filterAddress, setFilterAddress] = useState('');
+  const transactionsRef = useRef(null);
 
   useEffect(() => {
     fetchLedger();
   }, []);
+
+  const filterByTeamMember = (name) => {
+    setFilterTeamMember(name);
+    transactionsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const filteredTransactions = (ledger?.detailed || []).filter(p =>
+    (!filterTeamMember || p.crewName === filterTeamMember) &&
+    (!filterCustomer || p.customerName?.toLowerCase().includes(filterCustomer.toLowerCase())) &&
+    (!filterAddress || p.customerAddress?.toLowerCase().includes(filterAddress.toLowerCase()))
+  );
 
   const fetchLedger = async () => {
     try {
@@ -90,7 +105,11 @@ export default function Ledger({ jobs = [] }) {
             </thead>
             <tbody className="divide-y divide-stone-200">
               {ledger?.summary?.map(row => (
-                <tr key={row.id}>
+                <tr
+                  key={row.id}
+                  onClick={() => filterByTeamMember(row.name)}
+                  className="cursor-pointer hover:bg-stone-50"
+                >
                   <td className="px-6 py-4 text-sm font-medium text-stone-900">{row.name}</td>
                   <td className="px-6 py-4 text-sm text-stone-600">{row.jobs_completed}</td>
                   <td className="px-6 py-4 text-sm font-semibold text-stone-900">£{(row.earned || 0).toFixed(2)}</td>
@@ -101,17 +120,64 @@ export default function Ledger({ jobs = [] }) {
         </div>
       </section>
 
-      <section>
+      <section ref={transactionsRef}>
         <h2 className="text-xl font-bold text-stone-900 mb-4">Transactions</h2>
-        <div className="space-y-3">
-          {ledger?.detailed?.map(payment => (
-            <div key={payment.id} className="bg-white p-5 rounded-lg border border-stone-200">
-              <div className="flex justify-between">
-                <div><div className="font-semibold text-stone-900">{payment.crewName}</div><div className="text-sm text-stone-600">{payment.serviceName}</div></div>
-                <div className="text-right"><div className="text-lg font-bold text-stone-900">£{payment.amount.toFixed(2)}</div></div>
-              </div>
-            </div>
-          ))}
+
+        <div className="grid sm:grid-cols-3 gap-3 mb-4">
+          <select
+            value={filterTeamMember}
+            onChange={(e) => setFilterTeamMember(e.target.value)}
+            className="px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          >
+            <option value="">All team members</option>
+            {ledger?.summary?.map(row => (
+              <option key={row.id} value={row.name}>{row.name}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={filterCustomer}
+            onChange={(e) => setFilterCustomer(e.target.value)}
+            placeholder="Filter by customer"
+            className="px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <input
+            type="text"
+            value={filterAddress}
+            onChange={(e) => setFilterAddress(e.target.value)}
+            placeholder="Filter by address"
+            className="px-3 py-2 border border-stone-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+        </div>
+
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-stone-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Customer</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Address</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Team member</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Service</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Amount</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-200">
+              {filteredTransactions.map(payment => (
+                <tr key={payment.id}>
+                  <td className="px-6 py-4 text-sm font-medium text-stone-900 whitespace-nowrap">{payment.customerName}</td>
+                  <td className="px-6 py-4 text-sm text-stone-600">{payment.customerAddress || '-'}</td>
+                  <td className="px-6 py-4 text-sm text-stone-600 whitespace-nowrap">{payment.crewName}</td>
+                  <td className="px-6 py-4 text-sm text-stone-600">{payment.serviceName}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-stone-900 whitespace-nowrap">£{payment.amount.toFixed(2)}</td>
+                </tr>
+              ))}
+              {filteredTransactions.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="px-6 py-6 text-sm text-stone-500 text-center">No transactions match these filters.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
