@@ -63,6 +63,19 @@ model Service {
 
   jobs     Job[]
   reviews  Review[]
+  extras   ServiceExtra[]
+}
+
+model ServiceExtra {
+  id        Int     @id @default(autoincrement())
+  serviceId Int
+  name      String
+  price     Float
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+
+  service   Service    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  jobExtras JobExtra[]
 }
 
 model Job {
@@ -88,6 +101,18 @@ model Job {
   crewMember   CrewMember? @relation(fields: [crewMemberId], references: [id])
   review       Review?
   payments     Payment[]
+  extras       JobExtra[]
+}
+
+model JobExtra {
+  id             Int     @id @default(autoincrement())
+  jobId          Int
+  serviceExtraId Int?
+  name           String // snapshot at time of booking
+  price          Float  // snapshot at time of booking
+
+  job          Job           @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  serviceExtra ServiceExtra? @relation(fields: [serviceExtraId], references: [id], onDelete: SetNull)
 }
 
 model Review {

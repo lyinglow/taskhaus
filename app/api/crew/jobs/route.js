@@ -12,7 +12,7 @@ export async function GET(req) {
 
     const jobs = await prisma.job.findMany({
       where: { crewMemberId: decoded.userId },
-      include: { service: true, parent: true },
+      include: { service: true, parent: true, extras: true },
       orderBy: { createdAt: 'desc' }
     });
 
@@ -32,7 +32,8 @@ export async function GET(req) {
       servicePrice: job.service?.price,
       photoBeforeUrl: job.photoBeforeUrl,
       photoAfterUrl: job.photoAfterUrl,
-      requiresPhotoReview: job.service ? job.service.requiresPhotoReview : true
+      requiresPhotoReview: job.service ? job.service.requiresPhotoReview : true,
+      extras: job.extras
     }));
 
     return NextResponse.json(transformed);

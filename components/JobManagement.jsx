@@ -82,6 +82,9 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
               <span className="text-stone-400"> · {cost.label}</span>
             </p>
           )}
+          {job.extras && job.extras.length > 0 && (
+            <p className="text-sm text-stone-600 mt-0.5">Extras: {job.extras.map(e => `${e.name} (£${e.price.toFixed(2)})`).join(', ')}</p>
+          )}
           {job.recurrence && (
             <p className="text-sm text-accent-700 mt-0.5">🔁 Repeats {recurrenceLabel(job.recurrence)}</p>
           )}

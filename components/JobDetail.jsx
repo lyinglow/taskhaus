@@ -128,6 +128,12 @@ export default function JobDetail({ jobId, onNavigate }) {
                 <div className="text-stone-900">{job.customRequest}</div>
               </div>
             )}
+            {job.extras && job.extras.length > 0 && (
+              <div>
+                <div className="text-sm font-medium text-stone-500">Extras</div>
+                <div className="text-stone-900">{job.extras.map(e => `${e.name} (£${e.price.toFixed(2)})`).join(', ')}</div>
+              </div>
+            )}
             {cost && (
               <div>
                 <div className="text-sm font-medium text-stone-500">{cost.label}</div>

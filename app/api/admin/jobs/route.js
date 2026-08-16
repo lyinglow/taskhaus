@@ -22,7 +22,8 @@ export async function GET(req) {
       include: {
         parent: true,
         service: true,
-        crewMember: true
+        crewMember: true,
+        extras: true
       },
       orderBy: { createdAt: 'desc' }
     });

@@ -19,7 +19,8 @@ export async function GET(req, { params }) {
       include: {
         service: true,
         crewMember: true,
-        review: true
+        review: true,
+        extras: true
       }
     });
 

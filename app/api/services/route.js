@@ -15,6 +15,7 @@ export async function GET() {
   try {
     const services = await prisma.service.findMany({
       where: { isActive: true },
+      include: { extras: { where: { isActive: true }, orderBy: { id: 'asc' } } },
       orderBy: { name: 'asc' }
     });
     return NextResponse.json(services);

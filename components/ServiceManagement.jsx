@@ -17,6 +17,9 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
   const [showAddForm, setShowAddForm] = useState(false);
+  const [newExtraName, setNewExtraName] = useState('');
+  const [newExtraPrice, setNewExtraPrice] = useState('');
+  const [extraLoading, setExtraLoading] = useState(false);
 
   const categoryLabel = (value) => (value === 'other' ? 'Other services' : 'Garden services');
 
@@ -75,6 +78,33 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       console.error('Failed to update service:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddExtra = async (serviceId) => {
+    if (!newExtraName.trim() || newExtraPrice === '') return;
+    setExtraLoading(true);
+    try {
+      await api.post('/admin/service-extras', { serviceId, name: newExtraName, price: parseFloat(newExtraPrice) });
+      setNewExtraName('');
+      setNewExtraPrice('');
+      onServicesUpdated();
+    } catch (err) {
+      console.error('Failed to add extra:', err);
+    } finally {
+      setExtraLoading(false);
+    }
+  };
+
+  const handleRemoveExtra = async (extraId) => {
+    setExtraLoading(true);
+    try {
+      await api.delete(`/admin/service-extras/${extraId}`);
+      onServicesUpdated();
+    } catch (err) {
+      console.error('Failed to remove extra:', err);
+    } finally {
+      setExtraLoading(false);
     }
   };
 
@@ -257,6 +287,51 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     placeholder='Season (optional), e.g. "Spring - Autumn" or "Year-round"'
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
+                  <div className="border-t border-stone-200 pt-3 mt-1">
+                    <div className="text-sm font-medium text-stone-700 mb-2">Extras customers can add</div>
+                    {service.extras && service.extras.length > 0 && (
+                      <div className="space-y-1 mb-2">
+                        {service.extras.map((extra) => (
+                          <div key={extra.id} className="flex justify-between items-center bg-stone-50 px-3 py-1.5 rounded text-sm">
+                            <span>{extra.name} - £{extra.price.toFixed(2)}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveExtra(extra.id)}
+                              disabled={extraLoading}
+                              className="text-red-600 hover:text-red-800 text-xs font-semibold disabled:opacity-50"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newExtraName}
+                        onChange={(e) => setNewExtraName(e.target.value)}
+                        placeholder='e.g. "270L black bin bag"'
+                        className="flex-1 px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                      />
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={newExtraPrice}
+                        onChange={(e) => setNewExtraPrice(e.target.value)}
+                        placeholder="£"
+                        className="w-20 px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleAddExtra(service.id)}
+                        disabled={extraLoading}
+                        className="px-3 bg-brand-600 text-white rounded-lg text-sm font-semibold hover:bg-brand-700 disabled:opacity-50"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(service.id)}
@@ -291,6 +366,11 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                   )}
                   {service.season && (
                     <div className="text-xs text-stone-500 mt-1">📅 {service.season}</div>
+                  )}
+                  {service.extras && service.extras.length > 0 && (
+                    <div className="text-xs text-stone-500 mt-1">
+                      Extras: {service.extras.map(e => `${e.name} (£${e.price.toFixed(2)})`).join(', ')}
+                    </div>
                   )}
                   <div className="flex gap-2 mt-3">
                     <button

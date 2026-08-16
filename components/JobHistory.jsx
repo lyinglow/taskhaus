@@ -83,6 +83,9 @@ export default function JobHistory({ onNavigate }) {
         </div>
         {job.crewName && <div className="text-sm text-stone-600">Team member: {job.crewName}</div>}
         {job.timeWindow && <div className="text-sm text-stone-600">Time: {job.timeWindow}</div>}
+        {job.extras && job.extras.length > 0 && (
+          <div className="text-sm text-stone-600">Extras: {job.extras.map(e => e.name).join(', ')}</div>
+        )}
         {cost && (
           <div className="text-base font-bold text-stone-900 mt-1">
             {cost.label}: {cost.from && <span className="text-[13px] font-medium align-baseline">From </span>}£{Number(cost.value).toFixed(2)}

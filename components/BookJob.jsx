@@ -9,11 +9,21 @@ export default function BookJob({ onNavigate }) {
   const selectedServiceLongDescription = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceLongDescription') : null;
   const selectedServicePrice = typeof window !== 'undefined' ? localStorage.getItem('selectedServicePrice') : null;
   const selectedServiceSeason = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceSeason') : null;
+  const availableExtras = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('selectedServiceExtras') || '[]') : [];
   const [notes, setNotes] = useState('');
   const [recurrence, setRecurrence] = useState('none');
+  const [selectedExtraIds, setSelectedExtraIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const toggleExtra = (extraId) => {
+    setSelectedExtraIds((prev) => prev.includes(extraId) ? prev.filter(id => id !== extraId) : [...prev, extraId]);
+  };
+
+  const extrasTotal = availableExtras
+    .filter(extra => selectedExtraIds.includes(extra.id))
+    .reduce((sum, extra) => sum + extra.price, 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +34,8 @@ export default function BookJob({ onNavigate }) {
       await api.post('/jobs', {
         serviceId: parseInt(selectedServiceId),
         customRequest: notes || null,
-        recurrence: recurrence !== 'none' ? recurrence : null
+        recurrence: recurrence !== 'none' ? recurrence : null,
+        extraIds: selectedExtraIds
       });
 
       setSuccess(true);
@@ -58,7 +69,7 @@ export default function BookJob({ onNavigate }) {
         onClick={() => onNavigate('browse-services')}
         className="flex items-center gap-1 text-stone-600 hover:text-stone-900 font-medium mb-5 transition"
       >
-        <span className="text-lg">←</span> Back to Services
+        <span className="text-lg">←</span> Back to services
       </button>
 
       <div className="bg-white p-8 sm:p-10 rounded-lg shadow-lg">
@@ -67,7 +78,9 @@ export default function BookJob({ onNavigate }) {
           <p className="text-stone-600 mb-3">{selectedServiceLongDescription}</p>
         )}
         {selectedServicePrice && (
-          <p className="text-lg font-bold text-brand-700 mb-2"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
+          <p className="text-lg font-bold text-brand-700 mb-2">
+            <span className="text-[13px] font-medium align-baseline">From </span>£{(Number(selectedServicePrice) + extrasTotal).toFixed(2)}
+          </p>
         )}
         {selectedServiceSeason && (
           <p className="text-xs text-stone-500 mb-3">📅 {selectedServiceSeason}</p>
@@ -75,6 +88,28 @@ export default function BookJob({ onNavigate }) {
         <p className="text-stone-600 mb-7">Complete your booking request</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {availableExtras.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium text-stone-700 mb-2">Add extras</label>
+              <div className="space-y-2">
+                {availableExtras.map((extra) => (
+                  <label key={extra.id} className="flex items-center justify-between gap-2 text-sm text-stone-700 border border-stone-200 rounded-lg px-3 py-2">
+                    <span className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedExtraIds.includes(extra.id)}
+                        onChange={() => toggleExtra(extra.id)}
+                        className="rounded border-stone-300 text-brand-600 focus:ring-brand-500"
+                      />
+                      {extra.name}
+                    </span>
+                    <span className="text-stone-500">+£{extra.price.toFixed(2)}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-stone-700 mb-2">Additional details (optional)</label>
             <textarea

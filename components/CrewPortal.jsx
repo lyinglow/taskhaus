@@ -136,6 +136,11 @@ export default function CrewPortal() {
           <span className="font-semibold">Tools needed: </span>{job.toolsNeeded}
         </div>
       )}
+      {job.extras && job.extras.length > 0 && (
+        <div className="mt-3 bg-accent-50 text-accent-700 text-sm p-3 rounded-lg">
+          <span className="font-semibold">Extras requested: </span>{job.extras.map(e => e.name).join(', ')}
+        </div>
+      )}
       <div className="flex gap-3 mt-4">
         <PhotoSlot job={job} type="before" label="Before" />
         <PhotoSlot job={job} type="after" label="After" />
