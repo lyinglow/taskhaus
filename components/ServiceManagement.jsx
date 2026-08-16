@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import api from '@/lib/api';
 
+const SEASON_OPTIONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
+
 export default function ServiceManagement({ services, onServicesUpdated }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -12,7 +14,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [category, setCategory] = useState('garden');
   const [requiresPhotoReview, setRequiresPhotoReview] = useState(true);
   const [partnerCredit, setPartnerCredit] = useState('');
-  const [season, setSeason] = useState('');
+  const [seasons, setSeasons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
@@ -22,6 +24,10 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [extraLoading, setExtraLoading] = useState(false);
 
   const categoryLabel = (value) => (value === 'other' ? 'Other services' : 'Garden services');
+
+  const toggleSeason = (list, setList, value) => {
+    setList(list.includes(value) ? list.filter(v => v !== value) : [...list, value]);
+  };
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -37,7 +43,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         price: parseFloat(price),
         requiresPhotoReview,
         partnerCredit: partnerCredit || null,
-        season: season || null,
+        season: seasons.length > 0 ? seasons.join(', ') : null,
       });
       setName('');
       setDescription('');
@@ -47,7 +53,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setCategory('garden');
       setRequiresPhotoReview(true);
       setPartnerCredit('');
-      setSeason('');
+      setSeasons([]);
       setShowAddForm(false);
       onServicesUpdated();
     } catch (err) {
@@ -69,7 +75,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         category: editData.category,
         requiresPhotoReview: editData.requiresPhotoReview,
         partnerCredit: editData.partnerCredit || null,
-        season: editData.season || null,
+        season: (editData.season && editData.season.length > 0) ? editData.season.join(', ') : null,
       });
       setEditingId(null);
       setEditData({});
@@ -197,13 +203,22 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             placeholder='Partner credit (optional), e.g. "Tools provided by Acme Hardware"'
             className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
-          <input
-            type="text"
-            value={season}
-            onChange={(e) => setSeason(e.target.value)}
-            placeholder='Season (optional), e.g. "Spring - Autumn" or "Year-round"'
-            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
+          <div>
+            <div className="text-sm font-medium text-stone-700 mb-2">When can this be done? (optional)</div>
+            <div className="flex flex-wrap gap-4">
+              {SEASON_OPTIONS.map((option) => (
+                <label key={option} className="flex items-center gap-2 text-sm text-stone-700">
+                  <input
+                    type="checkbox"
+                    checked={seasons.includes(option)}
+                    onChange={() => toggleSeason(seasons, setSeasons, option)}
+                    className="rounded border-stone-300 text-brand-600 focus:ring-brand-500"
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
+          </div>
           <button
             type="submit"
             disabled={loading}
@@ -280,13 +295,22 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     placeholder='Partner credit (optional), e.g. "Tools provided by Acme Hardware"'
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
-                  <input
-                    type="text"
-                    value={editData.season || ''}
-                    onChange={(e) => setEditData({ ...editData, season: e.target.value })}
-                    placeholder='Season (optional), e.g. "Spring - Autumn" or "Year-round"'
-                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
-                  />
+                  <div>
+                    <div className="text-sm font-medium text-stone-700 mb-2">When can this be done? (optional)</div>
+                    <div className="flex flex-wrap gap-4">
+                      {SEASON_OPTIONS.map((option) => (
+                        <label key={option} className="flex items-center gap-2 text-sm text-stone-700">
+                          <input
+                            type="checkbox"
+                            checked={(editData.season || []).includes(option)}
+                            onChange={() => toggleSeason(editData.season || [], (list) => setEditData({ ...editData, season: list }), option)}
+                            className="rounded border-stone-300 text-brand-600 focus:ring-brand-500"
+                          />
+                          {option}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                   <div className="border-t border-stone-200 pt-3 mt-1">
                     <div className="text-sm font-medium text-stone-700 mb-2">Extras customers can add</div>
                     {service.extras && service.extras.length > 0 && (
@@ -385,7 +409,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           category: service.category || 'garden',
                           requiresPhotoReview: service.requiresPhotoReview !== false,
                           partnerCredit: service.partnerCredit || '',
-                          season: service.season || '',
+                          season: service.season ? service.season.split(', ') : [],
                         });
                       }}
                       className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
