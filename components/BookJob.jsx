@@ -54,7 +54,7 @@ export default function BookJob({ onNavigate }) {
       <div className="container max-w-2xl py-12 mx-auto px-4 text-center">
         <div className="bg-brand-50 p-8 rounded-lg border border-brand-200">
           <div className="text-4xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold text-brand-700 mb-2">Request Submitted!</h2>
+          <h2 className="text-2xl font-bold text-brand-700 mb-2">Request submitted!</h2>
           <p className="text-stone-600 mb-4">We'll review your request and send you a confirmation soon.</p>
           <p className="text-sm text-stone-500">Redirecting to dashboard...</p>
         </div>
@@ -123,16 +123,26 @@ export default function BookJob({ onNavigate }) {
 
           <div>
             <label className="block text-sm font-medium text-stone-700 mb-2">Repeat this booking?</label>
-            <select
-              value={recurrence}
-              onChange={(e) => setRecurrence(e.target.value)}
-              className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
-            >
-              <option value="none">One-off (just this once)</option>
-              <option value="weekly">Weekly</option>
-              <option value="biweekly">Every 2 weeks</option>
-              <option value="monthly">Monthly</option>
-            </select>
+            <div className="space-y-2">
+              {[
+                { value: 'none', label: 'One-off (just this once)' },
+                { value: 'weekly', label: 'Weekly' },
+                { value: 'biweekly', label: 'Every 2 weeks' },
+                { value: 'monthly', label: 'Monthly' },
+              ].map((option) => (
+                <label key={option.value} className="flex items-center gap-2 text-sm text-stone-700 border border-stone-300 rounded-lg px-3 py-2">
+                  <input
+                    type="radio"
+                    name="recurrence"
+                    value={option.value}
+                    checked={recurrence === option.value}
+                    onChange={(e) => setRecurrence(e.target.value)}
+                    className="text-brand-600 focus:ring-brand-500"
+                  />
+                  {option.label}
+                </label>
+              ))}
+            </div>
             {recurrence !== 'none' && (
               <p className="text-xs text-stone-500 mt-1">Once this booking is completed, we'll automatically schedule the next one for you.</p>
             )}
