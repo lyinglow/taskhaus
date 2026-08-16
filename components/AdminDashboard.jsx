@@ -16,17 +16,6 @@ export default function AdminDashboard({ onNavigate }) {
   const [loading, setLoading] = useState(true);
   const [newSinceLastVisit, setNewSinceLastVisit] = useState(0);
   const hasCheckedNewRef = useRef(false);
-  const [migrateStatus, setMigrateStatus] = useState('');
-
-  const runSeasonMigration = async () => {
-    setMigrateStatus('Running...');
-    try {
-      const res = await api.post('/admin/migrate-service-season');
-      setMigrateStatus(res.data.message || 'Done.');
-    } catch (err) {
-      setMigrateStatus(err.response?.data?.error || 'Migration failed');
-    }
-  };
 
   useEffect(() => {
     loadData();
@@ -86,17 +75,6 @@ export default function AdminDashboard({ onNavigate }) {
           </button>
         </div>
       )}
-
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
-        <p className="text-sm text-stone-700 mb-2">One-time setup: adds the season field to services.</p>
-        <button
-          onClick={runSeasonMigration}
-          className="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-700"
-        >
-          Run Migration
-        </button>
-        {migrateStatus && <p className="text-sm text-stone-700 mt-2">{migrateStatus}</p>}
-      </div>
 
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
