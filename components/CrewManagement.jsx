@@ -81,7 +81,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
 
       <div className="space-y-3">
         {crew.map(member => (
-            <div key={member.id} className="bg-white p-4 rounded-lg border border-stone-200">
+            <div key={member.id} className="bg-white p-5 rounded-lg border border-stone-200">
               {editingId === member.id ? (
                 <div className="space-y-3">
                   <input
