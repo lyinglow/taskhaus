@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import api from '@/lib/api';
 
-const SEASON_OPTIONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
+const SEASON_OPTIONS = ['Year-round', 'Spring', 'Summer', 'Autumn', 'Winter'];
 
 export default function ServiceManagement({ services, onServicesUpdated }) {
   const [name, setName] = useState('');
