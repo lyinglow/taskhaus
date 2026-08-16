@@ -4,7 +4,14 @@ import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import Spinner from './Spinner';
 
-export default function JobHistory({ onNavigate }) {
+const FILTER_LABELS = { pending: 'Pending tasks', confirmed: 'Confirmed tasks', completed: 'Completed tasks' };
+const FILTER_MATCH = {
+  pending: (status) => status === 'pending' || status === 'quoted',
+  confirmed: (status) => status === 'confirmed' || status === 'review',
+  completed: (status) => status === 'completed',
+};
+
+export default function JobHistory({ onNavigate, filterStatus }) {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,8 +61,10 @@ export default function JobHistory({ onNavigate }) {
   const pendingCount = jobs.filter(j => j.status === 'pending' || j.status === 'quoted').length;
   const confirmedCount = jobs.filter(j => j.status === 'confirmed' || j.status === 'review').length;
   const completedCount = jobs.filter(j => j.status === 'completed').length;
-  const activeJobs = jobs.filter(j => j.status !== 'cancelled');
-  const cancelledJobs = jobs.filter(j => j.status === 'cancelled');
+  const activeJobs = jobs
+    .filter(j => j.status !== 'cancelled')
+    .filter(j => !filterStatus || FILTER_MATCH[filterStatus]?.(j.status));
+  const cancelledJobs = filterStatus ? [] : jobs.filter(j => j.status === 'cancelled');
 
   const JobCard = ({ job }) => {
     const cost = getCost(job);
@@ -113,22 +122,41 @@ export default function JobHistory({ onNavigate }) {
 
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">Current tasks</h1>
+      <button
+        type="button"
+        onClick={() => onNavigate('browse-services')}
+        className="flex items-center gap-1 text-stone-600 hover:text-stone-900 font-medium mb-5 transition"
+      >
+        <span className="text-lg">←</span> Back to services
+      </button>
+
+      <div className="flex justify-between items-center gap-3 mb-6">
+        <h1 className="text-3xl font-bold text-stone-900">{filterStatus ? FILTER_LABELS[filterStatus] : 'Current tasks'}</h1>
+        {filterStatus && (
+          <button
+            type="button"
+            onClick={() => onNavigate('job-history')}
+            className="text-sm font-medium text-brand-700 hover:text-brand-800"
+          >
+            View all
+          </button>
+        )}
+      </div>
 
       {!loading && jobs.length > 0 && (
         <div className="grid grid-cols-3 gap-3 mb-8">
-          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center">
+          <button type="button" onClick={() => onNavigate('job-history-pending')} className={`bg-white p-4 rounded-lg border text-center transition ${filterStatus === 'pending' ? 'border-brand-500 ring-1 ring-brand-500' : 'border-stone-200 hover:shadow-lg hover:border-brand-300'}`}>
             <div className="text-2xl font-bold text-stone-900">{pendingCount}</div>
             <div className="text-sm text-stone-600">Pending</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center">
+          </button>
+          <button type="button" onClick={() => onNavigate('job-history-confirmed')} className={`bg-white p-4 rounded-lg border text-center transition ${filterStatus === 'confirmed' ? 'border-brand-500 ring-1 ring-brand-500' : 'border-stone-200 hover:shadow-lg hover:border-brand-300'}`}>
             <div className="text-2xl font-bold text-stone-900">{confirmedCount}</div>
             <div className="text-sm text-stone-600">Confirmed</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center">
+          </button>
+          <button type="button" onClick={() => onNavigate('job-history-completed')} className={`bg-white p-4 rounded-lg border text-center transition ${filterStatus === 'completed' ? 'border-brand-500 ring-1 ring-brand-500' : 'border-stone-200 hover:shadow-lg hover:border-brand-300'}`}>
             <div className="text-2xl font-bold text-stone-900">{completedCount}</div>
             <div className="text-sm text-stone-600">Completed</div>
-          </div>
+          </button>
         </div>
       )}
 
@@ -140,6 +168,10 @@ export default function JobHistory({ onNavigate }) {
           <button onClick={() => onNavigate('browse-services')} className="bg-brand-600 text-white px-6 py-2 rounded-lg hover:bg-brand-700 transition">
             Browse services
           </button>
+        </div>
+      ) : activeJobs.length === 0 ? (
+        <div className="bg-stone-100 p-10 rounded-lg text-center">
+          <p className="text-stone-600">No {filterStatus} tasks right now.</p>
         </div>
       ) : (
         <div className="space-y-8">

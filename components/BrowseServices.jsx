@@ -104,23 +104,20 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
       </div>
 
       {jobs.length > 0 && (
-        <button
-          onClick={() => onNavigate('job-history')}
-          className="w-full grid grid-cols-3 gap-3 mb-10 text-left"
-        >
-          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center hover:shadow-lg transition">
+        <div className="grid grid-cols-3 gap-3 mb-10">
+          <button type="button" onClick={() => onNavigate('job-history-pending')} className="bg-white p-4 rounded-lg border border-stone-200 text-center hover:shadow-lg hover:border-brand-300 transition">
             <div className="text-2xl font-bold text-stone-900">{pendingCount}</div>
             <div className="text-sm text-stone-600">Pending</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center hover:shadow-lg transition">
+          </button>
+          <button type="button" onClick={() => onNavigate('job-history-confirmed')} className="bg-white p-4 rounded-lg border border-stone-200 text-center hover:shadow-lg hover:border-brand-300 transition">
             <div className="text-2xl font-bold text-stone-900">{confirmedCount}</div>
             <div className="text-sm text-stone-600">Confirmed</div>
-          </div>
-          <div className="bg-white p-4 rounded-lg border border-stone-200 text-center hover:shadow-lg transition">
+          </button>
+          <button type="button" onClick={() => onNavigate('job-history-completed')} className="bg-white p-4 rounded-lg border border-stone-200 text-center hover:shadow-lg hover:border-brand-300 transition">
             <div className="text-2xl font-bold text-stone-900">{completedCount}</div>
             <div className="text-sm text-stone-600">Completed</div>
-          </div>
-        </button>
+          </button>
+        </div>
       )}
 
       {loading ? (

@@ -198,7 +198,12 @@ export default function Home() {
       <div className="flex-1">
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} searchFocusToken={searchFocusToken} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
-        {page === 'job-history' && <JobHistory onNavigate={setPage} />}
+        {page.startsWith('job-history') && (
+          <JobHistory
+            onNavigate={setPage}
+            filterStatus={page === 'job-history' ? null : page.replace('job-history-', '')}
+          />
+        )}
         {page.startsWith('job-detail-') && <JobDetail jobId={parseInt(page.split('-')[2])} onNavigate={setPage} />}
         {page === 'profile' && <Profile onProfileUpdated={handleProfileUpdated} />}
         {page === 'about' && <About />}
