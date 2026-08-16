@@ -67,6 +67,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
     localStorage.setItem('selectedServiceDescription', service.description || '');
     localStorage.setItem('selectedServiceLongDescription', service.longDescription || service.description || '');
     localStorage.setItem('selectedServicePrice', service.price ?? '');
+    localStorage.setItem('selectedServiceSeason', service.season || '');
     onNavigate('book-job');
   };
 

@@ -8,6 +8,7 @@ export default function BookJob({ onNavigate }) {
   const selectedServiceName = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceName') : null;
   const selectedServiceLongDescription = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceLongDescription') : null;
   const selectedServicePrice = typeof window !== 'undefined' ? localStorage.getItem('selectedServicePrice') : null;
+  const selectedServiceSeason = typeof window !== 'undefined' ? localStorage.getItem('selectedServiceSeason') : null;
   const [notes, setNotes] = useState('');
   const [recurrence, setRecurrence] = useState('none');
   const [loading, setLoading] = useState(false);
@@ -66,13 +67,16 @@ export default function BookJob({ onNavigate }) {
           <p className="text-stone-600 mb-3">{selectedServiceLongDescription}</p>
         )}
         {selectedServicePrice && (
-          <p className="text-lg font-bold text-brand-700 mb-5"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
+          <p className="text-lg font-bold text-brand-700 mb-2"><span className="text-[13px] font-medium align-baseline">From </span>£{Number(selectedServicePrice).toFixed(2)}</p>
+        )}
+        {selectedServiceSeason && (
+          <p className="text-xs text-stone-500 mb-3">📅 {selectedServiceSeason}</p>
         )}
         <p className="text-stone-600 mb-7">Complete your booking request</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-2">Additional Details (optional)</label>
+            <label className="block text-sm font-medium text-stone-700 mb-2">Additional details (optional)</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}

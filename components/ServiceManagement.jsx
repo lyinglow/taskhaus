@@ -12,6 +12,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [category, setCategory] = useState('garden');
   const [requiresPhotoReview, setRequiresPhotoReview] = useState(true);
   const [partnerCredit, setPartnerCredit] = useState('');
+  const [season, setSeason] = useState('');
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
@@ -33,6 +34,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         price: parseFloat(price),
         requiresPhotoReview,
         partnerCredit: partnerCredit || null,
+        season: season || null,
       });
       setName('');
       setDescription('');
@@ -42,6 +44,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setCategory('garden');
       setRequiresPhotoReview(true);
       setPartnerCredit('');
+      setSeason('');
       setShowAddForm(false);
       onServicesUpdated();
     } catch (err) {
@@ -63,6 +66,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         category: editData.category,
         requiresPhotoReview: editData.requiresPhotoReview,
         partnerCredit: editData.partnerCredit || null,
+        season: editData.season || null,
       });
       setEditingId(null);
       setEditData({});
@@ -163,6 +167,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             placeholder='Partner credit (optional), e.g. "Tools provided by Acme Hardware"'
             className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
+          <input
+            type="text"
+            value={season}
+            onChange={(e) => setSeason(e.target.value)}
+            placeholder='Season (optional), e.g. "Spring - Autumn" or "Year-round"'
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
           <button
             type="submit"
             disabled={loading}
@@ -239,6 +250,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     placeholder='Partner credit (optional), e.g. "Tools provided by Acme Hardware"'
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
+                  <input
+                    type="text"
+                    value={editData.season || ''}
+                    onChange={(e) => setEditData({ ...editData, season: e.target.value })}
+                    placeholder='Season (optional), e.g. "Spring - Autumn" or "Year-round"'
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                  />
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(service.id)}
@@ -271,6 +289,9 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                   {service.partnerCredit && (
                     <div className="text-xs text-accent-700 mt-1">🤝 {service.partnerCredit}</div>
                   )}
+                  {service.season && (
+                    <div className="text-xs text-stone-500 mt-1">📅 {service.season}</div>
+                  )}
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => {
@@ -284,6 +305,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           category: service.category || 'garden',
                           requiresPhotoReview: service.requiresPhotoReview !== false,
                           partnerCredit: service.partnerCredit || '',
+                          season: service.season || '',
                         });
                       }}
                       className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"

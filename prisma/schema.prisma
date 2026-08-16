@@ -58,6 +58,7 @@ model Service {
   isActive  Boolean @default(true)
   requiresPhotoReview Boolean @default(true) // whether crew must mark job "ready for review" with an after photo before admin can complete it
   partnerCredit String? // e.g. "Tools provided by Acme Hardware" - shown on the service card
+  season String? // e.g. "Spring - Autumn" or "Year-round" - when the service can be booked
   createdAt DateTime @default(now())
 
   jobs     Job[]
