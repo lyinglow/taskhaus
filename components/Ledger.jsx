@@ -38,6 +38,16 @@ export default function Ledger({ jobs = [] }) {
     }
   };
 
+  const togglePaid = async (payment) => {
+    const newStatus = payment.status === 'completed' ? 'pending' : 'completed';
+    try {
+      await api.patch(`/admin/payments/${payment.id}`, { status: newStatus });
+      fetchLedger();
+    } catch (err) {
+      console.error('Failed to update payment:', err);
+    }
+  };
+
   const csvEscape = (value) => {
     const s = value === null || value === undefined ? '' : String(value);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
@@ -101,6 +111,7 @@ export default function Ledger({ jobs = [] }) {
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Team member</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Services</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Earned</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700">Still owed</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200">
@@ -113,6 +124,9 @@ export default function Ledger({ jobs = [] }) {
                   <td className="px-6 py-4 text-sm font-medium text-stone-900">{row.name}</td>
                   <td className="px-6 py-4 text-sm text-stone-600">{row.jobs_completed}</td>
                   <td className="px-6 py-4 text-sm font-semibold text-stone-900">£{(row.earned || 0).toFixed(2)}</td>
+                  <td className="px-6 py-4 text-sm font-semibold">
+                    {row.owed > 0 ? <span className="text-accent-700">£{row.owed.toFixed(2)}</span> : <span className="text-stone-400">£0.00</span>}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -159,6 +173,8 @@ export default function Ledger({ jobs = [] }) {
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Team member</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Service</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Amount</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Status</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200">
@@ -169,11 +185,29 @@ export default function Ledger({ jobs = [] }) {
                   <td className="px-6 py-4 text-sm text-stone-600 whitespace-nowrap">{payment.crewName}</td>
                   <td className="px-6 py-4 text-sm text-stone-600">{payment.serviceName}</td>
                   <td className="px-6 py-4 text-sm font-semibold text-stone-900 whitespace-nowrap">£{payment.amount.toFixed(2)}</td>
+                  <td className="px-6 py-4 text-sm whitespace-nowrap">
+                    {payment.status === 'completed' ? (
+                      <span className="px-2 py-1 rounded-full text-xs font-semibold bg-brand-100 text-brand-800">
+                        Paid{payment.paidDate ? ` ${new Date(payment.paidDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}` : ''}
+                      </span>
+                    ) : (
+                      <span className="px-2 py-1 rounded-full text-xs font-semibold bg-accent-100 text-accent-800">Pending</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 text-sm whitespace-nowrap">
+                    <button
+                      type="button"
+                      onClick={() => togglePaid(payment)}
+                      className="text-xs font-semibold text-brand-700 hover:text-brand-800"
+                    >
+                      {payment.status === 'completed' ? 'Mark unpaid' : 'Mark as paid'}
+                    </button>
+                  </td>
                 </tr>
               ))}
               {filteredTransactions.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-6 py-6 text-sm text-stone-500 text-center">No transactions match these filters.</td>
+                  <td colSpan={7} className="px-6 py-6 text-sm text-stone-500 text-center">No transactions match these filters.</td>
                 </tr>
               )}
             </tbody>

@@ -40,7 +40,7 @@ export async function GET(req) {
           }
         },
         payments: {
-          select: { amount: true }
+          select: { amount: true, status: true }
         }
       }
     });
@@ -50,7 +50,8 @@ export async function GET(req) {
         id: s.id,
         name: s.name,
         jobs_completed: s._count.jobs,
-        earned: s.payments.reduce((sum, p) => sum + p.amount, 0)
+        earned: s.payments.reduce((sum, p) => sum + p.amount, 0),
+        owed: s.payments.filter(p => p.status !== 'completed').reduce((sum, p) => sum + p.amount, 0)
       })),
       detailed: detailed.map(p => ({
         ...p,

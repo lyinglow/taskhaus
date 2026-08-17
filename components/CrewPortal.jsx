@@ -31,13 +31,17 @@ const compressImage = (file, maxDim = 1000, quality = 0.7) => new Promise((resol
 });
 
 export default function CrewPortal() {
+  const [activeTab, setActiveTab] = useState('jobs');
   const [jobs, setJobs] = useState([]);
+  const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [paymentsLoading, setPaymentsLoading] = useState(true);
   const [uploading, setUploading] = useState({});
   const [markingReady, setMarkingReady] = useState({});
 
   useEffect(() => {
     loadJobs();
+    loadPayments();
   }, []);
 
   const loadJobs = () => {
@@ -45,6 +49,13 @@ export default function CrewPortal() {
       .then(res => setJobs(res.data))
       .catch(err => console.error('Failed to fetch jobs:', err))
       .finally(() => setLoading(false));
+  };
+
+  const loadPayments = () => {
+    api.get('/crew/payments')
+      .then(res => setPayments(res.data))
+      .catch(err => console.error('Failed to fetch payments:', err))
+      .finally(() => setPaymentsLoading(false));
   };
 
   const getStatusLabel = (status) => {
@@ -92,6 +103,9 @@ export default function CrewPortal() {
 
   const activeJobs = jobs.filter(j => j.status !== 'completed');
   const completedJobs = jobs.filter(j => j.status === 'completed');
+
+  const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
+  const totalOwed = payments.filter(p => p.status !== 'completed').reduce((sum, p) => sum + p.amount, 0);
 
   const PhotoSlot = ({ job, type, label }) => {
     const key = `${job.id}-${type}`;
@@ -180,30 +194,89 @@ export default function CrewPortal() {
         </div>
       )}
 
-      {loading ? (
-        <div className="flex justify-center py-8"><Spinner /></div>
-      ) : jobs.length === 0 ? (
-        <div className="bg-stone-100 p-10 rounded-lg text-center">
-          <p className="text-stone-600">No jobs assigned to you yet.</p>
-        </div>
-      ) : (
-        <>
-          <section className="mb-10">
-            <h2 className="text-xl font-bold text-stone-900 mb-4">Active</h2>
-            {activeJobs.length === 0 ? (
-              <p className="text-stone-600">No active jobs</p>
-            ) : (
-              activeJobs.map(job => <JobCard key={job.id} job={job} />)
-            )}
-          </section>
+      <div className="flex gap-4 mb-8 border-b border-stone-200">
+        <button
+          onClick={() => setActiveTab('jobs')}
+          className={`px-4 py-2 font-semibold border-b-2 transition ${activeTab === 'jobs' ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'}`}
+        >
+          Jobs
+        </button>
+        <button
+          onClick={() => setActiveTab('earnings')}
+          className={`px-4 py-2 font-semibold border-b-2 transition ${activeTab === 'earnings' ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'}`}
+        >
+          Earnings
+        </button>
+      </div>
 
-          {completedJobs.length > 0 && (
-            <section>
-              <h2 className="text-xl font-bold text-stone-900 mb-4">Completed</h2>
-              {completedJobs.map(job => <JobCard key={job.id} job={job} />)}
+      {activeTab === 'jobs' && (
+        loading ? (
+          <div className="flex justify-center py-8"><Spinner /></div>
+        ) : jobs.length === 0 ? (
+          <div className="bg-stone-100 p-10 rounded-lg text-center">
+            <p className="text-stone-600">No jobs assigned to you yet.</p>
+          </div>
+        ) : (
+          <>
+            <section className="mb-10">
+              <h2 className="text-xl font-bold text-stone-900 mb-4">Active</h2>
+              {activeJobs.length === 0 ? (
+                <p className="text-stone-600">No active jobs</p>
+              ) : (
+                activeJobs.map(job => <JobCard key={job.id} job={job} />)
+              )}
             </section>
-          )}
-        </>
+
+            {completedJobs.length > 0 && (
+              <section>
+                <h2 className="text-xl font-bold text-stone-900 mb-4">Completed</h2>
+                {completedJobs.map(job => <JobCard key={job.id} job={job} />)}
+              </section>
+            )}
+          </>
+        )
+      )}
+
+      {activeTab === 'earnings' && (
+        paymentsLoading ? (
+          <div className="flex justify-center py-8"><Spinner /></div>
+        ) : payments.length === 0 ? (
+          <div className="bg-stone-100 p-10 rounded-lg text-center">
+            <p className="text-stone-600">Nothing here yet - earnings show up once a job you've done is marked complete.</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="bg-white p-4 rounded-lg border border-stone-200">
+                <div className="text-2xl font-bold text-stone-900">£{totalPaid.toFixed(2)}</div>
+                <div className="text-sm text-stone-600">Paid to you</div>
+              </div>
+              <div className="bg-white p-4 rounded-lg border border-accent-200">
+                <div className="text-2xl font-bold text-accent-700">£{totalOwed.toFixed(2)}</div>
+                <div className="text-sm text-stone-600">Still owed</div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {payments.map(payment => (
+                <div key={payment.id} className="bg-white p-5 rounded-lg border border-stone-200 flex justify-between items-center gap-3">
+                  <div>
+                    <div className="font-semibold text-stone-900">{payment.serviceName}</div>
+                    <div className="text-xs text-stone-400">{new Date(payment.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-stone-900">£{payment.amount.toFixed(2)}</div>
+                    {payment.status === 'completed' ? (
+                      <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-800">Paid</span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-accent-100 text-accent-800">Pending</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )
       )}
     </div>
   );
