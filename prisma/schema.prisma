@@ -53,6 +53,7 @@ model Service {
   description String? // short description, shown on service cards
   longDescription String? // long description, shown on the service detail/booking page
   toolsNeeded String? // tools/equipment crew need, shown on the crew portal
+  estimatedDuration String? // e.g. "30-45 mins" - how long the job usually takes, shown on the crew portal
   serviceType String @default("fixed") // "fixed" or "quote"
   category  String  @default("garden") // "garden" or "other"
   price     Float?

@@ -146,6 +146,9 @@ export default function CrewPortal() {
       {job.serviceDescription && (
         <div className="text-sm text-stone-600 mt-2">{job.serviceDescription}</div>
       )}
+      {job.estimatedDuration && (
+        <div className="text-sm text-stone-600 mt-1">⏱️ Usually takes: {job.estimatedDuration}</div>
+      )}
       {job.toolsNeeded && (
         <div className="mt-3 bg-accent-50 text-accent-700 text-sm p-3 rounded-lg">
           <span className="font-semibold">Tools needed: </span>{job.toolsNeeded}

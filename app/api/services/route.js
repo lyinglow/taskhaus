@@ -31,7 +31,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
-    const { name, description, longDescription, toolsNeeded, serviceType, category, price, requiresPhotoReview, partnerCredit, season } = await req.json();
+    const { name, description, longDescription, toolsNeeded, estimatedDuration, serviceType, category, price, requiresPhotoReview, partnerCredit, season } = await req.json();
 
     const service = await prisma.service.create({
       data: {
@@ -39,6 +39,7 @@ export async function POST(req) {
         description,
         longDescription,
         toolsNeeded,
+        estimatedDuration: estimatedDuration || null,
         serviceType,
         category: category || 'garden',
         price,

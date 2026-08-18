@@ -10,6 +10,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
   const [description, setDescription] = useState('');
   const [longDescription, setLongDescription] = useState('');
   const [toolsNeeded, setToolsNeeded] = useState('');
+  const [estimatedDuration, setEstimatedDuration] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('garden');
   const [requiresPhotoReview, setRequiresPhotoReview] = useState(true);
@@ -38,6 +39,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         description,
         longDescription,
         toolsNeeded,
+        estimatedDuration: estimatedDuration || null,
         serviceType: 'fixed',
         category,
         price: parseFloat(price),
@@ -49,6 +51,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
       setDescription('');
       setLongDescription('');
       setToolsNeeded('');
+      setEstimatedDuration('');
       setPrice('');
       setCategory('garden');
       setRequiresPhotoReview(true);
@@ -71,6 +74,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
         description: editData.description,
         longDescription: editData.longDescription,
         toolsNeeded: editData.toolsNeeded,
+        estimatedDuration: editData.estimatedDuration || null,
         price: parseFloat(editData.price),
         category: editData.category,
         requiresPhotoReview: editData.requiresPhotoReview,
@@ -171,6 +175,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
             className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <input
+            type="text"
+            value={estimatedDuration}
+            onChange={(e) => setEstimatedDuration(e.target.value)}
+            placeholder='How long this usually takes (optional), e.g. "30-45 mins"'
+            className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
+          />
+          <input
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -262,6 +273,13 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                     onChange={(e) => setEditData({ ...editData, toolsNeeded: e.target.value })}
                     placeholder="Tools needed (shown to team members on their job list)"
                     rows={2}
+                    className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                  />
+                  <input
+                    type="text"
+                    value={editData.estimatedDuration || ''}
+                    onChange={(e) => setEditData({ ...editData, estimatedDuration: e.target.value })}
+                    placeholder='How long this usually takes (optional), e.g. "30-45 mins"'
                     className="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm"
                   />
                   <input
@@ -393,6 +411,9 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                   {service.season && (
                     <div className="text-xs text-stone-500 mt-1">📅 {service.season}</div>
                   )}
+                  {service.estimatedDuration && (
+                    <div className="text-xs text-stone-500 mt-1">⏱️ {service.estimatedDuration}</div>
+                  )}
                   {service.extras && service.extras.length > 0 && (
                     <div className="text-xs text-stone-500 mt-1">
                       Extras: {service.extras.map(e => `${e.name} (£${e.price.toFixed(2)})`).join(', ')}
@@ -407,6 +428,7 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                           description: service.description,
                           longDescription: service.longDescription,
                           toolsNeeded: service.toolsNeeded,
+                          estimatedDuration: service.estimatedDuration || '',
                           price: service.price,
                           category: service.category || 'garden',
                           requiresPhotoReview: service.requiresPhotoReview !== false,

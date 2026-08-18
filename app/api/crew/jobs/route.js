@@ -24,6 +24,7 @@ export async function GET(req) {
       serviceName: job.service?.name,
       serviceDescription: job.service?.longDescription || job.service?.description,
       toolsNeeded: job.service?.toolsNeeded,
+      estimatedDuration: job.service?.estimatedDuration,
       customerName: job.parent.name,
       customerAddress: job.parent.address,
       completedAt: job.completedAt,
