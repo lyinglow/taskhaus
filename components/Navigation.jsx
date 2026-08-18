@@ -26,13 +26,14 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
     : isCrew
     ? [{ label: 'My jobs', page: 'crew-portal' }]
     : [
+        { label: 'Dashboard', page: 'dashboard' },
         { label: 'Services', page: 'browse-services' },
         { label: 'Current tasks', page: 'job-history' },
         { label: 'Profile', page: 'profile' },
         { label: 'Feedback', page: 'feedback' },
       ];
 
-  const homePage = isAdmin ? 'admin-dashboard' : isCrew ? 'crew-portal' : 'browse-services';
+  const homePage = isAdmin ? 'admin-dashboard' : isCrew ? 'crew-portal' : 'dashboard';
 
   const go = (page) => {
     setMenuOpen(false);

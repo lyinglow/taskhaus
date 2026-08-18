@@ -7,6 +7,7 @@ import Register from '@/components/Register';
 import ForgotPassword from '@/components/ForgotPassword';
 import ResetPassword from '@/components/ResetPassword';
 import AdminDashboard from '@/components/AdminDashboard';
+import Dashboard from '@/components/Dashboard';
 import BrowseServices from '@/components/BrowseServices';
 import BookJob from '@/components/BookJob';
 import JobHistory from '@/components/JobHistory';
@@ -58,7 +59,7 @@ export default function Home() {
       const customerId = localStorage.getItem('customerId');
       const userName = localStorage.getItem('userName');
       setUser({ customerId, name: userName });
-      setPage(adminFlag ? 'admin-dashboard' : crewFlag ? 'crew-portal' : 'browse-services');
+      setPage(adminFlag ? 'admin-dashboard' : crewFlag ? 'crew-portal' : 'dashboard');
     }
     setLoading(false);
   }, []);
@@ -86,7 +87,7 @@ export default function Home() {
     setIsAdmin(adminFlag);
     setIsCrew(false);
     setUser({ customerId, name });
-    setPage(adminFlag ? 'admin-dashboard' : 'browse-services');
+    setPage(adminFlag ? 'admin-dashboard' : 'dashboard');
   };
 
   const handleCrewLogin = (token, crewMemberId, name) => {
@@ -196,6 +197,7 @@ export default function Home() {
     <div className="min-h-screen bg-stone-50 flex flex-col">
       <Navigation isAdmin={isAdmin} isCrew={isCrew} currentUser={user} onLogout={handleLogout} onNavigate={setPage} onSearch={handleSearch} />
       <div className="flex-1">
+        {page === 'dashboard' && <Dashboard onNavigate={setPage} />}
         {page === 'browse-services' && <BrowseServices onNavigate={setPage} searchFocusToken={searchFocusToken} />}
         {page === 'book-job' && <BookJob onNavigate={setPage} />}
         {page.startsWith('job-history') && (
