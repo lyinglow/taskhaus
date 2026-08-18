@@ -100,21 +100,25 @@ export default function JobHistory({ onNavigate, filterStatus }) {
             {cost.label}: {cost.from && <span className="text-[13px] font-medium align-baseline">From </span>}£{Number(cost.value).toFixed(2)}
           </div>
         )}
-        {job.status === 'completed' && !job.review && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
-            className="mt-3 w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
-          >
-            Leave a review
-          </button>
-        )}
-        {job.status === 'completed' && job.service && (
-          <button
-            onClick={(e) => bookAgain(e, job)}
-            className="mt-2 w-full sm:w-auto sm:px-8 bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
-          >
-            Book again
-          </button>
+        {(job.status === 'completed' && (!job.review || job.service)) && (
+          <div className="flex flex-col sm:flex-row gap-3 mt-3">
+            {!job.review && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
+                className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
+              >
+                Leave a review
+              </button>
+            )}
+            {job.service && (
+              <button
+                onClick={(e) => bookAgain(e, job)}
+                className="w-full sm:w-auto sm:px-8 bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
+              >
+                Book again
+              </button>
+            )}
+          </div>
         )}
       </div>
     );
