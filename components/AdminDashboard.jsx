@@ -6,6 +6,7 @@ import JobManagement from './JobManagement';
 import CrewManagement from './CrewManagement';
 import ServiceManagement from './ServiceManagement';
 import ServiceIdeaManagement from './ServiceIdeaManagement';
+import ContactList from './ContactList';
 import Ledger from './Ledger';
 import Spinner from './Spinner';
 
@@ -111,7 +112,7 @@ export default function AdminDashboard({ onNavigate }) {
       )}
 
       <div className="flex gap-4 mb-8 border-b border-stone-200 overflow-x-auto">
-        {['jobs', 'services', 'ideas', 'crew', 'ledger'].map(tab => (
+        {['jobs', 'services', 'ideas', 'crew', 'contacts', 'ledger'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -119,7 +120,7 @@ export default function AdminDashboard({ onNavigate }) {
               activeTab === tab ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'
             }`}
           >
-            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'ideas' ? `Possible services (${ideas.length})` : tab === 'crew' ? `Team members (${crew.length})` : 'Ledger'}
+            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'ideas' ? `Possible services (${ideas.length})` : tab === 'crew' ? `Team members (${crew.length})` : tab === 'contacts' ? 'Contacts' : 'Ledger'}
           </button>
         ))}
       </div>
@@ -130,6 +131,7 @@ export default function AdminDashboard({ onNavigate }) {
           {activeTab === 'services' && <ServiceManagement services={services} onServicesUpdated={loadData} />}
           {activeTab === 'ideas' && <ServiceIdeaManagement ideas={ideas} onIdeasUpdated={loadData} />}
           {activeTab === 'crew' && <CrewManagement crew={crew} onCrewUpdated={loadData} />}
+          {activeTab === 'contacts' && <ContactList />}
           {activeTab === 'ledger' && <Ledger jobs={jobs} />}
         </>
       )}
