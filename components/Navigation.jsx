@@ -20,6 +20,7 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
     : [
         { label: 'Services', page: 'browse-services' },
         { label: 'Current tasks', page: 'job-history' },
+        { label: 'Possible services', page: 'service-ideas' },
         { label: 'Profile', page: 'profile' },
         { label: 'Feedback', page: 'feedback' },
       ];

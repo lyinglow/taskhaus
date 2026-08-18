@@ -29,6 +29,7 @@ model Parent {
   reviews  Review[]
   payments Payment[]
   feedback Feedback[]
+  interests ServiceInterest[]
 }
 
 model CrewMember {
@@ -162,6 +163,28 @@ model Feedback {
   createdAt       DateTime @default(now())
 
   parent Parent? @relation(fields: [parentId], references: [id], onDelete: SetNull)
+}
+
+model ServiceIdea {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  interests ServiceInterest[]
+}
+
+model ServiceInterest {
+  id            Int      @id @default(autoincrement())
+  serviceIdeaId Int
+  parentId      Int
+  createdAt     DateTime @default(now())
+
+  serviceIdea ServiceIdea @relation(fields: [serviceIdeaId], references: [id], onDelete: Cascade)
+  parent      Parent      @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceIdeaId, parentId])
 }
 
 model PartnerInquiry {

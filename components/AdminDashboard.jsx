@@ -5,6 +5,7 @@ import api from '@/lib/api';
 import JobManagement from './JobManagement';
 import CrewManagement from './CrewManagement';
 import ServiceManagement from './ServiceManagement';
+import ServiceIdeaManagement from './ServiceIdeaManagement';
 import Ledger from './Ledger';
 import Spinner from './Spinner';
 
@@ -13,9 +14,22 @@ export default function AdminDashboard({ onNavigate }) {
   const [jobs, setJobs] = useState([]);
   const [crew, setCrew] = useState([]);
   const [services, setServices] = useState([]);
+  const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newSinceLastVisit, setNewSinceLastVisit] = useState(0);
   const hasCheckedNewRef = useRef(false);
+  const [migrateStatus, setMigrateStatus] = useState('');
+
+  const runIdeasMigration = async () => {
+    setMigrateStatus('Running...');
+    try {
+      const res = await api.post('/admin/migrate-service-ideas');
+      setMigrateStatus(res.data.message || 'Done.');
+      loadData();
+    } catch (err) {
+      setMigrateStatus(err.response?.data?.error || 'Migration failed');
+    }
+  };
 
   useEffect(() => {
     loadData();
@@ -44,6 +58,13 @@ export default function AdminDashboard({ onNavigate }) {
     } catch (err) {
       console.error('Failed to load data:', err);
     } finally {
+      try {
+        const ideasRes = await api.get('/admin/service-ideas');
+        setIdeas(ideasRes.data);
+      } catch (err) {
+        // Table may not exist yet if the migration hasn't run
+        setIdeas([]);
+      }
       setLoading(false);
     }
   };
@@ -76,6 +97,17 @@ export default function AdminDashboard({ onNavigate }) {
         </div>
       )}
 
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
+        <p className="text-sm text-stone-700 mb-2">One-time setup: adds the Possible Services tables.</p>
+        <button
+          onClick={runIdeasMigration}
+          className="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-yellow-700"
+        >
+          Run Migration
+        </button>
+        {migrateStatus && <p className="text-sm text-stone-700 mt-2">{migrateStatus}</p>}
+      </div>
+
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
           <div className="bg-white p-4 rounded-lg border border-stone-200">
@@ -102,7 +134,7 @@ export default function AdminDashboard({ onNavigate }) {
       )}
 
       <div className="flex gap-4 mb-8 border-b border-stone-200 overflow-x-auto">
-        {['jobs', 'services', 'crew', 'ledger'].map(tab => (
+        {['jobs', 'services', 'ideas', 'crew', 'ledger'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -110,7 +142,7 @@ export default function AdminDashboard({ onNavigate }) {
               activeTab === tab ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'
             }`}
           >
-            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'crew' ? `Team members (${crew.length})` : 'Ledger'}
+            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'ideas' ? `Possible services (${ideas.length})` : tab === 'crew' ? `Team members (${crew.length})` : 'Ledger'}
           </button>
         ))}
       </div>
@@ -119,6 +151,7 @@ export default function AdminDashboard({ onNavigate }) {
         <>
           {activeTab === 'jobs' && <JobManagement jobs={jobs} crew={crew} onJobUpdated={loadData} />}
           {activeTab === 'services' && <ServiceManagement services={services} onServicesUpdated={loadData} />}
+          {activeTab === 'ideas' && <ServiceIdeaManagement ideas={ideas} onIdeasUpdated={loadData} />}
           {activeTab === 'crew' && <CrewManagement crew={crew} onCrewUpdated={loadData} />}
           {activeTab === 'ledger' && <Ledger jobs={jobs} />}
         </>
