@@ -330,30 +330,32 @@ export default function ServiceManagement({ services, onServicesUpdated }) {
                         ))}
                       </div>
                     )}
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <input
                         type="text"
                         value={newExtraName}
                         onChange={(e) => setNewExtraName(e.target.value)}
                         placeholder='e.g. "270L black bin bag"'
-                        className="flex-1 px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                        className="w-full sm:flex-1 px-3 py-2 border border-stone-300 rounded-lg text-sm"
                       />
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={newExtraPrice}
-                        onChange={(e) => setNewExtraPrice(e.target.value)}
-                        placeholder="£"
-                        className="w-20 px-3 py-2 border border-stone-300 rounded-lg text-sm"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleAddExtra(service.id)}
-                        disabled={extraLoading}
-                        className="px-3 bg-brand-600 text-white rounded-lg text-sm font-semibold hover:bg-brand-700 disabled:opacity-50"
-                      >
-                        Add
-                      </button>
+                      <div className="flex gap-2">
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={newExtraPrice}
+                          onChange={(e) => setNewExtraPrice(e.target.value)}
+                          placeholder="£"
+                          className="w-20 flex-1 sm:flex-none px-3 py-2 border border-stone-300 rounded-lg text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleAddExtra(service.id)}
+                          disabled={extraLoading}
+                          className="px-4 bg-brand-600 text-white rounded-lg text-sm font-semibold hover:bg-brand-700 disabled:opacity-50"
+                        >
+                          Add
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
