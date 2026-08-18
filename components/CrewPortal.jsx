@@ -32,6 +32,7 @@ const compressImage = (file, maxDim = 1000, quality = 0.7) => new Promise((resol
 
 export default function CrewPortal() {
   const [activeTab, setActiveTab] = useState('jobs');
+  const [jobsView, setJobsView] = useState('active');
   const [jobs, setJobs] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -218,20 +219,37 @@ export default function CrewPortal() {
           </div>
         ) : (
           <>
-            <section className="mb-10">
-              <h2 className="text-xl font-bold text-stone-900 mb-4">Active</h2>
-              {activeJobs.length === 0 ? (
+            <div className="flex gap-2 mb-6">
+              <button
+                type="button"
+                onClick={() => setJobsView('active')}
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${jobsView === 'active' ? 'bg-brand-600 text-white' : 'bg-white border border-stone-300 text-stone-600'}`}
+              >
+                Active ({activeJobs.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setJobsView('archive')}
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${jobsView === 'archive' ? 'bg-brand-600 text-white' : 'bg-white border border-stone-300 text-stone-600'}`}
+              >
+                Archive ({completedJobs.length})
+              </button>
+            </div>
+
+            {jobsView === 'active' && (
+              activeJobs.length === 0 ? (
                 <p className="text-stone-600">No active jobs</p>
               ) : (
                 activeJobs.map(job => <JobCard key={job.id} job={job} />)
-              )}
-            </section>
+              )
+            )}
 
-            {completedJobs.length > 0 && (
-              <section>
-                <h2 className="text-xl font-bold text-stone-900 mb-4">Completed</h2>
-                {completedJobs.map(job => <JobCard key={job.id} job={job} />)}
-              </section>
+            {jobsView === 'archive' && (
+              completedJobs.length === 0 ? (
+                <p className="text-stone-600">No completed jobs yet</p>
+              ) : (
+                completedJobs.map(job => <JobCard key={job.id} job={job} />)
+              )
             )}
           </>
         )
