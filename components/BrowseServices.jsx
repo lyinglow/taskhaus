@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '@/lib/api';
 import ServiceCard from './ServiceCard';
+import ServiceIdeasSection from './ServiceIdeasSection';
 import Spinner from './Spinner';
 
 export default function BrowseServices({ onNavigate, searchFocusToken }) {
@@ -149,6 +150,8 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
               </div>
             </section>
           )}
+
+          <ServiceIdeasSection />
 
           {quoteServices.length > 0 && (
             <section className="mb-14">

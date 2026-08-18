@@ -17,7 +17,6 @@ import About from '@/components/About';
 import HowWeWork from '@/components/HowWeWork';
 import Feedback from '@/components/Feedback';
 import Partners from '@/components/Partners';
-import ServiceIdeas from '@/components/ServiceIdeas';
 import CrewLogin from '@/components/CrewLogin';
 import CrewPortal from '@/components/CrewPortal';
 import Navigation from '@/components/Navigation';
@@ -211,7 +210,6 @@ export default function Home() {
         {page === 'how-we-work' && <HowWeWork />}
         {page === 'feedback' && <Feedback />}
         {page === 'partners' && <Partners />}
-        {page === 'service-ideas' && <ServiceIdeas />}
         {page.startsWith('review-') && <ReviewJob jobId={parseInt(page.split('-')[1])} onNavigate={setPage} />}
         {page === 'admin-dashboard' && <AdminDashboard onNavigate={setPage} />}
         {page === 'crew-portal' && <CrewPortal />}
