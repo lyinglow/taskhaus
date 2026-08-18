@@ -29,7 +29,7 @@ export default function Dashboard({ onNavigate }) {
 
   return (
     <div className="container max-w-4xl py-10 mx-auto px-4">
-      <h1 className="text-3xl font-bold text-stone-900 mb-2">Your dashboard</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-2">Welcome back</h1>
       <p className="text-stone-600 mb-8">
         From garden upkeep like grass cutting and hedge trimming to everyday help like bin
         duties and local errands, our team can lend a hand around your home. Book in a couple
