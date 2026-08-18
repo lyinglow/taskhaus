@@ -164,7 +164,7 @@ export default function CrewPortal() {
         <button
           onClick={() => markReadyForReview(job.id)}
           disabled={!job.photoAfterUrl || markingReady[job.id]}
-          className="w-full sm:w-auto sm:px-8 mt-3 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-8 mt-3 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {markingReady[job.id] ? 'Marking...' : 'Job ready for review'}
         </button>

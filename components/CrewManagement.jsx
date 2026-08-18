@@ -117,13 +117,13 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                     <button
                       onClick={() => handleUpdate(member.id)}
                       disabled={loading}
-                      className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
+                      className="px-6 py-1 rounded text-sm font-semibold bg-brand-700 text-white hover:bg-brand-800 disabled:opacity-50"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
+                      className="px-6 py-1 rounded text-sm font-semibold bg-accent-600 text-white hover:bg-accent-700"
                     >
                       Cancel
                     </button>
@@ -141,7 +141,7 @@ export default function CrewManagement({ crew, onCrewUpdated }) {
                   {member.skills && <div className="text-sm text-stone-600 mt-1">{member.skills}</div>}
                   <button
                     onClick={() => startEditing(member)}
-                    className="w-full sm:w-auto sm:px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700 mt-3"
+                    className="px-6 py-1 rounded text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 mt-3"
                   >
                     Edit
                   </button>

@@ -49,7 +49,7 @@ export default function ServiceIdeasSection() {
       </p>
       <div className="space-y-3">
         {ideas.map((idea) => (
-          <div key={idea.id} className="bg-white flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 border border-stone-200 rounded-lg p-4">
+          <div key={idea.id} className="bg-white flex flex-col items-start sm:flex-row sm:justify-between sm:items-center gap-3 border border-stone-200 rounded-lg p-4">
             <div>
               <div className="font-semibold text-stone-900">{idea.name}</div>
               {idea.description && <div className="text-sm text-stone-600 mt-0.5">{idea.description}</div>}
@@ -59,7 +59,7 @@ export default function ServiceIdeasSection() {
               type="button"
               onClick={() => toggleInterest(idea)}
               disabled={togglingId === idea.id}
-              className={`w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition disabled:opacity-50 ${
+              className={`px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition disabled:opacity-50 ${
                 idea.isInterested
                   ? 'bg-brand-600 text-white hover:bg-brand-700'
                   : 'bg-white border border-brand-600 text-brand-700 hover:bg-brand-50'

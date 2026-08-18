@@ -126,13 +126,13 @@ export default function ServiceIdeaManagement({ ideas, onIdeasUpdated }) {
                     <button
                       onClick={() => handleUpdate(idea.id)}
                       disabled={loading}
-                      className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
+                      className="px-6 bg-brand-700 text-white py-1 rounded text-sm font-semibold hover:bg-brand-800 disabled:opacity-50"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
+                      className="px-6 bg-accent-600 text-white py-1 rounded text-sm font-semibold hover:bg-accent-700"
                     >
                       Cancel
                     </button>
@@ -153,13 +153,13 @@ export default function ServiceIdeaManagement({ ideas, onIdeasUpdated }) {
                         setEditingId(idea.id);
                         setEditData({ name: idea.name, description: idea.description || '' });
                       }}
-                      className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
+                      className="px-6 bg-brand-600 text-white py-1 rounded text-sm font-semibold hover:bg-brand-700"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleRemove(idea.id)}
-                      className="flex-1 sm:flex-none sm:px-6 bg-red-600 text-white py-1 rounded text-sm font-semibold hover:bg-red-700"
+                      className="px-6 bg-red-600 text-white py-1 rounded text-sm font-semibold hover:bg-red-700"
                     >
                       Remove
                     </button>

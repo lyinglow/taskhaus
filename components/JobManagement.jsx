@@ -115,18 +115,18 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
           </select>
           <input type="text" placeholder="Time window" value={formData.timeWindow || ''} onChange={(e) => setFormData({...formData, timeWindow: e.target.value})} className="w-full px-3 py-2 border border-stone-300 rounded-lg" />
           <input type="number" step="0.01" placeholder="Quote price" value={formData.quotedPrice || ''} onChange={(e) => setFormData({...formData, quotedPrice: e.target.value})} className="w-full px-3 py-2 border border-stone-300 rounded-lg" />
-          <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="w-full sm:w-auto sm:px-8 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">
+          <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="px-8 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">
             Confirm & notify
           </button>
         </div>
       ) : (
         <div className="flex gap-2 mt-4">
-          <button onClick={() => { setEditingJob(job.id); setFormData({crewMemberId: job.crewMemberId, timeWindow: job.timeWindow, quotedPrice: job.quotedPrice}); }} className="flex-1 sm:flex-none sm:px-6 bg-brand-600 text-white py-2 rounded font-semibold hover:bg-brand-700">
+          <button onClick={() => { setEditingJob(job.id); setFormData({crewMemberId: job.crewMemberId, timeWindow: job.timeWindow, quotedPrice: job.quotedPrice}); }} className="px-6 bg-brand-600 text-white py-2 rounded font-semibold hover:bg-brand-700">
             Edit
           </button>
-          {job.status === 'pending' && <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Confirm</button>}
-          {job.status === 'confirmed' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 sm:flex-none sm:px-6 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Mark done</button>}
-          {job.status === 'review' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="flex-1 sm:flex-none sm:px-6 bg-accent-600 text-white py-2 rounded font-semibold hover:bg-accent-700">Approve & complete</button>}
+          {job.status === 'pending' && <button onClick={() => handleStatusChange(job.id, 'confirmed')} className="px-6 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Confirm</button>}
+          {job.status === 'confirmed' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="px-6 bg-brand-700 text-white py-2 rounded font-semibold hover:bg-brand-800">Mark done</button>}
+          {job.status === 'review' && <button onClick={() => handleStatusChange(job.id, 'completed')} className="px-6 bg-accent-600 text-white py-2 rounded font-semibold hover:bg-accent-700">Approve & complete</button>}
         </div>
       )}
     </div>

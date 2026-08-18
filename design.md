@@ -5,17 +5,25 @@ re-litigating the same decisions component by component.
 
 ## Button sizing
 
-- **Card CTAs where the whole card is already clickable** (e.g. `ServiceCard`): keep the
-  button small and content-width (`px-6 py-2`, no `w-full`) on every breakpoint, including
-  mobile. The button is a visual affordance, not the only way to trigger the action - making
-  it full-width makes it look like the primary/only interactive element and overpowers the
-  card. `sm:px-8` for a touch more breathing room on wider screens is fine.
-- **Primary actions in a feature area** (job management, service management, book/cancel/review,
-  profile, feedback, partners, crew portal): full-width on mobile for easy tapping
-  (`w-full`), auto-width on desktop so they don't stretch across a wide desktop layout
-  (`sm:w-auto sm:px-8`, or `sm:px-6` for smaller list-row buttons). Paired buttons (Save/Cancel,
-  Confirm/Cancel) use `flex-1 sm:flex-none sm:px-6` on each so they split evenly on mobile and
-  shrink to content-width side by side on desktop.
+- **Buttons that appear once per row/card in a repeated list** (Select on a service card,
+  I'm interested on an idea, Leave a review / Book again on a job card, Edit / Save / Cancel /
+  Remove / Confirm / Mark done / Approve & complete / Job ready for review on job/crew/service
+  list items): always compact, content-width (`px-6 py-2`, no `w-full`, no `flex-1`), on every
+  breakpoint including mobile. These are one of several repeated actions in a scrolling list,
+  not the single focus of the screen - full-width makes each one look like the primary/only
+  interactive element and gets visually heavy once several stack up. `sm:px-8` for a touch
+  more breathing room on wider screens is fine; paired buttons (Save/Cancel, Edit/Remove) sit
+  in a plain `flex gap-2` row with no `flex-1`/`flex-none`, left-aligned rather than splitting
+  the row evenly.
+- **The single primary action on a dedicated page** (Submit request on the booking page, Save
+  changes / Edit profile on the profile page, Add service / Add team member / Add idea on their
+  forms, Send feedback, Get in touch, Cancel request / Leave a review on a job's own detail
+  page, Submit review): full-width on mobile for easy tapping (`w-full`), auto-width on desktop
+  so it doesn't stretch across a wide layout (`sm:w-auto sm:px-8`). Paired buttons here
+  (Cancel/Submit, Save/Cancel) use `flex-1 sm:flex-none sm:px-6` on each so they split evenly on
+  mobile and shrink to content-width side by side on desktop. The distinction from the rule
+  above is focus: this is the one thing this whole screen is for, not one of many repeated
+  items.
 - **Narrow auth-style cards** (Login, Register, Forgot/Reset password, Team login): keep the
   submit button full-width on every breakpoint. These cards are already narrow
   (`max-w-md`), so a full-width button doesn't look oversized the way it does in a wide

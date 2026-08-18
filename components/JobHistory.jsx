@@ -101,11 +101,11 @@ export default function JobHistory({ onNavigate, filterStatus }) {
           </div>
         )}
         {(job.status === 'completed' && (!job.review || job.service)) && (
-          <div className="flex flex-col sm:flex-row gap-3 mt-3">
+          <div className="flex flex-wrap gap-3 mt-3">
             {!job.review && (
               <button
                 onClick={(e) => { e.stopPropagation(); onNavigate(`review-${job.id}`); }}
-                className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700"
+                className="px-6 py-2 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700"
               >
                 Leave a review
               </button>
@@ -113,7 +113,7 @@ export default function JobHistory({ onNavigate, filterStatus }) {
             {job.service && (
               <button
                 onClick={(e) => bookAgain(e, job)}
-                className="w-full sm:w-auto sm:px-8 bg-white border border-brand-600 text-brand-700 py-2 rounded-lg font-semibold hover:bg-brand-50"
+                className="px-6 py-2 bg-white border border-brand-600 text-brand-700 rounded-lg font-semibold hover:bg-brand-50"
               >
                 Book again
               </button>
