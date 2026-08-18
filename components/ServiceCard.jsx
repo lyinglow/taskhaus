@@ -56,7 +56,7 @@ export default function ServiceCard({ service, onSelect }) {
 
       <button
         onClick={(e) => { e.stopPropagation(); onSelect(); }}
-        className="w-full sm:w-auto sm:px-8 bg-brand-600 text-white py-2 rounded-lg font-semibold hover:bg-brand-700 transition"
+        className="px-6 py-2 sm:px-8 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition"
       >
         Select
       </button>
