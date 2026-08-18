@@ -39,10 +39,6 @@ export default function ServiceCard({ service, onSelect }) {
       </div>
       <p className="text-stone-600 text-sm mb-5">{service.description}</p>
 
-      {service.season && (
-        <p className="text-xs text-stone-500 mb-2">📅 {service.season}</p>
-      )}
-
       {service.partnerCredit && (
         <p className="text-xs text-accent-700 mb-4">🤝 {service.partnerCredit}</p>
       )}
@@ -54,12 +50,17 @@ export default function ServiceCard({ service, onSelect }) {
         </div>
       )}
 
-      <button
-        onClick={(e) => { e.stopPropagation(); onSelect(); }}
-        className="px-6 py-2 sm:px-8 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition"
-      >
-        Select
-      </button>
+      <div className="flex items-center gap-3">
+        {service.season && (
+          <p className="text-xs text-stone-500">📅 {service.season}</p>
+        )}
+        <button
+          onClick={(e) => { e.stopPropagation(); onSelect(); }}
+          className="px-6 py-2 sm:px-8 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition ml-auto"
+        >
+          Select
+        </button>
+      </div>
     </div>
   );
 }
