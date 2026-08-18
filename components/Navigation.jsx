@@ -1,10 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import api from '@/lib/api';
 
 export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onNavigate, onSearch }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hasNewIdeas, setHasNewIdeas] = useState(false);
   const showSearch = !isAdmin && !isCrew && onSearch;
+
+  useEffect(() => {
+    if (isAdmin || isCrew) return;
+    api.get('/service-ideas')
+      .then(res => {
+        const lastSeen = localStorage.getItem('possibleServicesSeenAt');
+        const newest = res.data.reduce((max, idea) => {
+          const created = new Date(idea.createdAt || 0).getTime();
+          return created > max ? created : max;
+        }, 0);
+        if (!lastSeen || newest > new Date(lastSeen).getTime()) {
+          setHasNewIdeas(res.data.length > 0);
+        }
+      })
+      .catch(() => {});
+  }, [isAdmin, isCrew]);
 
   const SearchIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-5 h-5">
@@ -29,6 +47,10 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
 
   const go = (page) => {
     setMenuOpen(false);
+    if (page === 'service-ideas') {
+      localStorage.setItem('possibleServicesSeenAt', new Date().toISOString());
+      setHasNewIdeas(false);
+    }
     onNavigate(page);
   };
 
@@ -89,9 +111,12 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
             <button
               key={link.page}
               onClick={() => go(link.page)}
-              className="px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 rounded"
+              className="relative px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 rounded"
             >
               {link.label}
+              {link.page === 'service-ideas' && hasNewIdeas && (
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent-600" aria-label="New" />
+              )}
             </button>
           ))}
           <button
@@ -109,9 +134,12 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
             <button
               key={link.page}
               onClick={() => go(link.page)}
-              className="w-full text-left px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 rounded"
+              className="w-full flex items-center gap-2 text-left px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100 rounded"
             >
               {link.label}
+              {link.page === 'service-ideas' && hasNewIdeas && (
+                <span className="w-2 h-2 rounded-full bg-accent-600" aria-label="New" />
+              )}
             </button>
           ))}
           <button

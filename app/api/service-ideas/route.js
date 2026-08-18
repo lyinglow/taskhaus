@@ -21,6 +21,7 @@ export async function GET(req) {
       id: idea.id,
       name: idea.name,
       description: idea.description,
+      createdAt: idea.createdAt,
       interestCount: idea._count.interests,
       isInterested: parentId ? idea.interests.length > 0 : false
     })));
