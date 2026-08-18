@@ -59,7 +59,7 @@ export default function ServiceIdeasSection() {
               type="button"
               onClick={() => toggleInterest(idea)}
               disabled={togglingId === idea.id}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition disabled:opacity-50 ${
+              className={`self-end sm:self-auto px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition disabled:opacity-50 ${
                 idea.isInterested
                   ? 'bg-brand-600 text-white hover:bg-brand-700'
                   : 'bg-white border border-brand-600 text-brand-700 hover:bg-brand-50'
