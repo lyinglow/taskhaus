@@ -43,7 +43,7 @@ export default function ServiceIdeasSection() {
 
   return (
     <section className="mb-14">
-      <h2 className="text-2xl font-bold text-stone-900 mb-1">Vote for a service</h2>
+      <h2 className="text-2xl font-bold text-stone-900 mb-1">Vote for a service ({ideas.length})</h2>
       <p className="text-stone-600 text-sm mb-5">
         These aren't services we offer yet - tell us you're interested and it helps us decide what to add next.
       </p>

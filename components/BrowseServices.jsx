@@ -105,7 +105,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
         <div className="mt-8">
           {gardenServices.length > 0 && (
             <section className="mb-14">
-              <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden services</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Garden services ({gardenServices.length})</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {gardenServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
@@ -116,7 +116,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
 
           {otherServices.length > 0 && (
             <section className="mb-14">
-              <h2 className="text-2xl font-bold text-stone-900 mb-5">Other services</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Other services ({otherServices.length})</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {otherServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
@@ -129,7 +129,7 @@ export default function BrowseServices({ onNavigate, searchFocusToken }) {
 
           {quoteServices.length > 0 && (
             <section className="mb-14">
-              <h2 className="text-2xl font-bold text-stone-900 mb-5">Quote-based services</h2>
+              <h2 className="text-2xl font-bold text-stone-900 mb-5">Quote-based services ({quoteServices.length})</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {quoteServices.map(service => (
                   <ServiceCard key={service.id} service={service} onSelect={() => selectService(service)} />
