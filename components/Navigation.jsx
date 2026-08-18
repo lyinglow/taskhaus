@@ -39,16 +39,42 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-5 flex justify-between items-center">
-        <button
-          type="button"
-          onClick={() => go(homePage)}
-          className="text-left"
-        >
-          <h1 className="text-xl font-bold text-brand-700">The Garden Unit</h1>
-        </button>
+      <div className="container max-w-6xl mx-auto px-4 sm:px-6 py-4">
+        <div className="flex justify-between items-center">
+          <button
+            type="button"
+            onClick={() => go(homePage)}
+            className="text-left"
+          >
+            <h1 className="text-xl font-bold text-brand-700">The Garden Unit</h1>
+          </button>
 
-        <div className="hidden md:flex gap-2 items-center">
+          <div className="md:hidden flex items-center gap-1">
+            {showSearch && (
+              <button
+                type="button"
+                onClick={onSearch}
+                aria-label="Search services"
+                className="flex items-center justify-center w-10 h-10 text-stone-600"
+              >
+                <SearchIcon />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              className="flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+            >
+              <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-6 h-0.5 bg-stone-700 transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </button>
+          </div>
+        </div>
+
+        <div className="hidden md:flex gap-2 items-center mt-3 pt-3 border-t border-stone-100">
           {showSearch && (
             <button
               type="button"
@@ -70,33 +96,9 @@ export default function Navigation({ isAdmin, isCrew, currentUser, onLogout, onN
           ))}
           <button
             onClick={handleLogout}
-            className="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded"
+            className="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded ml-auto"
           >
             Logout
-          </button>
-        </div>
-
-        <div className="md:hidden flex items-center gap-1">
-          {showSearch && (
-            <button
-              type="button"
-              onClick={onSearch}
-              aria-label="Search services"
-              className="flex items-center justify-center w-10 h-10 text-stone-600"
-            >
-              <SearchIcon />
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            className="flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-          >
-            <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-stone-700 transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-stone-700 transition-transform ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </button>
         </div>
       </div>
