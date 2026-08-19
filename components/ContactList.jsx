@@ -8,6 +8,7 @@ export default function ContactList() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [removingId, setRemovingId] = useState(null);
 
   useEffect(() => {
     fetchCustomers();
@@ -21,6 +22,24 @@ export default function ContactList() {
       console.error('Failed to fetch customers:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRemove = async (customer) => {
+    const jobWarning = customer.jobCount > 0
+      ? ` This will also permanently delete their ${customer.jobCount} job${customer.jobCount === 1 ? '' : 's'}, and any reviews or payment records tied to them.`
+      : '';
+    if (!confirm(`Remove ${customer.name} (${customer.email})?${jobWarning} This can't be undone.`)) return;
+
+    setRemovingId(customer.id);
+    try {
+      await api.delete(`/admin/customers/${customer.id}`);
+      setCustomers(prev => prev.filter(c => c.id !== customer.id));
+    } catch (err) {
+      console.error('Failed to remove customer:', err);
+      alert(err.response?.data?.error || 'Failed to remove customer');
+    } finally {
+      setRemovingId(null);
     }
   };
 
@@ -58,6 +77,7 @@ export default function ContactList() {
               <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Email</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Address</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap">Jobs</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-stone-700 whitespace-nowrap"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-stone-200">
@@ -76,11 +96,21 @@ export default function ContactList() {
                 </td>
                 <td className="px-6 py-4 text-sm text-stone-600">{customer.address || <span className="text-stone-400">-</span>}</td>
                 <td className="px-6 py-4 text-sm text-stone-600">{customer.jobCount}</td>
+                <td className="px-6 py-4 text-sm whitespace-nowrap">
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(customer)}
+                    disabled={removingId === customer.id}
+                    className="text-xs font-semibold text-red-600 hover:text-red-800 disabled:opacity-50"
+                  >
+                    Remove
+                  </button>
+                </td>
               </tr>
             ))}
             {filteredCustomers.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-6 py-6 text-sm text-stone-500 text-center">No contacts match "{search}".</td>
+                <td colSpan={6} className="px-6 py-6 text-sm text-stone-500 text-center">No contacts match "{search}".</td>
               </tr>
             )}
           </tbody>
