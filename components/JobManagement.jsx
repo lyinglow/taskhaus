@@ -8,7 +8,17 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
   const [editingJob, setEditingJob] = useState(null);
   const [formData, setFormData] = useState({});
   const [expandedCustomer, setExpandedCustomer] = useState(null);
+  const [customerSubTab, setCustomerSubTab] = useState('active');
   const [lightboxSrc, setLightboxSrc] = useState(null);
+
+  const toggleCustomer = (parentId) => {
+    if (expandedCustomer === parentId) {
+      setExpandedCustomer(null);
+    } else {
+      setExpandedCustomer(parentId);
+      setCustomerSubTab('active');
+    }
+  };
 
   const getStatusLabel = (status) => {
     const labels = { pending: 'Pending', quoted: 'Quote sent', confirmed: 'Confirmed', review: 'Ready for review', completed: 'Completed', cancelled: 'Cancelled' };
@@ -149,7 +159,7 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
           return (
             <div key={customer.parentId} className="bg-white rounded-lg border border-stone-200 overflow-hidden">
               <button
-                onClick={() => setExpandedCustomer(isExpanded ? null : customer.parentId)}
+                onClick={() => toggleCustomer(customer.parentId)}
                 className="w-full flex justify-between items-center gap-3 p-5 text-left hover:bg-stone-50 transition"
               >
                 <div className="min-w-0">
@@ -166,17 +176,50 @@ export default function JobManagement({ jobs, crew, onJobUpdated }) {
                 </div>
               </button>
 
-              {isExpanded && (
-                <div className="px-5 pb-5">
-                  {customer.jobs.filter(j => j.status !== 'cancelled').map(job => <JobRow key={job.id} job={job} />)}
-                  {customer.jobs.some(j => j.status === 'cancelled') && (
-                    <>
-                      <h4 className="text-sm font-semibold text-stone-500 mt-2 mb-3">Cancelled</h4>
-                      {customer.jobs.filter(j => j.status === 'cancelled').map(job => <JobRow key={job.id} job={job} />)}
-                    </>
-                  )}
-                </div>
-              )}
+              {isExpanded && (() => {
+                const activeJobs = customer.jobs.filter(j => j.status !== 'cancelled' && j.status !== 'completed');
+                const completedJobs = customer.jobs.filter(j => j.status === 'completed');
+                const cancelledJobs = customer.jobs.filter(j => j.status === 'cancelled');
+                const visibleJobs = customerSubTab === 'completed' ? completedJobs : customerSubTab === 'cancelled' ? cancelledJobs : activeJobs;
+
+                return (
+                  <div className="px-5 pb-5">
+                    <div className="flex gap-2 mb-4">
+                      <button
+                        type="button"
+                        onClick={() => setCustomerSubTab('active')}
+                        className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${customerSubTab === 'active' ? 'bg-brand-600 text-white' : 'bg-stone-100 text-stone-600'}`}
+                      >
+                        Active ({activeJobs.length})
+                      </button>
+                      {completedJobs.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setCustomerSubTab('completed')}
+                          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${customerSubTab === 'completed' ? 'bg-brand-600 text-white' : 'bg-stone-100 text-stone-600'}`}
+                        >
+                          Completed ({completedJobs.length})
+                        </button>
+                      )}
+                      {cancelledJobs.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setCustomerSubTab('cancelled')}
+                          className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${customerSubTab === 'cancelled' ? 'bg-brand-600 text-white' : 'bg-stone-100 text-stone-600'}`}
+                        >
+                          Cancelled ({cancelledJobs.length})
+                        </button>
+                      )}
+                    </div>
+
+                    {visibleJobs.length === 0 ? (
+                      <p className="text-stone-500 text-sm">No {customerSubTab} tasks.</p>
+                    ) : (
+                      visibleJobs.map(job => <JobRow key={job.id} job={job} />)
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           );
         })
