@@ -4,16 +4,23 @@ import { useState } from 'react';
 import Image from 'next/image';
 import api from '@/lib/api';
 
+const REASONS = [
+  { value: 'app', label: 'The app', field: 'appFeedback', placeholder: 'Anything about booking, browsing services, or using the site...' },
+  { value: 'services', label: 'Our services', field: 'serviceFeedback', placeholder: 'Thoughts on the range or pricing of what we offer...' },
+  { value: 'quality', label: 'Quality of work', field: 'qualityFeedback', placeholder: 'How was a job carried out...' },
+  { value: 'other', label: 'Something else', field: 'otherFeedback', placeholder: "Anything else you'd like us to know..." },
+];
+
 export default function Feedback({ onBack }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [appFeedback, setAppFeedback] = useState('');
-  const [serviceFeedback, setServiceFeedback] = useState('');
-  const [qualityFeedback, setQualityFeedback] = useState('');
-  const [otherFeedback, setOtherFeedback] = useState('');
+  const [reason, setReason] = useState('app');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  const selectedReason = REASONS.find(r => r.value === reason);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,10 +31,11 @@ export default function Feedback({ onBack }) {
       await api.post('/feedback', {
         name: name || null,
         email: email || null,
-        appFeedback: appFeedback || null,
-        serviceFeedback: serviceFeedback || null,
-        qualityFeedback: qualityFeedback || null,
-        otherFeedback: otherFeedback || null
+        appFeedback: null,
+        serviceFeedback: null,
+        qualityFeedback: null,
+        otherFeedback: null,
+        [selectedReason.field]: message
       });
       setSubmitted(true);
     } catch (err) {
@@ -78,45 +86,26 @@ export default function Feedback({ onBack }) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1">The app</label>
-                <textarea
-                  value={appFeedback}
-                  onChange={(e) => setAppFeedback(e.target.value)}
-                  placeholder="Anything about booking, browsing services, or using the site..."
-                  rows={2}
+                <label className="block text-sm font-medium text-stone-700 mb-1">What's this about?</label>
+                <select
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
                   className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
+                >
+                  {REASONS.map(r => (
+                    <option key={r.value} value={r.value}>{r.label}</option>
+                  ))}
+                </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1">Our services</label>
+                <label className="block text-sm font-medium text-stone-700 mb-1">Your feedback</label>
                 <textarea
-                  value={serviceFeedback}
-                  onChange={(e) => setServiceFeedback(e.target.value)}
-                  placeholder="Thoughts on the range or pricing of what we offer..."
-                  rows={2}
-                  className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1">Quality of work</label>
-                <textarea
-                  value={qualityFeedback}
-                  onChange={(e) => setQualityFeedback(e.target.value)}
-                  placeholder="How was a job carried out..."
-                  rows={2}
-                  className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-stone-700 mb-1">Anything else</label>
-                <textarea
-                  value={otherFeedback}
-                  onChange={(e) => setOtherFeedback(e.target.value)}
-                  placeholder="Anything else you'd like us to know..."
-                  rows={2}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder={selectedReason.placeholder}
+                  rows={4}
+                  required
                   className="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
