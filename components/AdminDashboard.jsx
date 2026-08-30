@@ -111,18 +111,29 @@ export default function AdminDashboard({ onNavigate }) {
         </div>
       )}
 
-      <div className="flex gap-4 mb-8 border-b border-stone-200 overflow-x-auto">
-        {['jobs', 'services', 'ideas', 'crew', 'contacts', 'ledger'].map(tab => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 font-semibold border-b-2 transition whitespace-nowrap flex-shrink-0 ${
-              activeTab === tab ? 'text-brand-700 border-brand-600' : 'text-stone-600 border-transparent'
-            }`}
-          >
-            {tab === 'jobs' ? `Requests (${jobs.length})` : tab === 'services' ? `Services (${services.length})` : tab === 'ideas' ? `Possible services (${ideas.length})` : tab === 'crew' ? `Team members (${crew.length})` : tab === 'contacts' ? 'Contacts' : 'Ledger'}
-          </button>
-        ))}
+      <div className="flex items-center gap-3 mb-8 border-b border-stone-200 pb-4">
+        <button
+          onClick={() => setActiveTab('jobs')}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+            activeTab === 'jobs' ? 'bg-brand-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+          }`}
+        >
+          Requests ({jobs.length})
+        </button>
+        <select
+          value={['services', 'ideas', 'crew', 'contacts', 'ledger'].includes(activeTab) ? activeTab : ''}
+          onChange={(e) => setActiveTab(e.target.value)}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold border focus:outline-none focus:ring-2 focus:ring-brand-500 ${
+            activeTab !== 'jobs' ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-stone-700 border-stone-300'
+          }`}
+        >
+          <option value="" disabled>More...</option>
+          <option value="services">Services ({services.length})</option>
+          <option value="ideas">Possible services ({ideas.length})</option>
+          <option value="crew">Team members ({crew.length})</option>
+          <option value="contacts">Contacts</option>
+          <option value="ledger">Ledger</option>
+        </select>
       </div>
 
       {loading ? <div className="flex justify-center py-8"><Spinner /></div> : (
